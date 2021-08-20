@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Come on, Board</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    ul {
+        list-style: none;
+    }
+    header {
+        position: relative;
+        z-index: 20;
+        min-width: 980px;
+        width: 100%;
+        height: 140px;
+        background-color: rgb(66, 133, 244);
+        text-align: center;
+    }
+    .MultiBar {
+        display: inline-block;
+        height: 30px;
+        width: 100%;
+        max-width: 1280px;
+        padding: 12px 0px 5px;
+    } 
+
+    .area_gnb {
+        font-size: 12px;
+        width: 500px;
+        height: 30px;
+        float: right;
+        color: white;
+    }
+
+    .area_gnb>li {
+        float: right;
+        width: 75px;
+    }
+
+    .container {
+        display: inline-block;
+        height: 93px;
+        width: 100%;
+        max-width: 1280px;
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        width: 180px;
+        margin-left: -90px;
+    }
+
+
+    .main_naviwrap {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1280px;
+        height: 80px;
+        margin-top: -98px;
+        padding-bottom: 10px;
+    }
+    .main_nav {
+        padding-top: 45px;
+    }
+    .main_nav>.left_ul {
+        float: left;
+        overflow: hidden;
+    }
+    .main_nav>.right_ul {
+        float: right;
+        overflow: hidden;
+    }
+
+    .main_nav>ul>li {
+        color: white;
+        width: 85px;
+        float: left;
+    }
+
+    .content {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1280px;
+        height: 600px;
+        background-color: teal;
+    }
+
+    .content_wrap {
+        padding: 20px 0 30px;
+    }
+
+    
+</style>
+<body>
+    <header>
+        <div class="MultiBar">
+            <ul class="area_gnb">
+                <li>시작페이지로</li>
+                <li>다크모드</li>
+                <li>마이페이지</li>
+                <li>로그인</li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <img src="cob_white.png" class="logo">
+        </div>
+        <div class="main_naviwrap">
+            <div class="main_nav">
+                <ul class="left_ul">
+                    <li>회사소개</li>
+                    <li>회사소개</li>
+                    <li>회사소개</li>    
+                </ul>
+            </div>
+        </div>
+
+        <div class="main_naviwrap">
+            <div class="main_nav">
+                <ul class="right_ul">
+                    <li>모임</li>
+                    <li>게시판</li>
+                    <li>카페</li>
+                    <li>게임</li>    
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="content_wrap">
+            <p>dddddd</p>
+        </div>
+    </div>
+
+</body>
+</html>
