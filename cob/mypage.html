@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Come on, Board</title>
+</head>
+<style>
+    @keyframes gradient {
+        0% {
+        background-position: 0% 50%;
+        }
+        50% {
+        background-position: 100% 50%;
+        }
+        100% {
+        background-position: 0% 50%;
+        }
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .MultiBar a {
+        color: white;
+    }
+    body {
+        background-color :rgb(245, 246, 247);
+    }
+    ul {
+        list-style: none;
+    }
+    header {
+        position: relative;
+        z-index: 20;
+        min-width: 980px;
+        width: 100%;
+        height: 140px;
+        background-color: rgb(66, 133, 244);
+        text-align: center;
+    }
+    .MultiBar {
+        display: inline-block;
+        height: 30px;
+        width: 100%;
+        max-width: 1280px;
+        padding: 12px 0px 5px;
+    } 
+
+    .area_gnb {
+        font-size: 12px;
+        width: 500px;
+        height: 30px;
+        float: right;
+        color: white;
+    }
+
+    .area_gnb>li {
+        float: right;
+        width: 75px;
+    }
+
+    .container {
+        display: inline-block;
+        height: 93px;
+        width: 100%;
+        max-width: 1280px;
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        width: 180px;
+        margin-left: -90px;
+    }
+
+
+    .main_naviwrap {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1280px;
+        height: 80px;
+        margin-top: -98px;
+        padding-bottom: 10px;
+    }
+    .main_nav {
+        padding-top: 45px;
+    }
+    .main_nav>.left_ul {
+        float: left;
+        overflow: hidden;
+    }
+    .main_nav>.right_ul {
+        float: right;
+        overflow: hidden;
+    }
+
+    .main_nav>ul>li {
+        color: white;
+        width: 85px;
+        float: left;
+    }
+
+    .content {
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 1280px;
+    }
+
+    footer {
+        width: 100%;
+        height: 100px;
+        background-color: grey;
+    }
+
+    .content_wrap {
+        width: 100%;
+        height: 100%;
+        overflow:hidden;
+    }
+
+    #menu_wrap {
+        margin-top: 50px;
+    }
+    .content_menu {
+        display: inline-block;
+        width: 880px;
+        height: 650px;
+        overflow: hidden;
+    }
+
+    .content_menu>ul>li {
+        display: block;
+        float: left;
+        width: 50%;
+        height: 320px;
+    }
+
+    .content_menu a {
+        position: relative;
+        width: 420px;
+        height: 300px;
+        display: block;
+        margin: 0 0 20px 20px;
+        text-align: center;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+        
+    }
+
+    .content_menu img{
+        margin-top: 80px;
+        margin-bottom: 30px;
+        width: 100px;
+    }
+
+    .content_menu a:hover{
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        color: white;
+        animation: gradient 2s ease infinite;
+    }
+
+    .menu_wrap {
+        margin: 0 auto;
+        height: 100%;
+        width: 1000px;
+        padding: 50px;
+    }
+
+    .menu_wrap ul {
+        height: 1360px;
+    }
+
+    .menu_wrap li {
+        width: 500px;
+        height: 350px;
+        float: left;
+    }
+
+    .mypage_menu {
+        position: relative;
+        width: 420px;
+        height: 270px;
+        display: block;
+        margin: 0 0 20px 20px;
+        text-align: center;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+        padding: 20px;        
+    }
+
+    .mypage_menu h2 {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    #profile_frame {
+        margin-left: 20px;
+        width: 120px;
+        height: 120px;
+        border-radius: 70%;
+        overflow:hidden;
+        display: block;
+        float: left;
+    }
+
+    #memberphoto {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .member_profile {
+        float:right;
+        display: block;
+        width : 250px;
+        height: 120px;
+        text-align: left;
+    }
+
+    .member_profile td {
+        width: 80px;
+    }
+
+    .area_update_profile {
+        float: right;
+        margin-top: 10px;
+        margin-right: 15px;
+      
+    }
+
+    button {
+        width: 90px;
+        height: 40px;
+        border: none;
+        background-color: rgb(66, 133, 244);
+        border-radius: 10%;
+        color: white;
+    }
+
+    .message_table {
+        margin-left: 10px;
+    }
+
+    .message_table td {
+        text-align: left;
+        width: 100px;
+    }
+
+    .message_text {
+        width: 300px !important;
+    } 
+
+    .area_select_menu {
+        margin: 0 20px;
+        float: left;
+        width: 160px;
+        height: 160px;
+        border-radius: 10%;
+        line-height: 160px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+    }
+
+    .area_select_menu:hover{
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        color: white;
+        animation: gradient 2s ease infinite;       
+    }
+
+
+
+
+
+    
+</style>
+<body>
+    <header>
+        <div class="MultiBar">
+            <ul class="area_gnb">
+                <li>시작페이지로</li>
+                <li>다크모드</li>
+                <li><a href="mypage.html">마이페이지</a></li>
+                <li><a href="login.html">로그인</a></li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <img src="cob_white.png" class="logo">
+        </div>
+        <div class="main_naviwrap">
+            <div class="main_nav">
+                <ul class="left_ul">
+                    <li>회사소개</li>
+                    <li>회사소개</li>
+                    <li>회사소개</li>    
+                </ul>
+            </div>
+        </div>
+
+        <div class="main_naviwrap">
+            <div class="main_nav">
+                <ul class="right_ul">
+                    <li>모임</li>
+                    <li>게시판</li>
+                    <li>카페</li>
+                    <li>게임</li>    
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="menu_wrap">
+                <ul>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>내 정보</h2>
+                            <div id="profile_frame">
+                                <img id="memberphoto" src="bob.jpg">
+                            </div>
+                            <div class="member_profile">
+                                <table>
+                                    <tr>
+                                        <td>별 명</td>
+                                        <td>manager</td>
+                                    </tr>
+                                    <tr> 
+                                        <td>성 별</td>
+                                        <td>남</td>                                    </td>
+                                    </tr>
+                                    <tr>
+                                        <td>생년월일</td>
+                                        <td>1991.07.21</td>
+                                    </tr>
+                                    <tr> 
+                                        <td>e-mail</td>
+                                        <td>sesi8624@naver.com</td>                                    </td>
+                                    </tr>
+                                    <tr> 
+                                        <td>선호 지역</td>
+                                        <td>서울 도봉구</td>                                    </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="area_update_profile">
+                                <button>정보 수정</button>
+                                <button>탈퇴</button>
+                            </div>
+
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>쪽지함</h2>
+                            <table class="message_table">
+                                <tr>
+                                    <td>친구1</td>
+                                    <td class="message_text">쪽지내용1</td>
+                                    <td>21.09.28</td>
+                                </tr>
+                                <tr>
+                                    <td>친구2</td>
+                                    <td class="message_text">쪽지내용2</td>
+                                    <td>21.09.28</td>
+                                </tr>
+                                <tr>
+                                    <td>친구3</td>
+                                    <td class="message_text">쪽지내용3</td>
+                                    <td>21.09.28</td>
+                                </tr>
+                                <tr>
+                                    <td>친구4</td>
+                                    <td class="message_text">쪽지내용4</td>
+                                    <td>21.09.28</td>
+                                </tr>
+                                <tr>
+                                    <td>친구5</td>
+                                    <td class="message_text">쪽지내용5</td>
+                                    <td>21.09.28</td>
+                                </tr>
+                                <tr>
+                                    <td>친구6</td>
+                                    <td class="message_text">쪽지내용6</td>
+                                    <td>21.09.28</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>모임 관리</h2>
+                            <a id="make_group" href="#" class="area_select_menu"><div>내가 만든 모임</div></a>
+                            <a id="enroll_group" href="#" class="area_select_menu"><div>내가 가입한 모임</div></a>
+                        </div>
+                    </li>
+                    <li><div class="mypage_menu"><h2>내 글 관리</h2></div></li>
+                    <li><div class="mypage_menu"><h2>예약 관리</h2></div></li>
+                    <li><div class="mypage_menu"><h2>친구 관리</h2></div></li>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>카페 관리</h2>
+                                <a id="make_cafe" href="#" class="area_select_menu"><div>카페 등록</div></a>
+                                <a id="update_cafe" href="#" class="area_select_menu"><div>카페 관리</div></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+        </div>
+    </div>
+
+    <footer>
+
+    </footer>
+</body>
+</html>
