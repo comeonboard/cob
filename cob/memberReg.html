@@ -14,7 +14,6 @@
     }
     fieldset {
         border: none;
-        border-bottom: 1px solid #bbb;
     }
     legend {
         visibility: hidden;
@@ -43,14 +42,21 @@
         min-height: 700px;
         padding-bottom: 50px;
     }
-    .login_form {
+    .reg_form {
         width: 462px;
         margin: 0 auto;
     }
-    .id_area, .pw_area {
+
+    .reg_form>h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #777;
+    }
+
+    .input_area {
         margin: 0 auto;
         width: 460px;
-        height: 48px;
+        height: 70px;
         margin-bottom: 10px;
     }
 
@@ -64,13 +70,15 @@
         font-size: 16px;
     }
 
-    .input_row:focus {
+    .input_row:focus,
+    .input_num:focus,
+    .input_phoneNum:focus {
         outline: rgb(52, 168, 83) 1px solid;
     }
 
-    .login_btn, .kakao_btn{
+    .reg_btn{
         display: block;
-        text-align: center;
+        margin: 0 auto;
         color: white;
         background-color: rgb(52, 168, 83);
         width: 460px;
@@ -78,16 +86,9 @@
         font-size: 16px;
         border: none;
         margin-bottom: 10px;
+        border-radius: 10px;
     }
 
-    .kakao_btn {
-        background-color: rgb(251, 188, 5);
-        color: #000;
-    }
-    .area_chk {
-        line-height: 25px;
-        padding-bottom: 5px;
-    }
     #login_chk {
         width: 15px;
 
@@ -120,7 +121,79 @@
         border: none;
     }
 
+    .input_num {
+        border: 1px solid #bbb;
+        padding: 7px 1px 10px 11px;
+        margin-right: 5px;
+        margin-bottom: 10px;
+        width: 134px;
+        height: 29px;
+        background-color: #fff;
+        font-size: 16px;
+    }
 
+    select {
+        width: 460px;
+        height: 48px;
+        background-color: #fff;
+        font-size: 16px;
+        padding-left: 8px;
+        color: #777;
+        border: 1px solid #bbb;
+    }
+
+    .input_phoneNum,
+    .input_address {
+        border: 1px solid #bbb;
+        padding: 7px 35px 10px 11px;
+        margin-bottom: 5px;
+        width: 270px;
+        height: 29px;
+        background-color: #fff;
+        font-size: 16px;
+    }
+
+    .input_phoneNum+button,
+    .input_address+button {
+        float: right;
+        display: block;
+        height: 48px;
+        width: 135px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        background-color: rgb(66, 133, 244);
+        font-size: 14px;
+    }
+    #phoneNum_input {
+        height: 120px;
+    }
+
+    #input_profile {
+        display: none;
+    }
+
+    #profile_button {
+        display: block;
+        margin: 0 auto;
+        background-color: rgb(251,188,5);
+        width: 460px;
+        height: 48px;
+        font-size: 16px;
+        border: none;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        text-align: center;
+        line-height: 48px
+       };
+
+    #profile_button:hover {
+        cursor: pointer;
+    }
+
+    #address_area {
+        height: 200px;
+    }
 
 </style>
 <body>
@@ -133,28 +206,68 @@
             </a>
         </header>
         <div id="container">
-            <fieldset class="login_form">
+            <fieldset class="reg_form">
                 <legend>회원 가입</legend>
-                <div class="id_area">
+                <h2> - 회원 가입 - </h2>
+                <div class="input_area">
                     <input type="text" class="input_row" placeholder="아이디">
                 </div>
-                <div class="pw_area">
-                    <input type="text" class="input_row" placeholder="비밀번호">
+                <div class="input_area">
+                    <input type="password" class="input_row" placeholder="비밀번호">
                 </div>
-                <div class="area_chk">
-                    <input type="checkbox" id="login_chk">
-                    <label for="login_chk">로그인 유지하기</label> 
+                <div class="input_area">
+                    <input type="password" class="input_row" placeholder="비밀번호 확인">
                 </div>
-                <input type="submit" class="login_btn" value="로그인">
-                <input type="submit" class="kakao_btn" value="카카오 아이디로 로그인하기">
+
+                <div class="input_area">
+                    <p>이름</p>
+                    <input type="text" class="input_row" placeholder="이름">
+                </div>
+
+                <div class="input_area">
+                    <p>생년월일</p>
+                    <input class="input_num" type="number" placeholder="년"><input class="input_num" type="number" placeholder="월"><input class="input_num" type="number" placeholder="일">
+                </div>
+
+                <div class="input_area">
+                    <p>성별</p>
+                    <select>
+                        <option>성별</option>
+                        <option>남자</option>
+                        <option>여자</option>
+                        <option>선택안함</option>
+                    </select>
+                </div>
+
+                <div class="input_area">
+                    <p>본인 확인 이메일(선택 입력)</p>
+                    <input type="text" class="input_row" placeholder="선택 입력">
+                </div>
+
+                <div id="phoneNum_input" class="input_area">
+                    <p>휴대전화</p>
+                    <input type="text" class="input_phoneNum" placeholder="전화번호 입력">
+                    <button>인증번호 받기</button>
+                    <input type="text" class="input_row" placeholder="인증번호 입력">
+                </div>
+
+                <div class="input_area">
+                    <p>프로필 사진</p>
+                        <label id="profile_button" for="input_profile">파일 업로드</label>
+                        <input type="file" id="input_profile">
+
+                </div>
+
+                <div id="address_area" class="input_area">
+                    <p>주소(선택 입력)</p>
+                    <input type="text" class="input_address" placeholder="우편 번호">
+                    <button>우편 번호</button>
+                    <input type="text" class="input_row" placeholder="위 우편 번호를 입력해주세요.">
+                    <input type="text" class="input_row" placeholder="나머지 주소">
+                </div>
+                
+                <input type="submit" class="reg_btn" value="가입하기">
             </fieldset>
-            <div class="nav_login">
-                <ul>
-                    <li>아이디 찾기</li>
-                    <li>비밀번호 찾기</li>
-                    <li id="last_li" ><a href="memberReg.html">회원 가입</a></li>
-                </ul>
-            </div>
         </div>
     </div>
 </body>

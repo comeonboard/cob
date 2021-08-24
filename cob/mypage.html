@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Come on, Board</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+  jQuery(document).ready(function() {
+    $('#freind_button').click(function(){
+        $('#area_friend').css('display','block');
+        $('#friend_close').click(function(){
+            $('#area_friend').css('display','none');
+        })
+    });
+  } );
+
+</script>
 <style>
     @keyframes gradient {
         0% {
@@ -283,11 +295,96 @@
         color: white;
         animation: gradient 2s ease infinite;       
     }
+    
+    #reserve_cafe {
+        text-align: left;
+    }
 
+    #cafeName {
+        width: 170px;
+    }
 
+    #cafeLoc {
+        width: 70px;
+    }
+    
+    #cafeStartTime {
+        width: 100px;
+    }
 
+    #reserve_cafe button {
+        width: 80px;
+        height: 30px;
+    }
 
+    #friends {
+        text-align: left;
+    }
+    #friend_nickname {
+        width: 250px;
+    }
 
+    #friend_photo {
+        width: 60px;
+    }
+
+    #friend_profile_frame {
+        width: 45px;
+        height: 45px;
+        border-radius: 70%;
+        overflow:hidden;
+        display: block;
+        float: left;      
+    }
+
+    #friends button{
+        width: 90px;
+        height: 40px;
+    }
+
+    #extra_view {
+        margin-top: 3px;
+        float: right;
+        background-color: rgb(251,188,5);
+        color: black;
+    }
+
+    #area_friend {
+        display: none;
+        position: absolute;
+        width: 300px;
+        height: 400px;
+        background-color: rgb(245, 246, 247);
+        border-radius: 10px;
+    }
+
+    #area_friend button {
+        margin-top: 10px;
+    }
+
+    .col1 {
+        color: rgb(66, 133, 244);
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        background-color: white;
+        border-radius: 5px;
+        border:rgb(66, 133, 244) 1px solid;
+    }
+
+    .col2 {
+        width: 160px;
+        height: 30px;
+    }
+
+    #friend_info_profile_frame {
+        margin: 0 auto;
+        width: 100px;
+        height: 100px;
+        border-radius: 70%;
+        overflow:hidden;
+        display: block;      
+    }
     
 </style>
 <body>
@@ -302,7 +399,7 @@
         </div>
 
         <div class="container">
-            <img src="cob_white.png" class="logo">
+            <a href="index.html"><img src="cob_white.png" class="logo"></a>
         </div>
         <div class="main_naviwrap">
             <div class="main_nav">
@@ -343,7 +440,7 @@
                                     </tr>
                                     <tr> 
                                         <td>성 별</td>
-                                        <td>남</td>                                    </td>
+                                        <td>남</td>              
                                     </tr>
                                     <tr>
                                         <td>생년월일</td>
@@ -351,11 +448,11 @@
                                     </tr>
                                     <tr> 
                                         <td>e-mail</td>
-                                        <td>sesi8624@naver.com</td>                                    </td>
+                                        <td>sesi8624@naver.com</td>                      
                                     </tr>
                                     <tr> 
                                         <td>선호 지역</td>
-                                        <td>서울 도봉구</td>                                    </td>
+                                        <td>서울 도봉구</td>                   
                                     </tr>
                                 </table>
                             </div>
@@ -403,6 +500,7 @@
                                 </tr>
 
                             </table>
+                            <button id="extra_view">더 보기</button>
                         </div>
                     </li>
                     <li>
@@ -412,19 +510,133 @@
                             <a id="enroll_group" href="#" class="area_select_menu"><div>내가 가입한 모임</div></a>
                         </div>
                     </li>
-                    <li><div class="mypage_menu"><h2>내 글 관리</h2></div></li>
-                    <li><div class="mypage_menu"><h2>예약 관리</h2></div></li>
-                    <li><div class="mypage_menu"><h2>친구 관리</h2></div></li>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>내 글 관리</h2>
+                                <a id="my_post" href="#" class="area_select_menu"><div>내가 쓴 글</div></a>
+                                <a id="my_comment" href="#" class="area_select_menu"><div>내 댓글</div></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
+                            <h2>예약 관리</h2>
+                            <table id="reserve_cafe">
+                                <tr>
+                                    <th id="cafeName">카페명</th>
+                                    <th id="cafeLoc">지역</th>
+                                    <th id="cafeStartTime">예약일</th>
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <td id="cafeName">컴온보드카페</td>
+                                    <td id="cafeLoc">마포구</td>
+                                    <td id="cafeStartTime">21.09.01</td>
+                                    <td><button>예약 취소</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="cafeName">컴온보드카페</td>
+                                    <td id="cafeLoc">마포구</td>
+                                    <td id="cafeStartTime">21.09.01</td>
+                                    <td><button>예약 취소</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="cafeName">컴온보드카페</td>
+                                    <td id="cafeLoc">마포구</td>
+                                    <td id="cafeStartTime">21.09.01</td>
+                                    <td><button>예약 취소</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="cafeName">컴온보드카페</td>
+                                    <td id="cafeLoc">마포구</td>
+                                    <td id="cafeStartTime">21.09.01</td>
+                                    <td><button>예약 취소</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="cafeName">컴온보드카페</td>
+                                    <td id="cafeLoc">마포구</td>
+                                    <td id="cafeStartTime">21.09.01</td>
+                                    <td><button>예약 취소</button></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
+                            <div id="area_friend">
+                                <div id="friend_info_profile_frame">
+                                    <img id="memberphoto" src="kevin.jpg">
+                                </div>
+                                <table>
+                                    <tr>
+                                        <td class="col1">닉네임</td>
+                                        <td class="col2">미니언즈_케빈</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">생 일</td>
+                                        <td class="col2">01.01.01</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">성 별</td>
+                                        <td class="col2">남</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">포인트</td>
+                                        <td class="col2">7200</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">선호게임</td>
+                                        <td class="col2">라스베가스</td>
+                                    </tr>
+                    
+                                </table>
+                                <button>쪽지보내기</button>
+                                <button id="friend_close">창닫기</button>
+                            </div>
+                            <h2>친구 관리</h2>
+ 
+                            <table id="friends">
+                                <tr>
+                                    <td id="friend_photo">
+                                        <div id="friend_profile_frame">
+                                            <img id="memberphoto" src="bob.jpg">
+                                        </div>
+                                    </td>
+                                    <td id="friend_nickname">미니언즈_밥</td>
+                                    <td><button>정보 보기</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="friend_photo">
+                                        <div id="friend_profile_frame">
+                                            <img id="memberphoto" src="kevin.jpg">
+                                        </div>
+                                    </td>
+                                    <td id="friend_nickname">미니언즈_케빈</td>
+                                    <td><button id="freind_button">정보 보기</button></td>
+                                </tr>
+                                <tr>
+                                    <td id="friend_photo">
+                                        <div id="friend_profile_frame">
+                                            <img id="memberphoto" src="stewart.jpg">
+                                        </div>
+                                    </td>
+                                    <td id="friend_nickname" >미니언즈_스튜어트</td>
+                                    <td><button>정보 보기</button></td>
+                                </tr>
+                            </table>
+                            <button id="extra_view">더 보기</button>
+                        </div>
+                    </li>
                     <li>
                         <div class="mypage_menu">
                             <h2>카페 관리</h2>
-                                <a id="make_cafe" href="#" class="area_select_menu"><div>카페 등록</div></a>
-                                <a id="update_cafe" href="#" class="area_select_menu"><div>카페 관리</div></a>
-                            </div>
+                            <a id="make_cafe" href="#" class="area_select_menu"><div>카페 등록</div></a>
+                            <a id="update_cafe" href="#" class="area_select_menu"><div>카페 관리</div></a>
                         </div>
                     </li>
                 </ul>
+            
         </div>
+
     </div>
 
     <footer>
