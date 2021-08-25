@@ -1,0 +1,32 @@
+1. 카페,게시글,댓글 등 모든 수정 기능 : update_OOO
+
+ex) 내정보 수정- update_my_profile 
+
+2. 모든 버튼은  : btn 
+
+ex) 내정보 수정 버튼- btn_update_my_profile
+
+3. 생성에 관련된 기능 : create_OOO
+
+ex) 가입하기(아이디만들기) create_id
+
+4. 모든 없애는 기능 delete_OOO
+
+ex) 모임 삭제하기 delete_group
+
+5. 보기 기능 read_OOO
+
+ex) 친구 정보 보기 read_friend
+
+6. 입력 폼 기능 form_OOO
+
+ex) 카페 입력폼 form_cafe_profile // 게임 입력폼 form_game
+
+7. 구역 나눠서 div 들어갈때 area_OOO
+
+ex) 비밀번호 입력 구역 area_pw
+
+8. 창 닫기 close
+
+ex) 창 닫기 버튼 btn_close
+

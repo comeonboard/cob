@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Come on, Board : 회원 가입</title>
+    <title>Come on, Board : 아이디 찾기</title>
+    <script>
+        function submit2(frm){
+            frm.action='findPw.html';
+            frm.submit();
+        }
+    </script>
 </head>
 
 <style>
@@ -42,12 +48,13 @@
         min-height: 700px;
         padding-bottom: 50px;
     }
-    .form_create_id {
+    .form_find_id_by_phoneNum,
+    .form_find_id_by_email {
         width: 462px;
         margin: 0 auto;
     }
 
-    .form_create_id h2 {
+    h2 {
         text-align: center;
         margin-bottom: 20px;
         color: #777;
@@ -76,7 +83,7 @@
         outline: rgb(52, 168, 83) 1px solid;
     }
 
-    .reg_btn{
+    .find_id_btn{
         display: block;
         margin: 0 auto;
         color: white;
@@ -195,6 +202,69 @@
         height: 200px;
     }
 
+    .display_none {
+        display: none;
+    }
+
+    .color_red {
+        color: red;
+    }
+
+    .form_find{
+        display: none;
+    }
+
+    .on {
+        display: block;
+    }
+        
+    ul.tabs {
+        margin: 0 auto;
+        list-style: none;
+        line-height: 40px;
+        height: 40px;
+        width: 470px;
+    }
+    li.current {
+        border-radius: 10px;
+        background-color: rgb(52, 168, 83);
+        color: white;
+    }
+
+    ul.tabs li{
+        text-align: center;
+        display: inline-block;
+        width: 49%;
+        height: 40px;
+    }
+
+    .login_btn{
+        display: block;
+        margin: 0 auto;
+        color: white;
+        background-color: rgb(52, 168, 83);
+        width: 460px;
+        height: 48px;
+        font-size: 16px;
+        border: none;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+    .findPw_btn{
+        display: block;
+        margin: 0 auto;
+        color: white;
+        background-color: rgb(251,188,5);
+        width: 460px;
+        height: 48px;
+        font-size: 16px;
+        border: none;
+        margin-bottom: 10px;
+        border-radius: 10px;
+    }
+
+
 </style>
 <body>
     <div class="wrap">
@@ -206,73 +276,23 @@
             </a>
         </header>
         <div id="container">
-            <form class="form_create_id">
-                <fieldset>
-                    <legend>아이디, 비밀번호</legend>
-                    <h2> - 회원 가입 - </h2>
-                    <div class="input_area">
-                        <input type="text" class="input_row" placeholder="아이디">
-                    </div>
-                    <div class="input_area">
-                        <input type="password" class="input_row" placeholder="비밀번호">
-                    </div>
-                    <div class="input_area">
-                        <input type="password" class="input_row" placeholder="비밀번호 확인">
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>회원 정보</legend>
-                    <div class="input_area">
-                        <p>이름</p>
-                        <input type="text" class="input_row" placeholder="이름">
-                    </div>
-    
-                    <div class="input_area">
-                        <p>생년월일</p>
-                        <input class="input_num" type="number" placeholder="년"><input class="input_num" type="number" placeholder="월"><input class="input_num" type="number" placeholder="일">
-                    </div>
-    
-                    <div class="input_area">
-                        <p>성별</p>
-                        <select>
-                            <option>성별</option>
-                            <option>남자</option>
-                            <option>여자</option>
-                            <option>선택안함</option>
-                        </select>
-                    </div>
-    
-                    <div class="input_area">
-                        <p>본인 확인 이메일(선택 입력)</p>
-                        <input type="text" class="input_row" placeholder="선택 입력">
-                    </div>
-    
-                    <div id="phoneNum_input" class="input_area">
-                        <p>휴대전화</p>
-                        <input type="text" class="input_phoneNum" placeholder="전화번호 입력">
-                        <button>인증번호 받기</button>
-                        <input type="text" class="input_row" placeholder="인증번호 입력">
-                    </div>
-    
-                    <div class="input_area">
-                        <p>프로필 사진</p>
-                            <label id="profile_button" for="input_profile">파일 업로드</label>
-                            <input type="file" id="input_profile">
-    
-                    </div>
-    
-                    <div id="address_area" class="input_area">
-                        <p>주소(선택 입력)</p>
-                        <input type="text" class="input_address" placeholder="우편 번호">
-                        <button>우편 번호</button>
-                        <input type="text" class="input_row" placeholder="위 우편 번호를 입력해주세요.">
-                        <input type="text" class="input_row" placeholder="나머지 주소">
-                    </div>
-                    
-                    <input type="submit" class="reg_btn" value="가입하기">
-                </fieldset>
-            </form>
-           
+
+            <h2> - 아이디 확인 - </h2>
+
+            <div id="tab3" class="form_find on">
+                <form action="login.html">
+                        <div class="input_area">
+                            <p>아이디</p>
+                            <div class="input_row">cobuser12</div>
+                        </div>
+                        <input type="submit" class="findPw_btn" value="비밀번호 찾기" onclick="return submit2(this.form)">
+                        
+                        <input type="submit" class="login_btn" value="로그인하기">
+                </form>
+            </div>
+
+ 
+
         </div>
     </div>
 </body>
