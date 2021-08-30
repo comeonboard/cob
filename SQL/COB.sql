@@ -182,7 +182,7 @@ select count(*) from comment where postIdx=6;	-- 게시글 댓글 숫자
 update comment set commContent = '수정된 댓글입니다.ㅎㅎㅎ' where commIdx=6;	-- 게시글 해당 댓글 수정
 update comment set commLike = commLike + 1  where commIdx=6;	-- 좋아요 버튼 클릭시 증가
 update comment set commDislike = commDislike + 1  where commIdx=6;	-- 싫어요 버튼 클릭시 증가
-update comment set commRep = commRep + 1  where commIdx=6;	-- 신고 버튼 클릭시 증가
+update comment set commRep = commRep + 1  where commIdx=6;	-- 신고 버튼 클member1member릭시 증가
 delete from comment where commIdx=4;	-- 해당 commIdx로 삭제
 
 select * from recomment;
