@@ -82,7 +82,7 @@ CREATE TABLE `project`.`boardgamecafe` (
   `tenPerFee` INT NOT NULL,
   `fourTable` INT NOT NULL,
   `grpTable` INT NOT NULL,
-  `cafeContent` TEXT NOT NULL,
+  `cafeTel` TEXT NOT NULL,
   `cafeRating` INT NOT NULL default 0,
   constraint fk_memIdx_boardgamecafe foreign key(memIdx) references member1(memIdx)
 );
