@@ -1,13 +1,11 @@
 package com.bitcamp.cob.member.dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
