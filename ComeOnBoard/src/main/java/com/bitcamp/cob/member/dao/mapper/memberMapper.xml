@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitcamp.cob.member.dao.MemberDao">
+
+	<insert id="insertMember"
+			parameterType="com.bitcamp.cob.member.domain.Member"
+			useGeneratedKeys="true"
+			keyProperty="memIdx"
+	>
+	
+	insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, memAddress, memTel, memEmail, memPhoto) 
+	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{memAddress}, #{memTel}, #{memEmail}, #{memPhoto});	
+	
+	</insert>
+
+</mapper>
