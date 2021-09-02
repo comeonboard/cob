@@ -7,4 +7,5 @@ public interface MemberDao {
 	//회원 가입
 	int insertMember(Member member);
 	
+	int selectById(String memId);
 }

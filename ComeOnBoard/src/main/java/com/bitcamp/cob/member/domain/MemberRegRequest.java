@@ -1,6 +1,5 @@
 package com.bitcamp.cob.member.domain;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -126,8 +125,9 @@ public class MemberRegRequest {
 	}
 
 	public void makeMemBirth() {
-		Date birthDay = new Date
-		Timestamp memBirth = new Timestamp(birthDay.getTime());
+		String birthDay = year+"-"+month+"-"+day+" 00:00:00";
+		Timestamp memBirth = Timestamp.valueOf(birthDay);
+		memBirth.toLocalDateTime();
 		this.memBirth = memBirth;
 		};
 	

@@ -15,5 +15,11 @@
 	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{memAddress}, #{memTel}, #{memEmail}, #{memPhoto});	
 	
 	</insert>
-
+	
+ 	<select id="selectById"
+ 					resultType="int"
+ 	>
+ 		select count(*) from member1 where memId=#{id}
+ 	</select>
+ 	
 </mapper>

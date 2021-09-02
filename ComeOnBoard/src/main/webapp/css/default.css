@@ -264,3 +264,7 @@
 	.font_white {
 		color: white;
 	}
+	
+	.display_none {
+		display: none;
+	}
