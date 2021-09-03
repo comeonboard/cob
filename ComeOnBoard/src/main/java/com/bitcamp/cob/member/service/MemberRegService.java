@@ -29,6 +29,7 @@ public class MemberRegService {
 			) {
 		int resultCnt = 0;
 		File newFile = null;
+		regRequest.makeMemAddress();
 		regRequest.makeMemBirth();
 		System.out.println(regRequest.getMemBirth());
 

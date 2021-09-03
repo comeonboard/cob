@@ -1,12 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
         <div class="nav_top">
             <ul class="area_gnb">
                 <li>시작페이지로</li>
                 <li>다크모드</li>
                 <li><a href="mypage.html">마이페이지</a></li>
-                <li><a href="login.html">로그인</a></li>
+                <c:if test="${empty loginChk}">
+       	            <li><a href="<c:url value='member/login'/>">로그인</a></li>
+                </c:if>
+				<c:if test="${loginChk}">
+					<li><a href="<c:url value='member/logout'/>">로그아웃</a></li>
+				</c:if>
             </ul>
         </div>
 

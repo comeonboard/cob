@@ -15,6 +15,8 @@ public class MemberRegRequest {
 	private int day;
 	private Timestamp memBirth;
 	private boolean memGender; 
+	private String addr;
+	private String extraAddr;
 	private String memAddress;
 	private String memTel;
 	private String memEmail;
@@ -123,6 +125,21 @@ public class MemberRegRequest {
 	public void setMemPhoto(MultipartFile memPhoto) {
 		this.memPhoto = memPhoto;
 	}
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
+	}
+
+	public String getExtraAddr() {
+		return extraAddr;
+	}
+
+	public void setExtraAddr(String extraAddr) {
+		this.extraAddr = extraAddr;
+	}
 
 	public void makeMemBirth() {
 		String birthDay = year+"-"+month+"-"+day+" 00:00:00";
@@ -131,6 +148,14 @@ public class MemberRegRequest {
 		this.memBirth = memBirth;
 		};
 	
+	public void makeMemAddress() {
+		String memAddress = null;
+		if(addr != null) {
+			memAddress = addr+" "+extraAddr;	
+		}
+		this.memAddress = memAddress;
+	}
+		
 	public Member toMember() {
 		return new Member(0, //Idx
 					memId,

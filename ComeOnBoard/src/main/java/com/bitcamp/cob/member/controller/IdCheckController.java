@@ -25,4 +25,16 @@ public class IdCheckController {
 		
 		return "member/idcheck";
 	}
+	
+	@RequestMapping(value="/member/nickNameCheck")
+	public String nickNameCheck(
+			@RequestParam("nickName") String nickName,
+			Model model
+			) {
+		
+		model.addAttribute("result", checkService.nicknameCheck(nickName));
+		System.out.println("확인완료");
+		return "member/idcheck";
+	}
+	
 }

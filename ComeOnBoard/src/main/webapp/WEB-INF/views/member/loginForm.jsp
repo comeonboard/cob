@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -6,6 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Come on, Board : Login</title>
     <link rel="icon" href="simple_logo.png">
+    <c:if test="${param.result == 1}">
+		<script>
+			alert('회원가입을 축하합니다.');
+		</script>
+	</c:if>
 </head>
 
 <style>
@@ -132,33 +140,37 @@
 <body>
     <div class="wrap">
         <header>
-            <a href="index.html">
+            <a href="<c:url value='/'/>">
                 <div class="area_logo">
-                    <img src="full_logo.png">
+                    <img src="<c:url value='/images/logo_full.png'/>">
                 </div>
             </a>
         </header>
         <div id="container">
-            <fieldset class="login_form">
+        <form method="POST">
+        	<fieldset class="login_form">
                 <legend>로그인</legend>
                 <div class="id_area">
-                    <input type="text" class="input_row" placeholder="아이디">
+                    <input type="text" name="memId" class="input_row" placeholder="아이디" value="${cookie.reid.value}">
                 </div>
                 <div class="pw_area">
-                    <input type="password" class="input_row" placeholder="비밀번호">
+                    <input type="password" name="memPassword" class="input_row" placeholder="비밀번호">
                 </div>
                 <div class="area_chk">
-                    <input type="checkbox" id="login_chk">
+                    <input type="checkbox" id="login_chk" name="reid" value="on" ${cookie.reid ne null ? 'checked' : ''}>
+                
                     <label for="login_chk">아이디 저장하기</label> 
                 </div>
                 <input type="submit" class="login_btn" value="로그인">
-                <input type="submit" class="kakao_btn" value="카카오 아이디로 로그인하기">
+                <input type="button" class="kakao_btn" value="카카오 아이디로 로그인하기">
+                <input type="hidden" name="redirectUri" value="${param.referer}">
             </fieldset>
+        </form>
             <div class="nav_login">
                 <ul>
                     <li><a href="findId.html">아이디 찾기</a></li>
                     <li><a href="findPw.html">비밀번호 찾기</a></li>
-                    <li id="last_li" ><a href="memberReg.html">회원 가입</a></li>
+                    <li id="last_li" ><a href="<c:url value='/member/memberReg'/>">회원 가입</a></li>       
                 </ul>
             </div>
         </div>

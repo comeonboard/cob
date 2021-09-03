@@ -17,9 +17,20 @@
 	</insert>
 	
  	<select id="selectById"
- 					resultType="int"
+ 			resultType="int"
  	>
  		select count(*) from member1 where memId=#{id}
  	</select>
  	
+ 	<select id="selectByNickName"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where nickName=#{nickName}
+ 	</select>
+ 	
+ 	<select id="selectByIdPw"
+ 			resultType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		select * from member1 where memId=#{param1} and memPassword=#{param2}
+ 	</select>
 </mapper>
