@@ -15,4 +15,8 @@ public interface MemberDao {
 	
 	// 로그인 
 	Member selectByIdPw(String memId, String memPw);
+	
+	// 탈퇴, 아이디 삭제
+	
+	int deleteMember(int memIdx);
 }

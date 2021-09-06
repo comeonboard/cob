@@ -7,14 +7,15 @@ import javax.servlet.http.HttpSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bitcamp.cob.member.dao.MemberDao;
 import com.bitcamp.cob.member.domain.Member;
+import com.mysql.cj.Session;
 
 @Service
 public class LoginService {
-	
-
 	
 	@Autowired
 	private SqlSessionTemplate template;
@@ -26,15 +27,12 @@ public class LoginService {
 			String pw, 
 			String reid, 
 			HttpSession session,
-			HttpServletResponse response) {
+			HttpServletResponse response
+			) {
 		
 		boolean loginChk = false;
 		
-		//Connection conn = null;
-		
 		dao = template.getMapper(MemberDao.class);
-		
-		System.out.println("인터페이스 메퍼 dao 생성");
 		
 		Member member = dao.selectByIdPw(id, pw);
 		
@@ -46,7 +44,7 @@ public class LoginService {
 		}
 		
 		// 아이디 저장을 위한 Cookie 설정
-		if(reid != null && reid.length() > 0) {
+		if(reid != null && reid.length() > 1) {
 			Cookie cookie = new Cookie("reid", id);
 			cookie.setPath("/");
 			cookie.setMaxAge(60*60*24*365);

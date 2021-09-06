@@ -33,4 +33,9 @@
  	>
  		select * from member1 where memId=#{param1} and memPassword=#{param2}
  	</select>
+ 	
+ 	<delete id="deleteMember"
+	>
+		delete from member1 where memIdx=#{memIdx}
+	</delete>
 </mapper>

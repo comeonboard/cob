@@ -53,6 +53,8 @@ public class MemberRegService {
 					regRequest.getMemPhoto().transferTo(newFile);
 		
 				member.setMemPhoto(newFileName);
+			} else {
+				member.setMemPhoto("default.jpg");
 			}
 			
 			dao = template.getMapper(MemberDao.class);

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Come on, Board</title>
+    <title>Come on, Board: 회원가입</title>
     <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 	 <style>
 	    * {
@@ -168,22 +168,11 @@
 	    	color : rgb(234,67,53);
 	    }
 	    
-	    .display_none {
-	    	display : none;	
-	    }
-	    .color_red {
-	    	color: rgb(234,67,53)
-	    }
+
 	    .msg {
 	    	font-size:13px;
 	    }
-	    .color_blue {
-	    	color: rgb(66,133,244);
-	    }
-	    
-	    .color_grey {
-	    	color: #777;
-	    }
+	   
 	    
 	    .loadingimg {
 	    	width: 30px;
@@ -198,7 +187,6 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		$(document).ready(function() {
-			
 			// 아이디 체크 초기화
 			$('#memId').focusin(function() {
 				$('#msg_id').addClass('color_grey');
@@ -394,12 +382,13 @@
 <body>
 
     <div class="area_logo">
-        <a href="index.html">
+        <a href="<c:url value='/'/>">
         	<img src="/cob/images/logo_full.png">
         </a>
     </div>
 
     <div id="container">
+ 
         <form class="form_create_id" method="post" enctype="multipart/form-data">
             <fieldset>
                 <legend>아이디, 비밀번호</legend>

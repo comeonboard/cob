@@ -11,22 +11,21 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bitcamp.cob.member.service.LoginService;
 
 @Controller
 @RequestMapping("member/login")
+@SessionAttributes("loginChk")
 public class LoginController {
 	
 	@Autowired
 	private LoginService loginService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String loginForm(
-			@RequestHeader(value="referer", required = false) String redirectUri,
-			Model model
-			) {
-		model.addAttribute("redirectUri", redirectUri);
+	public String loginForm() {
+		
 		return "member/loginForm";
 	}
 	
@@ -35,34 +34,18 @@ public class LoginController {
 			@RequestParam("memId") String memberid,
 			@RequestParam("memPassword") String password,
 			@RequestParam(value = "reid", required = false) String reid,
-			@RequestParam(value = "redirectUri", required = false) String redirectUri,
-			HttpSession session,
 			HttpServletResponse response,
 			HttpServletRequest request,
+			HttpSession session,	
 			Model model
 			) {
 			
 		// 사용자가 입력한 id, pw 서비스에 전달해서 로그인 처리
 		boolean loginChk = loginService.login(memberid, password, reid, session, response);
-		session.setAttribute("loginChk", loginChk);
-	
-		String view = "redirect:/";
-		System.out.println(redirectUri);
-		if(chkURI(redirectUri) && loginChk) {
-			
-			redirectUri = redirectUri.substring(request.getContextPath().length());
-			view = "redirect:"+redirectUri;
-		}
+		model.addAttribute("loginChk", loginChk);
+
 		
-		return view;
-	}
-	
-	private boolean chkURI(String uri) {
-		boolean chk = true;
-		if(!uri.startsWith("/cob")) {
-			chk = false;
-		}
-		return chk;
+		return "member/loginChk";
 	}
 
 }

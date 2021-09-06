@@ -7,8 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Come on, Board : Login</title>
-    <link rel="icon" href="simple_logo.png">
+    <title>Come on, Board : 로그인</title>
+    <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
     <c:if test="${param.result == 1}">
 		<script>
 			alert('회원가입을 축하합니다.');
@@ -82,7 +82,7 @@
         outline: rgb(52, 168, 83) 1px solid;
     }
 
-    .login_btn, .kakao_btn{
+    input[type=button]{
         display: block;
         text-align: center;
         color: white;
@@ -94,7 +94,7 @@
         margin-bottom: 10px;
     }
 
-    .kakao_btn {
+    #btn_kakao {
         background-color: rgb(251, 188, 5);
         color: #000;
     }
@@ -102,11 +102,11 @@
         line-height: 25px;
         padding-bottom: 5px;
     }
-    #login_chk {
+    #reid_chk {
         width: 15px;
 
     }
-    #login_chk:hover, label:hover {
+    #reid_chk:hover, label:hover {
         cursor: pointer;
     }
 
@@ -133,39 +133,93 @@
     #last_li {
         border: none;
     }
-
+	
+	
 
 
 </style>
+<script>
+	$(document).ready(function(){
+		var redirectUri = sessionStorage.getItem("redirectUri");
+		console.log(redirectUri);
+		$('#btn_login').click(function(){
+			var memId = $('#memId').val();
+			var memPassword =$('#memPassword').val();
+			var reUri = redirectUri;
+			console.log(reUri);
+			var reid = $('#reid_chk').is(":checked") ? 'on' : '';
+			console.log(reid);
+			if(memId.trim().length<1){
+				$('#area_msg').removeClass('display_none');
+				$('#area_msg').html('아이디를 입력해주세요.');
+			} else if(memPassword.trim().length<1){
+				$('#area_msg').removeClass('display_none');
+				$('#area_msg').html('비밀번호를 입력해주세요.');
+			} else{
+				$.ajax({
+					url: '<c:url value="/member/login"/>',
+					type : 'post',
+					data : {
+						memId : memId,
+						memPassword : memPassword,
+						reid : reid
+					},
+					success : function(data) {
+						if (data == "false") {
+							$('#area_msg').removeClass('display_none');
+							$('#area_msg').html('아이디, 비밀번호가 일치하지 않습니다. <br> 다시 입력해주세요.');
+						} else {
+							if(reUri.length<1){
+								location.replace('<c:url value="/"/>');
+							} else {
+								location.replace(reUri);
+							}
+						
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					},
+					complete : function() {
+					}
+				})
+			}
+		});		
+	});
+</script>
+
 <body>
     <div class="wrap">
-        <header>
-            <a href="<c:url value='/'/>">
-                <div class="area_logo">
-                    <img src="<c:url value='/images/logo_full.png'/>">
-                </div>
-            </a>
-        </header>
-        <div id="container">
-        <form method="POST">
+    <div class="area_logo">
+        <a href="<c:url value='/'/>">
+        	<img src="/cob/images/logo_full.png">
+        </a>
+    </div>
+    <div id="container">
+        <form method="POST" id="login_form">
         	<fieldset class="login_form">
                 <legend>로그인</legend>
                 <div class="id_area">
-                    <input type="text" name="memId" class="input_row" placeholder="아이디" value="${cookie.reid.value}">
+                    <input type="text" id="memId"name="memId" class="input_row" placeholder="아이디" value="${cookie.reid.value}">
                 </div>
                 <div class="pw_area">
-                    <input type="password" name="memPassword" class="input_row" placeholder="비밀번호">
+                    <input type="password" id="memPassword" name="memPassword" class="input_row" placeholder="비밀번호">
+                </div>
+                <div id="area_msg" class="color_red display_none">
                 </div>
                 <div class="area_chk">
-                    <input type="checkbox" id="login_chk" name="reid" value="on" ${cookie.reid ne null ? 'checked' : ''}>
+                    <input type="checkbox" id="reid_chk" name="reid" ${cookie.reid ne null ? 'checked' : ''}>
                 
-                    <label for="login_chk">아이디 저장하기</label> 
-                </div>
-                <input type="submit" class="login_btn" value="로그인">
-                <input type="button" class="kakao_btn" value="카카오 아이디로 로그인하기">
-                <input type="hidden" name="redirectUri" value="${param.referer}">
+                    <label for="reid_chk">아이디 저장하기</label> 
+                </div>	
+    	        <input type="button" id="btn_login" value="로그인">
+                <input type="button" id="btn_kakao" value="카카오 아이디로 로그인하기">
             </fieldset>
         </form>
+
             <div class="nav_login">
                 <ul>
                     <li><a href="findId.html">아이디 찾기</a></li>

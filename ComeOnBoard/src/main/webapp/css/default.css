@@ -268,3 +268,14 @@
 	.display_none {
 		display: none;
 	}
+    .color_red {
+    	color: rgb(234,67,53)
+    }
+    
+    .color_blue {
+    	color: rgb(66,133,244);
+    }
+    
+    .color_grey {
+    	color: #777;
+    }
