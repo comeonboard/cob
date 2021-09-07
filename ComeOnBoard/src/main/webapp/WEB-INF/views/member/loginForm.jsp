@@ -146,9 +146,7 @@
 			var memId = $('#memId').val();
 			var memPassword =$('#memPassword').val();
 			var reUri = redirectUri;
-			console.log(reUri);
 			var reid = $('#reid_chk').is(":checked") ? 'on' : '';
-			console.log(reid);
 			if(memId.trim().length<1){
 				$('#area_msg').removeClass('display_none');
 				$('#area_msg').html('아이디를 입력해주세요.');
@@ -182,8 +180,6 @@
 						console.log(request);
 						console.log(status);
 						console.log(error);
-					},
-					complete : function() {
 					}
 				})
 			}

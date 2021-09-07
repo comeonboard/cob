@@ -16,7 +16,12 @@ public interface MemberDao {
 	// 로그인 
 	Member selectByIdPw(String memId, String memPw);
 	
-	// 탈퇴, 아이디 삭제
+	// 로그인인포 새로 받아오기
+	Member selectByIdx(int memIdx);
 	
+	// 회원 정보 수정
+	int updateMember(Member member);
+	
+	// 탈퇴, 아이디 삭제
 	int deleteMember(int memIdx);
 }

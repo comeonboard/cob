@@ -11,8 +11,8 @@
 			keyProperty="memIdx"
 	>
 	
-	insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, memAddress, memTel, memEmail, memPhoto) 
-	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{memAddress}, #{memTel}, #{memEmail}, #{memPhoto});	
+	insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, preferAddr, memTel, memEmail, memPhoto) 
+	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{preferAddr}, #{memTel}, #{memEmail}, #{memPhoto});	
 	
 	</insert>
 	
@@ -33,6 +33,27 @@
  	>
  		select * from member1 where memId=#{param1} and memPassword=#{param2}
  	</select>
+ 	
+	<select id="selectByIdx"
+ 			resultType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		select * from member1 where memIdx=#{param1}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	<update id="updateMember"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set nickName=#{nickName},
+ 							memBirth=#{memBirth},
+ 							memGender=#{memGender},
+ 							memEmail=#{memEmail},
+ 							memTel=#{memTel},
+ 							preferAddr=#{preferAddr}
+ 				where memIdx=#{memIdx}						
+ 	</update>
  	
  	<delete id="deleteMember"
 	>

@@ -21,12 +21,17 @@ function makeRedirect(){
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here: my page</title>
+<title>Come on, Board: my page</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
 	$(document).ready(function() {
-
+		$('#Info_nickName').html('${loginInfo.nickName}');
+		$('#Info_memGender').html('${loginInfo.memGender}');
+		$('#Info_memEmail').html('${loginInfo.memEmail}');
+		$('#Info_preferAddr').html('${loginInfo.preferAddr}');
+		
 		// 아이디 탈퇴
 		$('#btn_deletMember').on('click', function(){
 			var memIdx = ${loginInfo.memIdx}
@@ -55,19 +60,105 @@ function makeRedirect(){
 		});
 		
 		$('#btn_update_profile').click(function(){
+			var memBirth = '${loginInfo.memBirth}'
+			if(memBirth != null){
+				var memBirthArray = memBirth.split('-');
+				var year = memBirthArray[0];
+				$('#year').val(year);
+				var month = memBirthArray[1];
+				$('#month').val(month);
+				var day = memBirthArray[2].substring(0,2);
+				$('#day').val(day);
+			}
+			$('.genderSelect').val('${loginInfo.memGender}').attr("selected", "selected");
 			$('#update_my_info').removeClass('display_none');
+		
+			// 우편번호 찾기 
+			$('#btn_address').click(function(){
+			  new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+			        	  // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+			        	
+			    	    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+			    	    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			    	    var addr = ''; // 주소 변수
+			    	    var extraAddr = ''; // 참고항목 변수
+			    	
+			    	    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+			    	    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+			    	        addr = data.roadAddress;
+			    	    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+			    	        addr = data.jibunAddress;
+			    	    }
+			    	
+			    	    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			    	    $('#postCode').val(data.zonecode);
+			    	    $('#addr').val(addr);
+			    	    // 선호 지역을 입력한다.
+			    	   	var preferAddrArray = (addr).split(' ');
+			    
+			    	    $('#preferAddr').val(preferAddrArray[0]+' '+preferAddrArray[1]);
+
+			    	    
+			        }
+			    }).open();
+
+				return false;
+			});
+			
+		});
+			
+			
+			$('#btn_updateMember').click(function(){
+				$.ajax({
+					url: '<c:url value="/member/updateMember"/>',
+					type : 'post',
+					data : {
+						memIdx : '${loginInfo.memIdx}',
+						nickName : $('#nickName').val(),
+						year : $('#year').val(),
+						month : $('#month').val(),
+						day : $('#day').val(),
+						memGender : $('#memGender').val(),
+						memEmail : $('#memEmail').val(),
+						memTel : $('#memTel').val(),
+						preferAddr : $('#preferAddr').val()
+					},
+					success : function(data) {
+						if (data > 0) {
+							alert('정보가 변경되었습니다.');
+							console.log('${loginInfo.nickName}');
+							$('#Info_nickName').html('${loginInfo.nickName}');
+							$('#Info_memGender').html('${loginInfo.memGender}');
+							$('#Info_memEmail').html('${loginInfo.memEmail}');
+							$('#Info_preferAddr').html('${loginInfo.preferAddr}');
+							$('#update_my_info').addClass('display_none');
+						
+						} else {
+							alert('다시 시도해주세요.');
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+			});
+			return false;
+
 		});
 		
-		$('.btn_close').click(function(){
-			$(this).parent.addClass('display_none');
+		$('#btn_close').click(function(){
+
+			$(this).parent().addClass('display_none');
 		});
 	});
 </script>
 </head>
 <style>
-	.btn_close {
-		backgroun-color: red;
-	}
+
     @keyframes gradient {
         0% {
         background-position: 0% 50%;
@@ -569,6 +660,11 @@ function makeRedirect(){
     .input_phoneNum:focus {
         outline: rgb(52, 168, 83) 1px solid;
     }
+    
+    #btn_close:hover {
+    	cursor: pointer;
+    }
+    
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
@@ -581,15 +677,15 @@ function makeRedirect(){
                             <div id="profile_frame">
                                 <img id="memberphoto" src="<c:url value='/uploadfile/member/'/>${loginInfo.memPhoto}">
                             </div>
-                            <div class="member_profile">
+                            <div id="test"class="member_profile">
                                 <table>
                                     <tr>
                                         <td>별 명</td>
-                                        <td>${loginInfo.nickName}</td>
+                                        <td id="Info_nickName"></td>
                                     </tr>
                                     <tr> 
                                         <td>성 별</td>
-                                        <td>${loginInfo.memGender}</td>              
+                                        <td id="Info_memGender"></td>              
                                     </tr>
                                     <tr>
                                         <td>생년월일</td>
@@ -597,11 +693,11 @@ function makeRedirect(){
                                     </tr>
                                     <tr> 
                                         <td>e-mail</td>
-                                        <td>${loginInfo.memEmail}</td>                      
+                                        <td id="Info_memEmail"></td>                      
                                     </tr>
                                     <tr> 
                                         <td>선호 지역</td>
-                                        <td>서울 도봉구</td>                   
+                                        <td id="Info_preferAddr"></td>                   
                                     </tr>
                                 </table>
                             </div>
@@ -610,62 +706,49 @@ function makeRedirect(){
                                 <button id="btn_deletMember">탈퇴</button>
                             </div>
                             <div id="update_my_info" class="display_none">
-                                    <form class="form_update_profile">
+                                    <form class="form_update_profile" method="post">
                                         <h2>내 정보 수정</h2>
+
                                         <div class="input_area">
-                                            <input type="password" class="input_row" placeholder="비밀번호">
-                                        </div>
-                                        <div class="input_area">
-                                            <input type="password" class="input_row" placeholder="비밀번호 확인">
-                                        </div>
-                                        <div class="input_area">
-                                            <p>이름</p>
-                                            <input type="text" class="input_row" value="${loginInfo.memName}">
+                                            <p>닉네임</p>
+                                            <input type="text" id="nickName" class="input_row" value="${loginInfo.nickName}">
                                         </div>
                         
                                         <div class="input_area">
                                             <p>생년월일</p>
-                                            <input class="input_num" type="number" placeholder="년"><input class="input_num" type="number" placeholder="월"><input class="input_num" type="number" placeholder="일">
+                                            <input class="input_num" id="year" name="year" type="number" placeholder="년"><input class="input_num" type="number" id="month" name="month" placeholder="월"><input class="input_num" type="number" id="day" name="day" placeholder="일">
                                         </div>
                         
                                         <div class="input_area">
                                             <p>성별</p>
-                                            <select>
-                                                <option>남자</option>
-                                                <option>여자</option>
-                                                <option>선택안함</option>
+                                            <select class="genderSelect" id="memGender">
+                                                <option value="남자">남자</option>
+                                                <option value="여자">여자</option>
                                             </select>
                                         </div>
                         
                                         <div class="input_area">
-                                            <p>본인 확인 이메일(선택 입력)</p>
-                                            <input type="text" class="input_row" value="${loginInfo.memEmail}">
+                                            <p>본인 확인 이메일</p>
+                                            <input type="text" id="memEmail" class="input_row" value="${loginInfo.memEmail}">
                                         </div>
                         
                                         <div id="phoneNum_input" class="input_area">
                                             <p>휴대전화</p>
-                                            <input type="text" class="input_phoneNum" value="${loginInfo.memTel}">
+                                            <input type="text" id="memTel" class="input_phoneNum" value="${loginInfo.memTel}">
                                             <button>인증번호 받기</button>
                                             <input type="text" class="input_row" placeholder="인증번호 입력">
                                         </div>
                         
-                                        <div class="input_area">
-                                            <p>프로필 사진</p>
-                                                <label id="profile_button" for="input_profile">파일 업로드</label>
-                                                <input type="file" id="input_profile">
-                        
-                                        </div>
-                        
                                         <div id="address_area" class="input_area">
-                                            <p>주소(선택 입력)</p>
-                                            <input type="text" class="input_address" placeholder="우편 번호">
-                                            <button>우편 번호</button>
-                                            <input type="text" class="input_row" placeholder="위 우편 번호를 입력해주세요.">
-                                            <input type="text" class="input_row" placeholder="나머지 주소">
-                                        </div>
+						                   <p>선호 지역(주소 선택시 구까지 자동 입력)</p>
+						                   <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호" readonly>
+						                   <button id="btn_address">우편 번호</button>
+						                   <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
+						                   <input type="text" id="preferAddr" class="input_row" placeholder="선호 지역" value="${loginInfo.preferAddr}"readonly>
+						                 </div>
                                     </form>
-                                    <button>수정하기</button>
-                                    <button class="btn_close">창닫기</button>
+                                    <button id="btn_updateMember" type="button">수정하기</button>
+                                    <button id="btn_close">창닫기</button>
                             </div>
 
                         </div>
@@ -870,7 +953,6 @@ function makeRedirect(){
                                 <tr>
                                     <td id="friend_photo">
                                         <div id="friend_profile_frame">
-                                            <img id="memberphoto" src="kevin.jpg">
                                         </div>
                                     </td>
                                     <td id="friend_nickname">미니언즈_케빈</td>
@@ -879,7 +961,7 @@ function makeRedirect(){
                                 <tr>
                                     <td id="friend_photo">
                                         <div id="friend_profile_frame">
-                                            <img id="memberphoto" src="stewart.jpg">
+            
                                         </div>
                                     </td>
                                     <td id="friend_nickname" >미니언즈_스튜어트</td>

@@ -364,8 +364,11 @@
 			    	    // 우편번호와 주소 정보를 해당 필드에 넣는다.
 			    	    $('#postCode').val(data.zonecode);
 			    	    $('#addr').val(addr);
-			    	    // 커서를 상세주소 필드로 이동한다.
-			    	    $('#extraAddr').focus();
+			    	    // 선호 지역을 입력한다.
+			    	   	var preferAddrArray = (addr).split(' ');
+			    
+			    	    $('#preferAddr').val(preferAddrArray[0]+' '+preferAddrArray[1]);
+
 			    	    
 			        }
 			    }).open();
@@ -429,8 +432,9 @@
                 <div class="input_area">
                     <p>성별</p>
                     <select name="memGender">
-                        <option value="true">남자</option>
-                        <option value="false">여자</option>
+                    	<option disabled selected hidden>성별 선택</option>
+                        <option value="남자">남자</option>
+                        <option value="여자">여자</option>
                     </select>
                 </div>
 
@@ -454,11 +458,11 @@
                 </div>
 
                 <div id="address_area" class="input_area">
-                    <p>주소(선택 입력)</p>
-                    <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호">
-                    <button id="btn_address">우편 번호</button>
-                    <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
-                    <input type="text" id="extraAddr" name="extraAddr"class="input_row" placeholder="상세 주소">
+                  <p>선호 지역(주소 선택시 구까지 자동 입력)</p>
+                  <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호" readonly>
+                  <button id="btn_address">우편 번호</button>
+                  <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
+                  <input type="text" id="preferAddr" name="preferAddr" class="input_row" placeholder="선호 지역" readonly>
                 </div>
                 
                 <input type="submit" class="btn_reg" value="가입하기">

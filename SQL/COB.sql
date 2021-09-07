@@ -6,8 +6,8 @@ nickName varchar(20) unique key not null,
 memPassword varchar(20) not null,
 memName varchar(20) not null,
 memBirth timestamp,
-memGender boolean,
-memAddress varchar(255),
+memGender varchar(10),
+preferAddr varchar(255),
 memTel varchar(15) not null,
 memEmail varchar(40) not null,
 memPhoto varchar(255) default 'photo.png',
@@ -194,5 +194,9 @@ update recomment set recommDislike = recommDislike + 1  where recommIdx=6;	-- �
 update recomment set recommRep = recommRep + 1  where recommIdx=6;	-- 신고 버튼 클릭시 증가
 
 delete from recomment where recommIdx=4;	-- 해당 recommIdx로 삭제
+
+
+insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, memAddress, memTel, memEmail, memPhoto) value (
+'memId1', 'nickName1', 'password', 'name',  '2021-12-20', true, 'address', 'memTel', 'memEmail', 'memPhoto');
 
 -- 추후 : 예약, 쪽지

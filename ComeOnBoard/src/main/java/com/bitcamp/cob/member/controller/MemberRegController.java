@@ -33,8 +33,6 @@ public class MemberRegController {
 			Model model
 			) {
 		
-		System.out.println(regRequest);
-		
 		int result = regService.memberReg(regRequest, request);
 		
 		model.addAttribute("result", result);
