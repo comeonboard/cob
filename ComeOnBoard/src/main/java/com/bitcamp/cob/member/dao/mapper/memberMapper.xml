@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bitcamp.cob.member.dao.MemberDao">
+
+	<insert id="insertMember"
+			parameterType="com.bitcamp.cob.member.domain.Member"
+			useGeneratedKeys="true"
+			keyProperty="memIdx"
+	>
+	
+	insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, preferAddr, memTel, memEmail, memPhoto) 
+	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{preferAddr}, #{memTel}, #{memEmail}, #{memPhoto});	
+	
+	</insert>
+	
+ 	<select id="selectById"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where memId=#{id}
+ 	</select>
+ 	
+ 	<select id="selectByPw"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where memPassword=#{memPassword}
+ 	</select>
+ 	
+ 	<select id="selectByNickName"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where nickName=#{nickName}
+ 	</select>
+ 	
+ 	<select id="selectByIdPw"
+ 			resultType="com.bitcamp.cob.member.domain.LoginInfo"
+ 	>
+ 		select * from member1 where memId=#{param1} and memPassword=#{param2}
+ 	</select>
+ 	
+	<select id="selectByIdx"
+ 			resultType="com.bitcamp.cob.member.domain.LoginInfo"
+ 	>
+ 		select * from member1 where memIdx=#{param1}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
+ 	<update id="updateMember"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set nickName=#{nickName},
+ 							memBirth=#{memBirth},
+ 							memGender=#{memGender},
+ 							memEmail=#{memEmail},
+ 							memTel=#{memTel},
+ 							preferAddr=#{preferAddr}
+ 				where memIdx=#{memIdx}						
+ 	</update>
+ 	
+ 	<update id="updateMemPhoto"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set memPhoto=#{memPhoto}
+ 				where memIdx=#{memIdx}						
+ 	</update>
+ 	
+ 	<update id="updatePwById"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set memPassword=#{memPassword}
+ 				where memId=#{memId}						
+ 	</update>
+ 	
+ 	<delete id="deleteMember"
+ 			parameterType="int"
+	>
+		delete from member1 where memIdx=#{memIdx}
+	</delete>
+</mapper>

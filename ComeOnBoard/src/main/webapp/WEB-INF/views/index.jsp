@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -10,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Come on, Board</title>
     <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
-</head>
 
+</head>
 <body>
     <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 
@@ -27,10 +25,10 @@
             <div id="menu_wrap">
                 <div class="content_menu">
                     <ul>
-                        <li><a href="#"><img src="/cob/images/meet.png"><br>모 임</a></li>
-                        <li><a href="#"><img src="/cob/images/cafe.png"><br>보드게임카페</a></li>
-                        <li><a href="#"><img src="/cob/images/game.png"><br>보드게임</a></li>
+                        <li><a href="<c:url value='/group/groupList'/>"><img src="/cob/images/meet.png"><br>모 임</a></li>
+                        <li><a href="<c:url value='/cafe/cafe_list'/>"><img src="/cob/images/cafe.png"><br>보드게임카페</a></li>              
                         <li><a href="#"><img src="/cob/images/board.png"><br>게시판</a></li>
+                        <li><a href="#"><img src="/cob/images/game.png"><br>보드게임</a></li>
                     </ul>
     
                 </div>
