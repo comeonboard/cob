@@ -27,10 +27,181 @@ function makeRedirect(){
 
 <script>
 	$(document).ready(function() {
-		$('#Info_nickName').html('${loginInfo.nickName}');
-		$('#Info_memGender').html('${loginInfo.memGender}');
-		$('#Info_memEmail').html('${loginInfo.memEmail}');
-		$('#Info_preferAddr').html('${loginInfo.preferAddr}');
+		// 프로필 사진 변경 화면 띄우기
+		$('#btn_update_photo').on('click', function(){
+			$('#area_update_photo').removeClass('display_none');
+			
+			// 기본 사진으로 변경
+			$('#btn_memPhoto_default').on('click', function(){
+				var loginInfo = '${loginInfo}';
+				console.log(loginInfo);
+				$.ajax({
+
+					url : '<c:url value="/member/deleteMemPhoto"/>',
+					type : 'post',
+					data : loginInfo,
+					success : function(data) {
+						if (data > 0) {
+							alert('정상적으로 변경 되었습니다.');
+							location.reload();
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});	
+			});
+			
+			// 프로필 사진 변경
+			$('#btn_updateMemphoto').on('click', function(){
+				var newMemPhoto = $('#input_memberphoto').prop('files')[0];
+				if(newMemPhoto==null){
+					alert('사진을 선택해주세요.');
+				}else{
+					var formData = new FormData();
+					formData.append('newMemPhoto', newMemPhoto);
+					var photoPath = '<c:url value="/uploadfile/member"/>'
+					
+					$.ajax({
+						url : '<c:url value="/member/updateMemPhoto"/>',
+						type : 'post',
+						data : formData,
+						processData : false,
+						contentType : false,
+						cache : false,
+						enctype : 'multipart/form-data',
+						success : function(data) {
+							if (data != null) {
+								alert('정상적으로 변경  되었습니다.');
+								$('#area_update_photo').addClass('display_none');
+								location.reload();
+							}
+						},
+						error : function(request, status, error) {
+							alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+							console.log(request);
+							console.log(status);
+							console.log(error);
+						}
+					});	
+				}
+			});	
+		});  // 프로필 사진 관리 end
+		
+		// 비밀번호 변경
+		$('#btn_update_password').on('click', function(){
+			var pwCheck = false;
+			var pwEqCheck = false;
+			$('#area_update_password').removeClass('display_none');
+				
+			$('#oldPassword').focusin(function(){
+				$('#msg_oldPw').html(''); 
+			});
+			$('#oldPassword').focusout(function(){
+				$.ajax({
+					url : '<c:url value="/member/pwCheck"/>',
+					type : 'post',
+					data : {
+						memPassword : $('#oldPassword').val()
+					},
+					success : function(data) {
+						if (data) {
+							$('#msg_oldPw').html('비밀번호가 일치합니다.');
+							$('#msg_oldPw').addClass('color_blue');
+							pwCheck = true;
+						} else {
+							$('#msg_oldPw').html('비밀번호가 일치하지 않습니다.<br>다시 입력해주세요.');
+							$('#msg_oldPw').addClass('color_red');
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});	
+			});
+			
+			// ----------------------------------------------------------
+			$('#memPassword').focusout(function(){
+				var exptext = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/;
+				var password = $('#memPassword').val();
+				if(password.trim().length>0 && exptext.test(password)){
+					$('#msg_pw').removeClass('display_none');
+					$('#msg_pw').html('사용가능');
+					$('#msg_pw').addClass('color_blue');
+					$('#msg_pw').removeClass('color_grey');
+				} else {
+					$('#msg_pw').removeClass('display_none');
+					$('#msg_pw').html('형식이 올바르지 않습니다. 다시 입력해주세요.');
+					$('#msg_pw').addClass('color_red');
+					$('#msg_pw').removeClass('color_grey');
+				}
+			});
+
+			
+			// 비밀번호 일치 초기화
+			$('#memRePw').focusin(function(){
+				$('#msg_repw').addClass('display_none');
+				$('#msg_repw').removeClass('color_blue');
+				$('#msg_repw').removeClass('color_red');
+				$(this).val('');	
+			});
+			
+			// 비밀번호 일치 체크
+			$('#memRePw').focusout(function(){
+				
+				if ($('#memRePw').val() == $('#memPassword').val()) {
+					$('#msg_repw').removeClass('display_none');
+					$('#msg_repw').html('비밀번호가 일치합니다.');
+					$('#msg_repw').addClass('color_blue');
+					$('#msg_repw').removeClass('color_grey');
+					pwEqCheck = true;
+				} else {
+					$('#msg_repw').removeClass('display_none');
+					$('#msg_repw').html('비밀번호가 일치하지 않습니다.');
+					$('#msg_repw').addClass('color_red');
+					$('#msg_repw').removeClass('color_grey');
+				}
+				
+			});
+			
+			// ----------------------------------------------------------
+			$('#btn_updatePassword').on('click', function(){
+				if(pwCheck){
+					console.log('gg');
+					$.ajax({
+						url : '<c:url value="/member/updatePw"/>',
+						type : 'post',
+						data : {
+							memId : '${loginInfo.memId}',
+							memPassword : $('#memPassword').val()
+						},
+						success : function(data) {
+							if (data>0) {
+								alert('비밀번호가 변경되었습니다.');
+								$('#area_update_password').addClass('display_none');
+							} 
+						},
+						error : function(request, status, error) {
+							alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+							console.log(request);
+							console.log(status);
+							console.log(error);
+						}
+					});	
+					
+				} else {
+					alert('기존 비밀번호를 먼저 확인해주세요.');
+				}
+			});
+			
+		});
+		
 		
 		// 아이디 탈퇴
 		$('#btn_deletMember').on('click', function(){
@@ -59,6 +230,7 @@ function makeRedirect(){
 			}
 		});
 		
+		// 정보 수정
 		$('#btn_update_profile').click(function(){
 			var memBirth = '${loginInfo.memBirth}'
 			if(memBirth != null){
@@ -110,29 +282,43 @@ function makeRedirect(){
 		});
 			
 			
-			$('#btn_updateMember').click(function(){
+			 $('#btn_updateMember').click(function(){
+				var memIdx = '${loginInfo.memIdx}'
+				var nickName = $('#nickName').val();
+				var updateYear = $('#year').val();
+				var updateMonth = $('#month').val();
+				var updateDay = $('#day').val();
+				var memGender = $('#memGender').val();
+				var memEmail = $('#memEmail').val();
+				var memTel = $('#memTel').val();
+				var preferAddr = $('#preferAddr').val();
+				var updateRequest = { 
+						memIdx : memIdx,
+						nickName : nickName,
+						year : updateYear,
+						month : updateMonth,
+						day : updateDay,
+						memGender : memGender,
+						memEmail : memEmail,
+						memTel : memTel,
+						preferAddr : preferAddr
+				}
+			
 				$.ajax({
 					url: '<c:url value="/member/updateMember"/>',
 					type : 'post',
-					data : {
-						memIdx : '${loginInfo.memIdx}',
-						nickName : $('#nickName').val(),
-						year : $('#year').val(),
-						month : $('#month').val(),
-						day : $('#day').val(),
-						memGender : $('#memGender').val(),
-						memEmail : $('#memEmail').val(),
-						memTel : $('#memTel').val(),
-						preferAddr : $('#preferAddr').val()
-					},
-					success : function(data) {
-						if (data > 0) {
+					data : JSON.stringify(updateRequest),
+					contentType : 'application/json',
+					dataType: 'json',
+					success : function(profile) {
+						if (profile != null) {
 							alert('정보가 변경되었습니다.');
-							console.log('${loginInfo.nickName}');
-							$('#Info_nickName').html('${loginInfo.nickName}');
-							$('#Info_memGender').html('${loginInfo.memGender}');
-							$('#Info_memEmail').html('${loginInfo.memEmail}');
-							$('#Info_preferAddr').html('${loginInfo.preferAddr}');
+							
+							$('#Info_nickName').html(profile.nickName);
+							$('#Info_memBirth').html(profile.memBirth);
+							$('#Info_memGender').html(profile.memGender);
+							$('#Info_memEmail').html(profile.memEmail);
+							$('#Info_preferAddr').html(profile.preferAddr);
 							$('#update_my_info').addClass('display_none');
 						
 						} else {
@@ -150,7 +336,7 @@ function makeRedirect(){
 
 		});
 		
-		$('#btn_close').click(function(){
+		$('.btn_close').click(function(){
 
 			$(this).parent().addClass('display_none');
 		});
@@ -369,7 +555,7 @@ function makeRedirect(){
         float: left;
     }
 
-    #memberphoto {
+    .photo {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -661,10 +847,78 @@ function makeRedirect(){
         outline: rgb(52, 168, 83) 1px solid;
     }
     
-    #btn_close:hover {
+    .area_update_profile {
+    	width: 400px;
+    	height: 60px;
+    }
+    #area_update_photo {
+    	width: 400px;
+        height: auto;
+        position: absolute;
+        border-radius: 10px;
+        background-color: #eee;
+        z-index: 50;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    } 
+    
+    #frame_update_photo {
+        margin:0 auto;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        overflow:hidden;
+        display: block;
+    }
+    
+    #btn_photo {
+	    display: block;
+	    margin: 15px auto;
+	    background-color: rgb(251,188,5);
+	    width: 280px;
+	    height: 48px;
+	    font-size: 16px;
+	    border: none;
+	    margin-bottom: 10px;
+	    border-radius: 10px;
+	    text-align: center;
+	    line-height: 48px;
+   	}
+   	
+   	#input_memberphoto {
+   		display: none;
+   	}
+    
+    button:hover {
     	cursor: pointer;
     }
     
+    #area_update_password {
+    	width: 400px;
+        height: auto;
+        position: absolute;
+        border-radius: 10px;
+        background-color: #eee;
+        z-index: 50;
+        padding-top: 50px;
+        padding-bottom: 50px;
+
+    }
+    
+    #area_update_password input {
+    	width: 300px;
+    	height: 30px;
+    	border: none;
+    }
+    #area_update_password form {
+		width: 300px;
+		margin: 0 auto;
+    }
+    #area_update_password div {
+		width: 300px;
+		height: 100%;
+		text-align: left;
+    }
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
@@ -675,35 +929,70 @@ function makeRedirect(){
                         <div class="mypage_menu">
                             <h2>내 정보</h2>
                             <div id="profile_frame">
-                                <img id="memberphoto" src="<c:url value='/uploadfile/member/'/>${loginInfo.memPhoto}">
+                                <img id="memberphoto" class="photo" src="<c:url value='/uploadfile/member/'/>${loginInfo.memPhoto}">
                             </div>
                             <div id="test"class="member_profile">
                                 <table>
                                     <tr>
                                         <td>별 명</td>
-                                        <td id="Info_nickName"></td>
+                                        <td id="Info_nickName">${loginInfo.nickName}</td>
                                     </tr>
                                     <tr> 
                                         <td>성 별</td>
-                                        <td id="Info_memGender"></td>              
+                                        <td id="Info_memGender">${loginInfo.memGender}</td>              
                                     </tr>
                                     <tr>
                                         <td>생년월일</td>
-                                        <td><fmt:formatDate pattern="yyyy-MM-dd" value="${loginInfo.memBirth}"/></td>
+                                        <td id="Info_memBirth"><fmt:formatDate pattern="yyyy-MM-dd" value="${loginInfo.memBirth}"/></td>
                                     </tr>
                                     <tr> 
                                         <td>e-mail</td>
-                                        <td id="Info_memEmail"></td>                      
+                                        <td id="Info_memEmail">${loginInfo.memEmail}</td>                      
                                     </tr>
                                     <tr> 
                                         <td>선호 지역</td>
-                                        <td id="Info_preferAddr"></td>                   
+                                        <td id="Info_preferAddr">${loginInfo.preferAddr}</td>                   
                                     </tr>
                                 </table>
                             </div>
                             <div class="area_update_profile">
+                	            <button id="btn_update_photo">사진 변경</button>
+                            	<button id="btn_update_password">비밀번호 변경</button>
                                 <button id="btn_update_profile">정보 수정</button>
                                 <button id="btn_deletMember">탈퇴</button>
+                            </div>
+                            <div id="area_update_photo" class="display_none">
+                            	<div id="frame_update_photo">
+                            		 <img id="update_memberphoto" class="photo" src="<c:url value='/uploadfile/member/'/>${loginInfo.memPhoto}">
+                            	</div>
+                            		<label id="btn_photo" for="input_memberphoto">사진 업로드</label>
+		                        	<input type="file" id="input_memberphoto" name="memPhoto" onchange="readURL(this);">                
+		                        <button id="btn_memPhoto_default" type="button">기본사진으로</button>
+		                        <button id="btn_updateMemphoto" type="button">수정하기</button>
+		                        <button class="btn_close">창닫기</button>
+                            </div>
+                            <div id="area_update_password" class="display_none">
+                            	<form>
+                            		<h2>비밀번호 변경</h2>
+                            		<div class="input_area">
+                                        <p>기존 비밀번호</p>
+                                        <input type=password id="oldPassword">
+                                        <span id="msg_oldPw" class="msg"></span>
+                                    </div>
+                                    <div class="input_area">
+                                        <p>변경할 비밀번호</p>
+                                        <input type=password id="memPassword">
+                                        <span id="msg_pw" class="msg color_grey"> 영문, 숫자, 특수문자 조합, 8-12자리</span>
+                                    </div>
+                                    <div class="input_area">
+                                        <p>변경할 비밀번호 확인</p>
+                                        <input type=password id="memRePw">
+                                        <span id="msg_repw" class="msg color_grey"></span>
+                                    </div>
+                            		
+                            	</form>
+                                <button id="btn_updatePassword" type="button">변경하기</button>
+                                <button class="btn_close">창닫기</button>
                             </div>
                             <div id="update_my_info" class="display_none">
                                     <form class="form_update_profile" method="post">
@@ -748,7 +1037,7 @@ function makeRedirect(){
 						                 </div>
                                     </form>
                                     <button id="btn_updateMember" type="button">수정하기</button>
-                                    <button id="btn_close">창닫기</button>
+                                    <button class="btn_close">창닫기</button>
                             </div>
 
                         </div>
@@ -988,4 +1277,19 @@ function makeRedirect(){
 
     </footer>
 </body>
+<script> 
+	function readURL(input) {
+	  if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    reader.onload = function(e) {
+	      document.getElementById('update_memberphoto').src = e.target.result;
+	    };
+	    reader.readAsDataURL(input.files[0]);
+	  } else {
+	    document.getElementById('update_memberphoto').src = "";
+	  }
+	}
+</script>
+
+
 </html>

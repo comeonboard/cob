@@ -2,6 +2,8 @@ package com.bitcamp.cob.member.domain;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Member {
 
 	private int memIdx;
@@ -9,8 +11,9 @@ public class Member {
 	private String nickName;
 	private String memPassword;
 	private String memName;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private Timestamp memBirth;
-	private String memGender; //true : 남 false: 여
+	private String memGender;
 	private String preferAddr;
 	private String memTel;
 	private String memEmail;

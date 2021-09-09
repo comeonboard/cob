@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.bitcamp.cob.member.dao.MemberDao;
+import com.bitcamp.cob.member.domain.LoginInfo;
 import com.bitcamp.cob.member.domain.Member;
 import com.mysql.cj.Session;
 
@@ -34,11 +35,11 @@ public class LoginService {
 		
 		dao = template.getMapper(MemberDao.class);
 		
-		Member member = dao.selectByIdPw(id, pw);
+		LoginInfo loginInfo = dao.selectByIdPw(id, pw);
 		
-		if(member != null) {
+		if(loginInfo != null) {
 			// 로그인 처리
-			session.setAttribute("loginInfo", member);
+			session.setAttribute("loginInfo", loginInfo);
 			
 			loginChk = true;
 		}

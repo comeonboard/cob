@@ -33,7 +33,6 @@ public class IdCheckController {
 			) {
 		
 		model.addAttribute("result", checkService.nicknameCheck(nickName));
-		System.out.println("확인완료");
 		return "member/idcheck";
 	}
 	

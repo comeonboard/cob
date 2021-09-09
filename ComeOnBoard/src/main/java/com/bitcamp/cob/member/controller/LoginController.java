@@ -36,14 +36,12 @@ public class LoginController {
 			@RequestParam(value = "reid", required = false) String reid,
 			HttpServletResponse response,
 			HttpServletRequest request,
-			HttpSession session,	
-			Model model
+			HttpSession session	
 			) {
 			
 		// 사용자가 입력한 id, pw 서비스에 전달해서 로그인 처리
 		boolean loginChk = loginService.login(memberid, password, reid, session, response);
-		model.addAttribute("loginChk", loginChk);
-
+		session.setAttribute("loginChk", loginChk);
 		
 		return "member/loginChk";
 	}

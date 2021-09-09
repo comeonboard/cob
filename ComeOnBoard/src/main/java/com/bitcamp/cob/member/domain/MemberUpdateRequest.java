@@ -4,36 +4,29 @@ import java.sql.Timestamp;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class MemberRegRequest {
+public class MemberUpdateRequest {
 
-	private String memId;
+	private int memIdx;
 	private String nickName;
-	private String memPassword;
-	private String memName;
-	private int year;
-	private int month;
-	private int day;
+	private String year;
+	private String month;
+	private String day;
 	private Timestamp memBirth;
 	private String memGender; 
 	private String preferAddr;
 	private String memTel;
 	private String memEmail;
-	private MultipartFile memPhoto;
+	
 	
 
-	
-
-
-	public String getMemId() {
-		return memId;
+	public int getMemIdx() {
+		return memIdx;
 	}
 
 
-
-	public void setMemId(String memId) {
-		this.memId = memId;
+	public void setMemIdx(int memIdx) {
+		this.memIdx = memIdx;
 	}
-
 
 
 	public String getNickName() {
@@ -41,71 +34,39 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
 
 
-
-	public String getMemPassword() {
-		return memPassword;
-	}
-
-
-
-	public void setMemPassword(String memPassword) {
-		this.memPassword = memPassword;
-	}
-
-
-
-	public String getMemName() {
-		return memName;
-	}
-
-
-
-	public void setMemName(String memName) {
-		this.memName = memName;
-	}
-
-
-
-	public int getYear() {
+	public String getYear() {
 		return year;
 	}
 
 
-
-	public void setYear(int year) {
+	public void setYear(String year) {
 		this.year = year;
 	}
 
 
-
-	public int getMonth() {
+	public String getMonth() {
 		return month;
 	}
 
 
-
-	public void setMonth(int month) {
+	public void setMonth(String month) {
 		this.month = month;
 	}
 
 
-
-	public int getDay() {
+	public String getDay() {
 		return day;
 	}
 
 
-
-	public void setDay(int day) {
+	public void setDay(String day) {
 		this.day = day;
 	}
-
 
 
 	public Timestamp getMemBirth() {
@@ -113,11 +74,9 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setMemBirth(Timestamp memBirth) {
 		this.memBirth = memBirth;
 	}
-
 
 
 	public String getMemGender() {
@@ -125,11 +84,9 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setMemGender(String memGender) {
 		this.memGender = memGender;
 	}
-
 
 
 	public String getPreferAddr() {
@@ -137,11 +94,9 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setPreferAddr(String preferAddr) {
 		this.preferAddr = preferAddr;
 	}
-
 
 
 	public String getMemTel() {
@@ -149,11 +104,9 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setMemTel(String memTel) {
 		this.memTel = memTel;
 	}
-
 
 
 	public String getMemEmail() {
@@ -161,23 +114,9 @@ public class MemberRegRequest {
 	}
 
 
-
 	public void setMemEmail(String memEmail) {
 		this.memEmail = memEmail;
 	}
-
-
-
-	public MultipartFile getMemPhoto() {
-		return memPhoto;
-	}
-
-
-
-	public void setMemPhoto(MultipartFile memPhoto) {
-		this.memPhoto = memPhoto;
-	}
-
 
 
 	public void makeMemBirth() {
@@ -187,14 +126,15 @@ public class MemberRegRequest {
 		this.memBirth = memBirth;
 		};
 	
-	
-	// 생성용 toMember
+
+	// 업데이트용 toMember
 	public Member toMember() {
-		return new Member(0,
-				memId,	// ID
+		return new Member(
+				memIdx,
+				null,	// ID
 				nickName,
-				memPassword, //password
-				memName, // name
+				null, //password
+				null, // name
 				memBirth,
 				memGender,
 				preferAddr,
@@ -206,18 +146,12 @@ public class MemberRegRequest {
 	}
 
 
-
 	@Override
 	public String toString() {
-		return "MemberRegRequest [memId=" + memId + ", nickName=" + nickName + ", memPassword=" + memPassword
-				+ ", memName=" + memName + ", year=" + year + ", month=" + month + ", day=" + day + ", memBirth="
-				+ memBirth + ", memGender=" + memGender + ", preferAddr=" + preferAddr + ", memTel=" + memTel
-				+ ", memEmail=" + memEmail + ", memPhoto=" + memPhoto + "]";
+		return "MemberUpdateRequest [memIdx=" + memIdx + ", nickName=" + nickName + ", year=" + year + ", month="
+				+ month + ", day=" + day + ", memBirth=" + memBirth + ", memGender=" + memGender + ", preferAddr="
+				+ preferAddr + ", memTel=" + memTel + ", memEmail=" + memEmail + "]";
 	}
 
-	
 
-	
-	
-	
 }

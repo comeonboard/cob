@@ -22,6 +22,12 @@
  		select count(*) from member1 where memId=#{id}
  	</select>
  	
+ 	<select id="selectByPw"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where memPassword=#{memPassword}
+ 	</select>
+ 	
  	<select id="selectByNickName"
  			resultType="int"
  	>
@@ -29,13 +35,13 @@
  	</select>
  	
  	<select id="selectByIdPw"
- 			resultType="com.bitcamp.cob.member.domain.Member"
+ 			resultType="com.bitcamp.cob.member.domain.LoginInfo"
  	>
  		select * from member1 where memId=#{param1} and memPassword=#{param2}
  	</select>
  	
 	<select id="selectByIdx"
- 			resultType="com.bitcamp.cob.member.domain.Member"
+ 			resultType="com.bitcamp.cob.member.domain.LoginInfo"
  	>
  		select * from member1 where memIdx=#{param1}
  	</select>
@@ -55,7 +61,22 @@
  				where memIdx=#{memIdx}						
  	</update>
  	
+ 	<update id="updateMemPhoto"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set memPhoto=#{memPhoto}
+ 				where memIdx=#{memIdx}						
+ 	</update>
+ 	
+ 	<update id="updatePwById"
+ 			parameterType="com.bitcamp.cob.member.domain.Member"
+ 	>
+ 		update member1 set memPassword=#{memPassword}
+ 				where memId=#{memId}						
+ 	</update>
+ 	
  	<delete id="deleteMember"
+ 			parameterType="int"
 	>
 		delete from member1 where memIdx=#{memIdx}
 	</delete>
