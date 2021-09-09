@@ -25,17 +25,16 @@ function makeRedirect(){
 
         <div class="container">
             <a href="<c:url value='/'/>"><img src="<c:url value='/images/logo_white.png'/>" class="logo"></a>
-        </div>
-
-
-        <div class="nav_main_wrap">
             <div class="nav_main">
                 <ul class="right_ul font_white">
-                    <li>모임</li>
-                    <li>게시판</li>
-                    <li>카페</li>
-                    <li>게임</li>    
+                    <li><a href="<c:url value='/group/groupList'/>">모임</a></li>
+                    <li><a href="<c:url value='/cafe/cafe_list'/>">카페</a></li>
+                    <li>게시판</li>    
+                    <li>보드게임</li>   
                 </ul>
             </div>
         </div>
+
+
+
     </header>

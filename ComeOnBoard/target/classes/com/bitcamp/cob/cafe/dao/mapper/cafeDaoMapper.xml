@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mybatis mapper 선언 -->
+<!DOCTYPE mapper
+ 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- mapper 경로 -->	
+<mapper namespace="com.bitcamp.cob.cafe.dao.CafeDao">
+
+<!-- 결과값을 전달할 객체 등록 - Cafe -->
+<resultMap type="com.bitcamp.cob.cafe.domain.Cafe" id="cafeListResult">
+	<!-- 식별값 id = pk -->
+	<id column="cafeIdx" property="cafeIdx" />
+	<result column="memIdx" property="memIdx" />
+	<result column="cafeName" property="cafeName" />
+	<result column="cafeAddress" property="cafeAddress" />
+	<result column="cafeTime" property="cafeTime" />
+	<result column="stdFee" property="stdFee" />
+	<result column="tenPerFee" property="tenPerFee" />
+	<result column="fourTable" property="fourTable" />
+	<result column="grpTable" property="grpTable" />
+	<result column="cafeTel" property="cafeTel" />
+	<result column="cafeRating" property="cafeRating" />
+</resultMap>
+<!--
+<parameterMap type="com.bitcamp.cob.cafe.domain.Cafe" id="cafeInfo">
+	<parameter property="cafeIdx" />
+	<parameter property="memIdx" />
+	<parameter property="cafeName" />
+	<parameter property="cafeAddress" />
+	<parameter property="cafeTime" />
+	<parameter property="stdFee" />
+	<parameter property="tenPerFee" />
+	<parameter property="fourTable" />
+	<parameter property="grpTable" />
+	<parameter property="cafeTel" />
+	<parameter property="cafeRating" />
+</parameterMap>
+-->
+<!-- sql tag 식별은 인터페이스 메소드명과 일치 -->
+<!-- 매개변수는 param1 param2로 구분, 매개변수가 많아지면 객체나 Map으로 -->
+<!-- 리스트 출력을 위한 select -->
+
+<!-- 정렬 방식에 따른 카페 리스트 select -->
+<select id="cafeListBySort"
+		parameterType="com.bitcamp.cob.cafe.domain.CafePaging"
+		resultMap="cafeListResult">
+	select * from boardgamecafe order by ${searchType} limit #{startNum}, #{endNum}
+</select>
+
+<!-- 검색어 입력에 따른 카페 리스트 select -->
+<select id="cafeListByKeyword"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeSearchType"
+		resultMap="cafeListResult">
+	select * from boardgamecafe 
+	
+	<where>
+		<if test="searchType == 'cafeName'">
+			<include refid="cafeName"></include>
+		</if>
+		
+		<if test="searchType == 'cafeAdderss'">
+			<include refid="cafeAddress"></include>
+		</if>
+		
+		<if test="searchType == 'both'">
+			<include refid="cafeName"></include>
+			<include refid="cafeAddress"></include>
+		</if>
+		
+	</where>
+		
+</select>
+
+<sql id="cafeName">
+	or cafeName like concat('%',  #{keyword}, '%')
+</sql>
+<sql id="cafeAddress">
+	or cafeAddress like concat('%',  #{keyword}, '%')
+</sql>
+
+<!-- 페이징 처리를 위한 전체 카페의 수 -->
+<select id="getCafeTotalCnt"
+		resultType="int">
+	select count(*) from boardgamecafe
+</select>
+
+<!-- 카페 페이지 -->
+<select id="getCafeInfo"
+		resultMap="cafeListResult">
+	select * from boardgamecafe where cafeIdx = #{cafeIdx}		
+</select>
+
+
+<!-- 카페 리뷰 리스트 -->
+<select id="getCafeReview"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReviewPaging"
+		resultType="com.bitcamp.cob.cafe.domain.CafeReview">
+	select * from cafereview where cafeIdx = #{cafeIdx}	
+</select>
+		
+<!-- 카페 리뷰 작성 -->
+<insert id="writeCafeReview"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReview">
+	insert into cafereview (cafeIdx, memIdx, revContent, revRating) values (#{cafeIdx}, #{memIdx}, #{revContent}, #{revRating})
+</insert>
+
+<!-- 카페 정보 등록 -->
+<insert id="cafeReg"
+		parameterType="com.bitcamp.cob.cafe.domain.Cafe"
+		useGeneratedKeys="true"  
+		keyProperty="cafeIdx">
+	insert into boardgamecafe (memIdx, cafeName, cafeAddress, cafeTime, stdFee, tenPerFee, fourTable, grpTable, cafeTel)
+	values (#{memIdx}, #{cafeName}, #{cafeAddress}, #{cafeTime}, #{stdFee}, #{tenPerFee}, #{fourTable}, #{grpTable}, #{cafeTel})	
+</insert>
+		
+
+
+
+
+
+</mapper>

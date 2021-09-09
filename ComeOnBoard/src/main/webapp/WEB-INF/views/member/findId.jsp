@@ -22,6 +22,7 @@
                 $(this).addClass('current');
                 $('.form_find').removeClass('on');
                 $('#'+tab_id).addClass('on');
+				return false;
             });
         });
             
@@ -256,13 +257,11 @@
 </style>
 <body>
     <div class="wrap">
-        <header>
-            <a href="index.html">
-                <div class="area_logo">
-                    <img src="full_logo.png">
-                </div>
-            </a>
-        </header>
+        <div class="area_logo">
+	        <a href="<c:url value='/'/>">
+	        	<img src="/cob/images/logo_full.png">
+	        </a>
+   		</div>
         <div id="container">
 
             <h2> - 아이디 찾기 - </h2>

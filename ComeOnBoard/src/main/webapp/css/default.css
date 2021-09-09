@@ -22,7 +22,8 @@
         color: black;
     }
 
-    .nav_top a {
+    .nav_top a,
+    .nav_main a {
         color: white;
     }
     body {
@@ -76,16 +77,6 @@
         margin-left: -90px;
     }
 
-
-    .nav_main_wrap {
-        display: block;
-        margin: 0 auto;
-        width: 100%;
-        max-width: 1280px;
-        height: 80px;
-        margin-top: -98px;
-        padding-bottom: 10px;
-    }
     .nav_main {
         padding-top: 45px;
     }
