@@ -10,17 +10,15 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Come on, Board </title>
-
+<%@ include file="/WEB-INF/views/frame/metaheader.jsp"%>
 <!-- taglib 코어태그 선언 후 href 경로 설정(경로의 유연성) -->
 <link rel="stylesheet" href="<c:url value="/css/groupList.css"/>">
 
 <script type="text/javascript"
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
-<!-- 공통 헤더 부분.jsp파일이기 땜에 include사용 -->
-<%@ include file="/WEB-INF/views/frame/footer.jsp"%>
-<%@ include file="/WEB-INF/views/frame/header.jsp"%>
-<%@ include file="/WEB-INF/views/frame/metaheader.jsp"%>
+
+
 
 
 
@@ -47,7 +45,7 @@
 
 
 <body>
-
+	<%@ include file="/WEB-INF/views/frame/header.jsp"%>
 
 
 	<div id="wrap">
@@ -248,6 +246,7 @@
 
 							</div>
 							</div>
+		<%@ include file="/WEB-INF/views/frame/footer.jsp"%>
 </body>
 
 </html>
