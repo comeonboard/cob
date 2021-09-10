@@ -28,7 +28,7 @@
                         <li><a href="<c:url value='/group/groupList'/>"><img src="/cob/images/meet.png"><br>모 임</a></li>
                         <li><a href="<c:url value='/cafe/cafe_list'/>"><img src="/cob/images/cafe.png"><br>보드게임카페</a></li>              
                         <li><a href="#"><img src="/cob/images/board.png"><br>게시판</a></li>
-                        <li><a href="#"><img src="/cob/images/game.png"><br>보드게임</a></li>
+                        <li><a href="<c:url value='/game/gamelist'/>"><img src="/cob/images/game.png"><br>보드게임</a></li>
                     </ul>
     
                 </div>
