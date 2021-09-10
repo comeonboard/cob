@@ -99,14 +99,14 @@ CREATE TABLE `project`.`cafereview` (
   constraint fk_memIdx_cafereview foreign key(memIdx) references member1(memIdx)
   );
   
-  drop table gamelist;
-  create table project.gamelist(
+ drop table gamelist;
+  create table gamelist(
     gameIdx int auto_increment primary key,
-    gameName varchar(50) not null,
+    gameName varchar(50) unique not null,
     gameSort varchar(20) not null,
     gamePerson varchar(30) ,
     gameTime varchar(30) ,
-    gameLmtAge int,
+    gameLmtAge varchar(10),
     gamePublisher varchar(30),
     gamePubDate varchar(20),
     gamePhoto varchar(255) default 'photo.png',
@@ -116,7 +116,7 @@ CREATE TABLE `project`.`cafereview` (
 );
 
 drop table gamereview;
-CREATE TABLE `project`.`gamereview` (
+CREATE TABLE `gamereview` (
   `revIdx` INT NOT NULL auto_increment primary key,
   `gameIdx` INT NOT NULL,
   `memIdx` INT NOT NULL,
