@@ -44,9 +44,7 @@
  			resultType="com.bitcamp.cob.member.domain.LoginInfo"
  	>
  		select * from member1 where memIdx=#{param1}
- 	</select>
- 	
- 	
+ 	</select>	
  	
  	
  	<update id="updateMember"
@@ -79,5 +77,40 @@
  			parameterType="int"
 	>
 		delete from member1 where memIdx=#{memIdx}
+	</delete>
+	
+	
+	<select id="selectFollowFriendByIdx"
+ 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+ 	>
+ 		
+ 		select *, (select count(*) from friends where memIdxFollow = #{param1}) as friendChk from member1 m, friends f where memIdxFollow =#{param1} and m.memIdx = f.memIdxFollowing	 
+ 	</select>
+ 	
+ 		<select id="selectFollowingFriendByIdx"
+ 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+ 	>
+ 		
+ 		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{param1}) as followChk from member1 m where memIdx = any (select memIdxFollow from friends where memIdxFollowing = #{param1}); 
+ 	</select>
+	
+	<!-- 친구 관련 Rest mapper  -->
+	<insert id="postFriend"
+			parameterType="int"
+	>
+		insert into friends (memIdxFollow, memIdxFollowing) value(#{param1}, #{param2});
+	</insert>
+	<select id="getFriend"
+			parameterType="int"
+			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+	>
+		select *, (select count(*) from friends where memIdxFollow = #{memIdx} and memIdxFollowing = #{frIdx}) as friendChk from member1 where memIdx = #{frIdx};
+
+	</select>
+	
+	<delete id="deleteFriend"
+			parameterType="int"
+	>
+		delete from friends where memIdxFollow = #{memIdx} and memIdxFollowing = #{frIdx};
 	</delete>
 </mapper>

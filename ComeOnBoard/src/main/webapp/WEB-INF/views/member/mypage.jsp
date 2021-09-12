@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<c:if test="${empty loginChk}">
+<c:if test="${empty loginInfo}">
 <script>
 function makeRedirect(){
 	var redirectUri = window.location.href;
@@ -23,10 +23,75 @@ function makeRedirect(){
 <meta charset="UTF-8">
 <title>Come on, Board: my page</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
 	$(document).ready(function() {
+
+		// 친구 리스트 불러오기 
+		var friendList = getFriendList();
+		
+		// 친구 등록하기
+		$('#btn_reg_friend').on('click', function(){
+				var url = '<c:url value="/members/"/>'+'${loginInfo.memIdx}'+'/friends/'+$(this).attr('data-friend');
+				console.log(url);
+				$.ajax({
+					url : url,
+					type : 'POST',
+					async: false,
+					success : function(data) {
+						if (data>0) {
+							alert('친구로 등록되었습니다.');
+							$('#area_friend_info').addClass('display_none');
+							getFriendList();
+						} 
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});		
+		}); 
+		
+		// 친구  삭제하기 
+		$('#btn_delete_friend').on('click', function(){
+			if(confirm('정말 삭제하시겠습니까?')){
+				var deleteUrl = '<c:url value="/members/friends"/>';
+				var frIdx = $(this).attr('data-friend');
+				console.log(deleteUrl);	
+				$.ajax({
+					url : deleteUrl,
+					type : 'POST',
+					data : {
+						memIdx : '${loginInfo.memIdx}',
+						frIdx : frIdx
+						},
+					success : function(data) {
+						if (data>0) {
+							alert('친구 삭제가 완료되었습니다.');
+							$('#area_friend_info').addClass('display_none');
+							getFriendList();
+						} 
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});
+			}
+			
+		});
+		
+		// 친구 목록으로 이동
+		$('#extra_friend_view').on('click',function(){
+			var url = '<c:url value="/members/"/>'+'${loginInfo.memIdx}'+"/friends";
+			$('#form_memIdx').attr("action", url);
+			$('#form_memIdx').submit();
+		});
+		
 		// 프로필 사진 변경 화면 띄우기
 		$('#btn_update_photo').on('click', function(){
 			$('#area_update_photo').removeClass('display_none');
@@ -645,15 +710,19 @@ function makeRedirect(){
     #friends {
         text-align: left;
     }
-    #friend_nickname {
+    .friend_nickname {
         width: 250px;
+        padding-left: 20px;
+        font-weight: 500;
+        font-size: 18px;
     }
 
-    #friend_photo {
-        width: 60px;
+    .friend_photo {
+        width : 100%;
+        height: 100%;
     }
 
-    #friend_profile_frame {
+    .friend_profile_frame {
         width: 45px;
         height: 45px;
         border-radius: 70%;
@@ -667,20 +736,27 @@ function makeRedirect(){
         height: 40px;
     }
 
-    #extra_view {
+    .extra_view {
         margin-top: 3px;
+        margin-right: 10px;
         float: right;
         background-color: rgb(251,188,5);
         color: black;
     }
 
-    .area_friend {
-        display: none;
+    #area_friend_info {
         position: absolute;
-        width: 300px;
+        width: 400px;
         height: 400px;
         background-color: rgb(245, 246, 247);
         border-radius: 10px;
+        z-index: 50;
+    }
+    
+   #area_friend_info table{
+		display: block;
+        width: 300px;
+		margin: 15px auto;
     }
 
     .area_friend button {
@@ -703,7 +779,7 @@ function makeRedirect(){
     }
 
     #friend_info_profile_frame {
-        margin: 0 auto;
+        margin: 15px auto;
         width: 100px;
         height: 100px;
         border-radius: 70%;
@@ -919,6 +995,20 @@ function makeRedirect(){
 		height: 100%;
 		text-align: left;
     }
+    
+    .friend_photo {
+    	width: 100%;
+    	height: 100%;
+    }
+    
+    #table_friend {
+    	text-align: left;
+    }
+    
+    #table_friend td{
+    	border-bottom: 1px solid #aaa;
+    }
+    
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
@@ -1043,42 +1133,44 @@ function makeRedirect(){
                         </div>
                     </li>
                     <li>
-                        <div class="mypage_menu">
-                            <h2>쪽지함</h2>
-                            <table class="message_table">
-                                <tr>
-                                    <td>친구1</td>
-                                    <td class="message_text">쪽지내용1</td>
-                                    <td>21.09.28</td>
-                                </tr>
-                                <tr>
-                                    <td>친구2</td>
-                                    <td class="message_text">쪽지내용2</td>
-                                    <td>21.09.28</td>
-                                </tr>
-                                <tr>
-                                    <td>친구3</td>
-                                    <td class="message_text">쪽지내용3</td>
-                                    <td>21.09.28</td>
-                                </tr>
-                                <tr>
-                                    <td>친구4</td>
-                                    <td class="message_text">쪽지내용4</td>
-                                    <td>21.09.28</td>
-                                </tr>
-                                <tr>
-                                    <td>친구5</td>
-                                    <td class="message_text">쪽지내용5</td>
-                                    <td>21.09.28</td>
-                                </tr>
-                                <tr>
-                                    <td>친구6</td>
-                                    <td class="message_text">쪽지내용6</td>
-                                    <td>21.09.28</td>
-                                </tr>
-
+                        <div id="area_friend" class="mypage_menu">
+                            <h2>친구 관리</h2>
+                            <div id="area_friend_info" class="display_none">
+                                <div id="friend_info_profile_frame">
+                                </div>
+                                <table>
+                                    <tr>
+                                        <td class="col1">닉네임</td>
+                                        <td id="friend_nickName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">생 일</td>
+                                        <td id="friend_memBirth"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">성 별</td>
+                                        <td id="friend_memGender"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">포인트</td>
+                                        <td class="col2">7200</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col1">선호지역</td>
+                                        <td id="friend_preferAddr"></td>
+                                    </tr>
+                    
+                                </table>
+                                <button id="btn_send_msg">쪽지보내기</button>
+                                <button id="btn_reg_friend" class="display_none">친구 등록</button>
+                                <button id="btn_delete_friend" class="display_none">친구 삭제</button>
+                                <button class="btn_close">창닫기</button>
+                            </div>
+                            <table id="table_friend">
                             </table>
-                            <button id="extra_view">더 보기</button>
+                            <button id="extra_friend_view" class="extra_view">더 보기</button>
+                            
+                            
                         </div>
                     </li>
                     <li>
@@ -1140,124 +1232,9 @@ function makeRedirect(){
                     </li>
                     <li>
                         <div class="mypage_menu">
-                            <div id="friend1" class="area_friend">
-                                <div id="friend_info_profile_frame">
-                                </div>
-                                <table>
-                                    <tr>
-                                        <td class="col1">닉네임</td>
-                                        <td class="col2">미니언즈_밥</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">생 일</td>
-                                        <td class="col2">01.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">성 별</td>
-                                        <td class="col2">남</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">포인트</td>
-                                        <td class="col2">7200</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">선호게임</td>
-                                        <td class="col2">라스베가스</td>
-                                    </tr>
-                    
-                                </table>
-                                <button>쪽지보내기</button>
-                                <button class="friend_close">창닫기</button>
-                            </div>
-                            <div id="friend2" class="area_friend">
-                                <div id="friend_info_profile_frame">
-                                </div>
-                                <table>
-                                    <tr>
-                                        <td class="col1">닉네임</td>
-                                        <td class="col2">미니언즈_케빈</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">생 일</td>
-                                        <td class="col2">01.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">성 별</td>
-                                        <td class="col2">남</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">포인트</td>
-                                        <td class="col2">7200</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">선호게임</td>
-                                        <td class="col2">라스베가스</td>
-                                    </tr>
-                    
-                                </table>
-                                <button>쪽지보내기</button>
-                                <button class="friend_close">창닫기</button>
-                            </div>
-                            <div id="friend3" class="area_friend">
-                                <div id="friend_info_profile_frame">
-                                </div>
-                                <table>
-                                    <tr>
-                                        <td class="col1">닉네임</td>
-                                        <td class="col2">미니언즈_스튜어트</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">생 일</td>
-                                        <td class="col2">01.01.01</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">성 별</td>
-                                        <td class="col2">남</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">포인트</td>
-                                        <td class="col2">7200</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col1">선호게임</td>
-                                        <td class="col2">라스베가스</td>
-                                    </tr>
-                    
-                                </table>
-                                <button>쪽지보내기</button>
-                                <button class="friend_close">창닫기</button>
-                            </div>
-                            
+                                                        
                             <h2>친구 관리</h2>
  
-                            <table id="friends">
-                                <tr>
-                                    <td id="friend_photo">
-                                        <div id="friend_profile_frame">
-                                        </div>
-                                    </td>
-                                    <td id="friend_nickname">미니언즈_밥</td>
-                                    <td><button class="btn_read_friend" data-friend="friend1">정보 보기</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="friend_photo">
-                                        <div id="friend_profile_frame">
-                                        </div>
-                                    </td>
-                                    <td id="friend_nickname">미니언즈_케빈</td>
-                                    <td><button id="freind_button" class="btn_read_friend" data-friend="friend2">정보 보기</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="friend_photo">
-                                        <div id="friend_profile_frame">
-            
-                                        </div>
-                                    </td>
-                                    <td id="friend_nickname" >미니언즈_스튜어트</td>
-                                    <td><button data-friend="friend3" class="btn_read_friend">정보 보기</button></td>
-                                </tr>
-                            </table>
-                            <button id="extra_view">더 보기</button>
                         </div>
                     </li>
                     <li>
@@ -1268,7 +1245,7 @@ function makeRedirect(){
                         </div>
                     </li>
                 </ul>
-            
+        <form id="form_memIdx" method="post"><input name="memIdx" type="hidden" value="${loginInfo.memIdx}"></form>
         </div>
 
     </div>
@@ -1290,6 +1267,76 @@ function makeRedirect(){
 	  }
 	}
 </script>
+<script>
+	//친구 리스트 불러오기
+	function getFriendList(){
+		var friendList = null;
+		var url = '<c:url value="/members/"/>'+'${loginInfo.memIdx}'+"/friends/follow";
+		$.ajax({
+			url: url,
+			type : 'get',
+			data : {memIdx : '${loginInfo.memIdx}'},
+			dataType: 'json',
+			async: false,
+			success : function(data) {
+				friendList = data;
+				$('#table_friend').empty();
+				$.each(data, function(index, item){
+					if(index > 2) {return false};
+					var html = '<tr>';
+                    html += '<td class="friend_memPhoto">'
+                    html += '<div class="friend_profile_frame">'
+                    html += '<img class="friend_photo" src="<c:url value="/uploadfile/member/"/>'+item.memPhoto+'">'
+                    html += '</div>'
+                   	html += '</td>'
+                   	html += '<td class="friend_nickname">'+item.nickName+'</td>'
+                   	html += '<td><button class="btn_read_friend" data-friend="'+item.memIdx+'">정보 보기</button></td>'
+                   	html += '</tr>'
+                   		
+                   	$('#table_friend').append(html);
+					});	
+				
+				
 
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
+		
+		$('.btn_read_friend').on('click', function(){
+			$('#area_friend_info').removeClass('display_none');
+			var frIdx = $(this).attr('data-friend');
+			
+			var friend = friendList.find((friend) => {
+				return friend.memIdx == frIdx;
+			});
+			
+			var memPhoto = friend.memPhoto;
+			$('#friend_info_profile_frame').html('<img class="photo" src="<c:url value="/uploadfile/member/"/>'+friend.memPhoto+'">')
+			$('#friend_nickName').html(friend.nickName);
+			$('#friend_memBirth').html(friend.memBirth);
+			$('#friend_memGender').html(friend.memGender);
+			$('#friend_preferAddr').html(friend.preferAddr);
+			if(friend.friendChk>0){
+				$('#btn_delete_friend').attr('data-friend', frIdx);		
+				$('#btn_delete_friend').removeClass('display_none');
+				$('#btn_reg_friend').addClass('display_none');
+			} else {
+				$('#btn_reg_friend').attr('data-friend', frIdx);
+				$('#btn_reg_friend').removeClass('display_none');
+				$('#btn_delete_friend').addClass('display_none');
+			}
+			$('#btn_send_msg').attr('data-friend', frIdx);
+		});
+		
+		
+		
+		return friendList;
+	}
+</script>
 
 </html>

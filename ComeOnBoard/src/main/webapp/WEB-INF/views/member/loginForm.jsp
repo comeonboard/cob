@@ -163,7 +163,7 @@
 						reid : reid
 					},
 					success : function(data) {
-						if (data == "false") {
+						if (!data) {
 							$('#area_msg').removeClass('display_none');
 							$('#area_msg').html('아이디, 비밀번호가 일치하지 않습니다. <br> 다시 입력해주세요.');
 						} else {

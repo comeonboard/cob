@@ -36,7 +36,6 @@ public class LoginService {
 		dao = template.getMapper(MemberDao.class);
 		
 		LoginInfo loginInfo = dao.selectByIdPw(id, pw);
-		
 		if(loginInfo != null) {
 			// 로그인 처리
 			session.setAttribute("loginInfo", loginInfo);

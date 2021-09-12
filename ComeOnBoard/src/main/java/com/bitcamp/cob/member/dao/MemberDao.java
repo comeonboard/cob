@@ -1,9 +1,12 @@
 package com.bitcamp.cob.member.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.bitcamp.cob.member.domain.LoginInfo;
 import com.bitcamp.cob.member.domain.Member;
+import com.bitcamp.cob.member.domain.MemberInfo;
 
 public interface MemberDao {
 	
@@ -37,5 +40,18 @@ public interface MemberDao {
 	// 탈퇴, 아이디 삭제
 	int deleteMember(int memIdx);
 	
+	// 나를 팔로우 하고 있는 친구 리스트 불러오기
+	List<MemberInfo> selectFollowingFriendByIdx(int memIdx);
+	
+	// 나를 팔로우 하고 있는 친구 리스트 불러오기
+	List<MemberInfo> selectFollowFriendByIdx(int memIdx);
+	
+	// 친구 정보 삭제하기
+	int deleteFriend(@Param("memIdx")int memIdx, @Param("frIdx")int frIdx);
+	
+	// 친구 정보 불러오기
+	MemberInfo getFriend(@Param("memIdx")int memIdx, @Param("frIdx")int frIdx);
+	// 친구 등록 
+	int postFriend(int memIdx, int frIdx);
 
 }

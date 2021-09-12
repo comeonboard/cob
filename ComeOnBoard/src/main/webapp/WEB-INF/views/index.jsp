@@ -32,7 +32,7 @@
                     </ul>
     
                 </div>
-                <div class="nav_board">
+                <!--   <div class="nav_board">
                     <ul>
                         <li><a href="#">서 울</a></li>
                         <li><a href="#">경 기</a></li>
@@ -43,7 +43,7 @@
                         <li><a href="#">경 남</a></li>
                         <li><a href="#">제 주</a></li>
                     </ul>
-                </div>
+                </div> -->
             </div>
 
         </div>
