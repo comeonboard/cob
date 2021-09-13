@@ -16,7 +16,7 @@ function makeRedirect(){
 	makeRedirect();
 </script>
 
-</c:if>   
+</c:if>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,39 +30,15 @@ function makeRedirect(){
 		// 친구 리스트 불러오기 
 		var friendList = getFriendList();
 		
-		// 친구 등록하기
-		$('#btn_reg_friend').on('click', function(){
-				var url = '<c:url value="/members/"/>'+'${loginInfo.memIdx}'+'/friends/'+$(this).attr('data-friend');
-				console.log(url);
-				$.ajax({
-					url : url,
-					type : 'POST',
-					async: false,
-					success : function(data) {
-						if (data>0) {
-							alert('친구로 등록되었습니다.');
-							$('#area_friend_info').addClass('display_none');
-							getFriendList();
-						} 
-					},
-					error : function(request, status, error) {
-						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
-						console.log(request);
-						console.log(status);
-						console.log(error);
-					}
-				});		
-		}); 
-		
 		// 친구  삭제하기 
 		$('#btn_delete_friend').on('click', function(){
 			if(confirm('정말 삭제하시겠습니까?')){
-				var deleteUrl = '<c:url value="/members/friends"/>';
 				var frIdx = $(this).attr('data-friend');
-				console.log(deleteUrl);	
+				var deleteUrl = '<c:url value="/friends/"/>'+frIdx;
+
 				$.ajax({
 					url : deleteUrl,
-					type : 'POST',
+					type : 'delete',
 					data : {
 						memIdx : '${loginInfo.memIdx}',
 						frIdx : frIdx
@@ -1162,7 +1138,6 @@ function makeRedirect(){
                     
                                 </table>
                                 <button id="btn_send_msg">쪽지보내기</button>
-                                <button id="btn_reg_friend" class="display_none">친구 등록</button>
                                 <button id="btn_delete_friend" class="display_none">친구 삭제</button>
                                 <button class="btn_close">창닫기</button>
                             </div>
@@ -1321,15 +1296,9 @@ function makeRedirect(){
 			$('#friend_memBirth').html(friend.memBirth);
 			$('#friend_memGender').html(friend.memGender);
 			$('#friend_preferAddr').html(friend.preferAddr);
-			if(friend.friendChk>0){
-				$('#btn_delete_friend').attr('data-friend', frIdx);		
-				$('#btn_delete_friend').removeClass('display_none');
-				$('#btn_reg_friend').addClass('display_none');
-			} else {
-				$('#btn_reg_friend').attr('data-friend', frIdx);
-				$('#btn_reg_friend').removeClass('display_none');
-				$('#btn_delete_friend').addClass('display_none');
-			}
+			$('#btn_delete_friend').attr('data-friend', frIdx);		
+			$('#btn_delete_friend').removeClass('display_none');
+			$('#btn_reg_friend').addClass('display_none');
 			$('#btn_send_msg').attr('data-friend', frIdx);
 		});
 		

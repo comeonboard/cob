@@ -11,54 +11,52 @@
 <script>
 	$(document).ready(function(){
 		var fr = getFriendList();
-
+		let tab_id = 'tab1';
+		let memIdx = ${loginInfo.memIdx};
+		console.log(memIdx);
         $('.btn_menu').click(function(){
         	 $('#nickName_popup').hide();
 			 $('.btn_menu').removeClass('bgColor_blue');
-             var tab_id = $(this).attr('data-tab');
+             tab_id = $(this).attr('data-tab');
              
              $('#'+tab_id).addClass('bgColor_blue');
-             if(tab_id == 'tab2'){
-            	 getFollowingFriendList();
-             } else if (tab_id == 'tab1'){
-            	 getFriendList();
-             }
+             if(tab_id == 'tab1'){
+ 				getFriendList();	
+ 			} else if(tab_id == 'tab2'){
+ 				getFollowingFriendList();
+ 			} else if(tab_id == 'tab3'){
+ 				console.log(memIdx);
+ 				getAllMember(memIdx);
+ 			}
         });
         
-     	// 팔로잉 친구 삭제하기
+     	// 친구 팔로우 끊기
      	$(document).on('click', '.btn_delete_friend', function(){
-			var frIdx = $(this).attr('data-friend');
-			if(confirm('정말 삭제하시겠습니까?')){
-				var deleteUrl = '<c:url value="/members/friends"/>';
-				$.ajax({
-					url : deleteUrl,
-					type : 'POST',
-					data : {
-						memIdx : '${loginInfo.memIdx}',
-						frIdx : frIdx
-						},
-					success : function(data) {
-						if (data>0) {
-							alert('친구 삭제가 완료되었습니다.');
-							getFriendList();
-						} 
-					},
-					error : function(request, status, error) {
-						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
-						console.log(request);
-						console.log(status);
-						console.log(error);
-					}
-				});
+			frIdx = $(this).attr('data-friend');
+			deleteFriend(frIdx);
+			if(tab_id == 'tab1'){
+				getFriendList();	
+			} else if(tab_id == 'tab2'){
+				getFollowingFriendList();
 			}
 			
+		});
+     	
+     	// 친구 정보에서 팔로우 끊기
+     	$(document).on('click', '#btn_delete_friend', function(){
+			frIdx = $(this).attr('data-friend');
+			deleteFriend(frIdx);
+			if(tab_id == 'tab1'){
+				getFriendList();	
+			} else if(tab_id == 'tab2'){
+				getFollowingFriendList();
+			}
 		});
 		
      	// 추가 정보 팝업
      	$(document).off('click', '.namespace').on('click', '.namespace', function(e){
         //$('.namespace').unbind('click').bind('click',function(e){
         	let frIdx = $(this).attr('data-friend');
-        	console.log(frIdx);
         	target = $(e.target);
         	var p = $(target).offset();
         	var divTop 	= p.top + 10; //상단 좌표 
@@ -79,6 +77,27 @@
     			$(this).closest('div').hide();
     		});
         });
+        
+        // 목록에서 친구 추가 
+        $(document).on('click', '.btn_reg_friend', function(){
+			var frIdx = $(this).attr('data-friend');
+			regFriend(frIdx);
+			console.log(tab_id);
+			if(tab_id == 'tab2'){
+           	 	getFollowingFriendList();
+			}
+        });
+        
+        // 정보 보기에서 친구 추가
+        $(document).on('click', '#btn_reg_friend', function(){
+			var frIdx = $(this).attr('data-friend');
+			regFriend(frIdx);
+			$('#area_friend_info').hide();
+			if(tab_id == 'tab2'){
+           	 	getFollowingFriendList();
+			}
+        });
+        
    
 
      	
@@ -170,7 +189,7 @@
     }
 
     button {
-    	width: 70px;
+    	width: 90px;
         height: 40px;
         border: none;
         background-color: rgb(66, 133, 244);
@@ -292,9 +311,10 @@
                    </tr>
    
                </table>
-               <button id="btn_send_msg">쪽지보내기</button>
-               <button id="btn_delete_friend">친구 삭제</button>
-               <button class="btn_close">창닫기</button>
+                  <button id="btn_send_msg">쪽지보내기</button>
+                  <button id="btn_reg_friend" class="display_none">친구 등록</button>
+                  <button id="btn_delete_friend" class="display_none">친구 삭제</button>
+                  <button class="btn_close">창닫기</button>
            	</div>
 			<div id="friend_list">
 
@@ -320,7 +340,6 @@
 			url: url,
 			type : 'get',
 			dataType: 'json',
-			async: false,
 			success : function(data) {
 				friendList = data;
 				$('#friend_list').empty();
@@ -357,7 +376,6 @@
 			url: url,
 			type : 'get',
 			dataType: 'json',
-			async: false,
 			success : function(data) {
 				friendList = data;
 				console.log(data);
@@ -391,24 +409,77 @@
 	
 		return friendsList;
 	}
-	
-	
-	//다른 회원 정보 불러오기
-	function getFriend(frIdx){
-		var url = "<c:url value='/members/'/>"+${loginInfo.memIdx}+"/friends/"+frIdx;
+	// 모든 회원 정보 리스트 불러오기
+	function getAllMember(memIdx){
+		var friendsList = null;
+		var url = '<c:url value="/friendslist/"/>'+ memIdx;	
 		$.ajax({
 			url: url,
 			type : 'get',
 			dataType: 'json',
 			success : function(data) {
+				friendList = data;
+				console.log(data);
+				$('#friend_list').empty();
+				$.each(data, function(index, item){
+					var memIdx = item.memIdx;
+					var html = '<ul class=frInfo>';
+					if(item.followChk>0){
+						return;
+					}
+                    html += '<li class="col1"><div class="friend_profile_frame">'
+                    html += '<img class="friend_photo" src="<c:url value="/uploadfile/member/"/>'+item.memPhoto+'">'
+                    html += '</div></li>'
+                   	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
+                   	html += '<li class="col3">'+item.preferAddr+'</li>'
+                   	html += '<li class="col4">'+'선호게임'+'</li>'
+                   	if(item.followChk>0){
+                       	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
+                    } else {
+                    	html += '<li><button class="btn_reg_friend" data-friend="'+memIdx+'">등록</button></li>'
+                    }
+                   	html += '</ul>'
+         			
+        			$('#friend_list').append(html);
+					});	
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
+	
+		return friendsList;
+	}
+	
+	//다른 회원 정보 불러오기
+	function getFriend(frIdx){
+		var url = "<c:url value='/friends/'/>"+frIdx;
+		$.ajax({
+			url: url,
+			type : 'get',
+			data : { memIdx : '${loginInfo.memIdx}'},
+			dataType: 'json',
+			success : function(data) {
 				if(data!=null){
-					console.log(data);
 					$('#friend_info_profile_frame').html('<img class="friend_photo" src="<c:url value="/uploadfile/member/"/>'+data.memPhoto+'">');
 					$('#friend_nickName').html(data.nickName);
 					$('#friend_memBirth').html(data.memBirth);
 					$('#friend_memGender').html(data.memGender);
 					$('#friend_preferGame').html(data.preferGame);
 					$('#friend_preferAddr').html(data.preferAddr);
+					
+					if(data.followChk>0){
+						$('#btn_reg_friend').addClass('display_none');
+						$('#btn_delete_friend').removeClass('display_none');
+						$('#btn_delete_friend').attr("data-friend", data.memIdx);
+					} else {
+						$('#btn_delete_friend').addClass('display_none');
+						$('#btn_reg_friend').removeClass('display_none');
+						$('#btn_reg_friend').attr("data-friend", data.memIdx);
+					}
 				}
 			},
 			error : function(request, status, error) {
@@ -419,5 +490,52 @@
 			}
 		});
 	}
+	// 친구 추가 메소드
+    function regFriend(frIdx){
+    	url = '<c:url value="/friends/"/>'+frIdx;
+    	memIdx = ${loginInfo.memIdx};
+    	$.ajax({
+			url : url,
+			type : 'post',
+			data : { memIdx : '${loginInfo.memIdx}'},
+			success : function(data) {
+				if (data>0) {	
+				 alert('친구 등록이 완료되었습니다.');
+				} 
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
+    };
+    
+    // 친구 팔로우 취소 메소드
+    function deleteFriend(frIdx){
+		if(confirm('정말 삭제하시겠습니까?')){
+			var deleteUrl = '<c:url value="/friends/"/>'+frIdx;
+			$.ajax({
+				url : deleteUrl,
+				type : 'delete',
+				data : {
+					memIdx : '${loginInfo.memIdx}'
+					},
+				success : function(data) {
+					if (data>0) {
+						alert('친구 삭제가 완료되었습니다.');
+					} 
+				},
+				error : function(request, status, error) {
+					alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+					console.log(request);
+					console.log(status);
+					console.log(error);
+				}
+			});
+		}	
+	}
+	
 </script>
 </html>

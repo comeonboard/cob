@@ -104,8 +104,14 @@
 			parameterType="int"
 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
 	>
-		select *, (select count(*) from friends where memIdxFollow = #{memIdx} and memIdxFollowing = #{frIdx}) as friendChk from member1 where memIdx = #{frIdx};
+		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{memIdx}) as FollowChk from member1 m where memIdx = #{frIdx};
 
+	</select>
+	
+	<select id="selectAllMemberByIdx"
+			parameterType="int"
+			resultType="com.bitcamp.cob.member.domain.MemberInfo">
+		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{param1}) as followChk from member1 m;;	
 	</select>
 	
 	<delete id="deleteFriend"

@@ -41,4 +41,9 @@ public class FriendRestService {
 	public List<MemberInfo> getFollowingFriendList(int memIdx) {
 		return template.getMapper(MemberDao.class).selectFollowingFriendByIdx(memIdx);
 	}
+	
+	// 모든 친구 목록 JSON
+	public List<MemberInfo> getAllMember(int memIdx) {
+		return template.getMapper(MemberDao.class).selectAllMemberByIdx(memIdx);
+	}
 }

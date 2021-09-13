@@ -53,5 +53,8 @@ public interface MemberDao {
 	MemberInfo getFriend(@Param("memIdx")int memIdx, @Param("frIdx")int frIdx);
 	// 친구 등록 
 	int postFriend(int memIdx, int frIdx);
+	
+	// 모든 친구 리스트 불러오기
+	List<MemberInfo> selectAllMemberByIdx(int memIdx);
 
 }

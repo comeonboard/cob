@@ -21,23 +21,24 @@ public class FriendController {
 	@Autowired
 	private FriendRestService service;
 	
-	@PostMapping("/members/{memIdx}/friends/{fridx}")
+	
+	@PostMapping("/friends/{fridx}")
 	public int postFriend(
-			@PathVariable("memIdx")int memIdx, // 회원 idx
-			@PathVariable("fridx")int frIdx // 친구 idx 
+			@PathVariable("fridx")int frIdx,
+			Integer memIdx// 회원 idx 
 			){ 
+		System.out.println(memIdx);
 		int result = service.postFriend(memIdx, frIdx);
-		
+
 		return result;
 	}
 	
-	@GetMapping("/members/{memIdx}/friends/{frIdx}")
+	@GetMapping("/friends/{frIdx}")
 	public MemberInfo getFriend(
-			@PathVariable("memIdx")int memIdx,
-			@PathVariable("frIdx")int frIdx) {
+			@PathVariable("frIdx")int frIdx,
+			Integer memIdx
+			){
 		MemberInfo friendInfo = service.getFriend(memIdx, frIdx);
-			
-		System.out.println(friendInfo);
 		
 		return friendInfo;
 	}
@@ -60,9 +61,19 @@ public class FriendController {
 		return list;
 	}
 	
-	@RequestMapping(value="/members/friends", method=RequestMethod.POST)
-	public int deleteFriend(@RequestParam("memIdx")int memIdx,
-							@RequestParam("frIdx")int frIdx){
+	@GetMapping("/friendslist/{memIdx}")
+	public List<MemberInfo> getAllMember(@PathVariable("memIdx")int memIdx){
+		List<MemberInfo> list = null;
+		
+		list = service.getAllMember(memIdx);
+		
+		return list;
+	}
+	
+	
+	@DeleteMapping("/friends/{frIdx}")
+	public int deleteFriend(@PathVariable("frIdx")int frIdx,
+							@RequestParam("memIdx")int memIdx){
 		int result = 0;
 		System.out.println(memIdx);
 		System.out.println(frIdx);
