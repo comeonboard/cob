@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.bitcamp.cob.member.domain.LoginInfo;
 import com.bitcamp.cob.member.domain.Member;
 import com.bitcamp.cob.member.domain.MemberInfo;
+import com.bitcamp.cob.member.domain.RecommendType;
 
 public interface MemberDao {
 	
@@ -54,7 +55,7 @@ public interface MemberDao {
 	// 친구 등록 
 	int postFriend(int memIdx, int frIdx);
 	
-	// 모든 친구 리스트 불러오기
-	List<MemberInfo> selectAllMemberByIdx(int memIdx);
+	// 추천 친구 리스트 불러오기
+	List<MemberInfo> recommendMemberByIdx(RecommendType recommendType);
 
 }

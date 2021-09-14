@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.bitcamp.cob.member.dao.MemberDao;
 import com.bitcamp.cob.member.domain.MemberInfo;
+import com.bitcamp.cob.member.domain.RecommendType;
 
 @Service
 public class FriendRestService {
@@ -42,8 +43,8 @@ public class FriendRestService {
 		return template.getMapper(MemberDao.class).selectFollowingFriendByIdx(memIdx);
 	}
 	
-	// 모든 친구 목록 JSON
-	public List<MemberInfo> getAllMember(int memIdx) {
-		return template.getMapper(MemberDao.class).selectAllMemberByIdx(memIdx);
+	// 친구 추천 목록 JSON
+	public List<MemberInfo> getRecommendFriend(RecommendType recommendType) {
+		return template.getMapper(MemberDao.class).recommendMemberByIdx(recommendType);
 	}
 }

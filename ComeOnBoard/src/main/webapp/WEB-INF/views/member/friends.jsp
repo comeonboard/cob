@@ -26,7 +26,7 @@
  				getFollowingFriendList();
  			} else if(tab_id == 'tab3'){
  				console.log(memIdx);
- 				getAllMember(memIdx);
+ 				getRecommendFriendByAddr(memIdx, '${loginInfo.preferAddr}');
  			}
         });
         
@@ -105,6 +105,14 @@
 
 </script>
 <style>
+	h2 {
+		margin: 20px 40px;
+		padding: 5px;
+		border-radius: 10px;
+		background-color : rgb(52,168,83);
+		color: white;
+		font-size:18px;
+	}
 	.area_friend_list {
 		margin: 40px auto;
 		width: 900px;
@@ -317,7 +325,10 @@
                   <button class="btn_close">창닫기</button>
            	</div>
 			<div id="friend_list">
-
+				<h2>나와 선호지역이 같은 회원</h2>
+					<div id="area_friend_preferAddr"></div>
+				<h2>나와 선호게임이 같은 회원</h2>
+					<div id="area_friend_preferGame"></div>
 			</div>	
 			<!-- 친구 이름 클릭시 팝업 -->
 			<div id="nickName_popup">
@@ -378,7 +389,6 @@
 			dataType: 'json',
 			success : function(data) {
 				friendList = data;
-				console.log(data);
 				$('#friend_list').empty();
 				$.each(data, function(index, item){
 					var memIdx = item.memIdx;
@@ -409,18 +419,32 @@
 	
 		return friendsList;
 	}
-	// 모든 회원 정보 리스트 불러오기
-	function getAllMember(memIdx){
+	// 추천 친구 리스트 불러오기
+	function getRecommendFriendByAddr(memIdx, preferAddr){
 		var friendsList = null;
-		var url = '<c:url value="/friendslist/"/>'+ memIdx;	
+		var url = '<c:url value="/friends/recommendFriends/"/>'+ memIdx;
+		var recommendType =  {
+				memIdx : memIdx,
+				preferAddr : preferAddr,
+				preferGame : "라스베가스"
+			};
+		console.log(preferAddr);
 		$.ajax({
 			url: url,
 			type : 'get',
+			data : recommendType,
 			dataType: 'json',
+			cotentType : 'application/json',
 			success : function(data) {
 				friendList = data;
-				console.log(data);
 				$('#friend_list').empty();
+				var areaHtml = '<h2>나와 선호지역이 같은 회원</h2>';
+				areaHtml += '<div id="area_friend_preferAddr"></div>';
+				areaHtml += '<h2>나와 선호게임이 같은 회원</h2>';
+				areaHtml += '<div id="area_friend_preferGame"></div>';
+				console.log(areaHtml);
+				$('#friend_list').append(areaHtml);
+				
 				$.each(data, function(index, item){
 					var memIdx = item.memIdx;
 					var html = '<ul class=frInfo>';
@@ -440,7 +464,7 @@
                     }
                    	html += '</ul>'
          			
-        			$('#friend_list').append(html);
+        			$('#area_friend_preferAddr').append(html);
 					});	
 			},
 			error : function(request, status, error) {

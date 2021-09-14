@@ -271,3 +271,7 @@
     .color_grey {
     	color: #777;
     }
+    
+   	.button:hove {
+   		cursor: pointer;
+   	}

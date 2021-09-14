@@ -19,8 +19,7 @@ public class IdCheckController {
 	@RequestMapping(value="/member/idCheck", method=RequestMethod.POST)
 	@ResponseBody
 	public String idCheck(
-			@RequestParam("mid") String uid,
-			Model model
+			@RequestParam("mid") String uid
 			) {
 		String chk = "Y";
 		chk = checkService.idCheck(uid);
@@ -29,13 +28,14 @@ public class IdCheckController {
 	}
 	
 	@RequestMapping(value="/member/nickNameCheck")
+	@ResponseBody
 	public String nickNameCheck(
 			@RequestParam("nickName") String nickName,
 			Model model
 			) {
 		
-		model.addAttribute("result", checkService.nicknameCheck(nickName));
-		return "member/idcheck";
+		String chk = checkService.nicknameCheck(nickName);
+		return chk;
 	}
 	
 }

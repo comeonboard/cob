@@ -108,10 +108,10 @@
 
 	</select>
 	
-	<select id="selectAllMemberByIdx"
-			parameterType="int"
+	<select id="recommendMemberByIdx"
+			parameterType="com.bitcamp.cob.member.domain.RecommendType"
 			resultType="com.bitcamp.cob.member.domain.MemberInfo">
-		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{param1}) as followChk from member1 m;;	
+		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{memIdx}) as followChk from member1 m where preferAddr = #{preferAddr} and not memIdx = ${memIdx} ;	
 	</select>
 	
 	<delete id="deleteFriend"

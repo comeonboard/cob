@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bitcamp.cob.member.domain.MemberInfo;
+import com.bitcamp.cob.member.domain.RecommendType;
 import com.bitcamp.cob.member.service.FriendRestService;
 
 @RestController
@@ -61,11 +62,14 @@ public class FriendController {
 		return list;
 	}
 	
-	@GetMapping("/friendslist/{memIdx}")
-	public List<MemberInfo> getAllMember(@PathVariable("memIdx")int memIdx){
+	@GetMapping("/friends/recommendFriends/{idx}")
+	public List<MemberInfo> getRecommendFriend(
+			@PathVariable("idx")int memIdx,
+			RecommendType recommendType
+			){
 		List<MemberInfo> list = null;
 		
-		list = service.getAllMember(memIdx);
+		list = service.getRecommendFriend(recommendType);
 		
 		return list;
 	}
@@ -75,8 +79,6 @@ public class FriendController {
 	public int deleteFriend(@PathVariable("frIdx")int frIdx,
 							@RequestParam("memIdx")int memIdx){
 		int result = 0;
-		System.out.println(memIdx);
-		System.out.println(frIdx);
 		
 		result = service.deleteFriend(memIdx, frIdx);	
 		

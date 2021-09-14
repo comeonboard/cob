@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -67,7 +67,7 @@
 	        background-color: #fff;
 	        font-size: 16px;
 	    }
-	
+		
 	    .input_row:focus,
 	    .input_num:focus,
 	    .input_phoneNum:focus {
@@ -112,8 +112,7 @@
 	        border: 1px solid #bbb;
 	    }
 	
-	    .input_phoneNum,
-	    .input_address {
+	    .input_short {
 	        border: 1px solid #bbb;
 	        padding: 7px 35px 10px 11px;
 	        margin-bottom: 5px;
@@ -122,9 +121,8 @@
 	        background-color: #fff;
 	        font-size: 16px;
 	    }
-	
-	    .input_phoneNum+button,
-	    .input_address+button {
+		
+	    .btn_chk {
 	        float: right;
 	        display: block;
 	        height: 48px;
@@ -134,9 +132,6 @@
 	        border-radius: 5px;
 	        background-color: rgb(66, 133, 244);
 	        font-size: 14px;
-	    }
-	    #phoneNum_input {
-	        height: 120px;
 	    }
 	
 	    #input_memberphoto {
@@ -181,6 +176,10 @@
 	    #msg_nickName {
 	    	display: block;
 	    	height: 25px;
+	    }
+	    
+	    #btn_chk_number {
+	    	background-color: rgb(52,168,83);
 	    }
 	
 	</style>
@@ -342,6 +341,14 @@
 					}
 				});
 			});
+			
+			// 이메일  체크 초기화
+			$('#input_email').focusin(function() {
+				$('#msg_email').removeClass('color_blue');
+				$('#msg_email').removeClass('color_red');
+				$('#msg_email').html('');
+				$(this).val('');
+			});
 			// 우편번호 찾기 
 			$('#btn_address').click(function(){
 			  new daum.Postcode({
@@ -369,7 +376,6 @@
 			    
 			    	    $('#preferAddr').val(preferAddrArray[0]+' '+preferAddrArray[1]);
 
-			    	    
 			        }
 			    }).open();
 
@@ -440,14 +446,16 @@
 
                 <div class="input_area">
                     <p>본인 확인 이메일<span class="required"> *</span></p>
-                    <input type="text" class="input_row" placeholder="ex) cob@cob.com" name="memEmail" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$" required>
+                    <input type="text" id="input_email"class="input_short" placeholder="ex) cob@cob.com" name="memEmail" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$" required>
+                    <button type="button" id="btn_chk_email" class="btn_chk" onclick="sendEmail()">인증번호 받기</button>
+                    <span id="msg_email" class="msg"></span>
+                    <input type="text" class="input_short" placeholder="인증번호 입력">
+                    <button type="button" id="btn_chk_number" class="btn_chk">인증번호 확인</button>
                 </div>
 
-                <div id="phoneNum_input" class="input_area">
+                <div class="input_area">
                     <p>휴대전화<span class="required"> *</span></p>
-                    <input type="text" class="input_phoneNum" placeholder="전화번호 입력" name="memTel" pattern="^\d{3}-\d{3,4}-\d{4}$" required>
-                    <button>인증번호 받기</button>
-                    <input type="text" class="input_row" placeholder="인증번호 입력">
+                    <input type="text" class="input_row" placeholder="전화번호 입력" name="memTel" pattern="^\d{3}-\d{3,4}-\d{4}$" required>
                 </div>
 
                 <div class="input_area">
@@ -459,8 +467,8 @@
 
                 <div id="address_area" class="input_area">
                   <p>선호 지역(주소 선택시 구까지 자동 입력)</p>
-                  <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호" readonly>
-                  <button id="btn_address">우편 번호</button>
+                  <input type="text" id="postCode" name="postCode" class="input_short" placeholder="우편 번호" readonly>
+                  <button id="btn_address" type="button" class="btn_chk">우편 번호</button>
                   <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
                   <input type="text" id="preferAddr" name="preferAddr" class="input_row" placeholder="선호 지역" readonly>
                 </div>
@@ -470,4 +478,38 @@
         </form>   
     </div>
 </body>
+<script>
+	function sendEmail(){
+		let email = $('#input_email').val();
+		let emailChk = isEmail(email);
+
+		if(emailChk){
+			$('#msg_email').html('인증번호가 전송 되었습니다. 인증번호를 입력해주세요.');
+			$('#msg_email').addClass('color_blue');
+				
+			$.ajax({
+				type: "post",
+				url: '<c:url value="/members/email"/>',
+				data: { memEmail : email},
+				success: function(data){},
+				error : function(request, status, error) {
+					alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+					console.log(request);
+					console.log(status);
+					console.log(error);
+				}
+			});
+		} else {
+			$('#msg_email').html('형식에 맞지 않는 아이디입니다. 다시 입력해주세요.');
+			$('#msg_email').addClass('color_red');
+		}
+	}
+	
+	function isEmail(email){
+		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
+		return regExp.test(email);
+	}
+	
+	
+</script>
 </html>
