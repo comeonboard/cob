@@ -272,6 +272,10 @@
     	color: #777;
     }
     
-   	.button:hove {
+   	button:hover {
    		cursor: pointer;
    	}
+   	
+   	.loadingimg {
+   		width: 30px;
+    }

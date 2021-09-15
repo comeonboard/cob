@@ -15,41 +15,53 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
         $(document).ready(function(){
+
             $('#btn_find_id').on('click', function(){
             	let memName = $('#memName').val();
             	let memEmail = $('#memEmail').val();
-           		$.ajax({
-   					url: '<c:url value="/member/findId"/>',
-   					type : 'post',
-   					data : {
-   						"memName" : memName,
-   						"memEmail" : memEmail
-   					},
-   					success : function(data) {
-   						if (data.length>0) {
-   							console.log(data);
-   							console.log(data.length);
-   							$('#container').hide();
-   							$('#wrap_area_find_id').show();
-   							$('#area_resultCnt').html('총 '+data.length+'개의 아이디가 검색되었습니다.')
-   							$('#hidden_name').val(memName);
-   							$.each(data, function(index, item){
-   								var html = '<div class="resultId"><input type="radio" name="memId" id="'+item+'" value="'+item+'">';
-   								html += '<label for="'+item+'">'+item+'</label><br>';
-   								html += '</div><hr>'
-   								$('#area_id').append(html);
-   							});
-   						} else {
-   							alert('입력하신 정보와 일치하는 아이디가 없습니다.');
-   						}
-   					},
-   					error : function(request, status, error) {
-   						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
-   						console.log(request);
-   						console.log(status);
-   						console.log(error);
-   					}
-            	});
+            	console.log(memName.length);
+            	if(memName.length<1){
+            		alert('이름을 입력해주세요.');
+            	} else if(memEmail.length<1) {
+            		alert('이메일을 입력해주세요.')
+            	} else {
+            		$.ajax({
+       					url: '<c:url value="/member/findId"/>',
+       					type : 'post',
+       					data : {
+       						"memName" : memName,
+       						"memEmail" : memEmail
+       					},
+       					success : function(data) {
+       						$('#loading_find_id').addClass('display_none');
+       						if (data.length>0) {
+       							$('#container').hide();
+       							$('#wrap_area_find_id').show();
+       							$('#area_resultCnt').html('총 '+data.length+'개의 아이디가 검색되었습니다.')
+       							$('#hidden_name').val(memName);
+       							$('#hidden_memEmail').val(memEmail);
+       							$.each(data, function(index, item){
+       								var html = '<div class="resultId"><input type="radio" name="memId" id="'+item+'" value="'+item+'">';
+       								html += '<label for="'+item+'">'+item+'</label><br>';
+       								html += '</div><hr>'
+       								$('#area_id').append(html);
+       							});
+       						} else {
+       							alert('입력하신 정보와 일치하는 아이디가 없습니다.');
+       						}
+       					},
+       					beforeSend : function() {
+       						$('#loading_find_id').removeClass('display_none');
+       					},
+       					error : function(request, status, error) {
+       						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+       						console.log(request);
+       						console.log(status);
+       						console.log(error);
+       					}
+                	});	
+            	}
+           		
             });
         });
             
@@ -297,6 +309,10 @@
 	.resultId input {
 		margin: 0 10px;
 	}
+	
+   	.loadingimg {
+   		width: 30px;
+    }
 </style>
 <body>
     <div class="wrap">
@@ -314,9 +330,10 @@
                 <input type="text" id="memName" name="memName" class="input_row" placeholder="이름">
             </div>
 
-            <div id="input_area" class="input_area">
+            <div class="input_area">
                 <p>이메일 주소</p>
                 <input type="text" id="memEmail" name="memEmail" class="input_row" placeholder="메일 주소 입력">
+            	<img id="loading_find_id" class="loadingimg display_none" alt="loading" src="<c:url value='/images/loading.gif'/>">
             </div>   
             <button type = "button" id="btn_find_id">아이디 찾기</button>
 
@@ -327,11 +344,11 @@
         		<h2>가입한 아이디 정보</h2>
         			<div id="area_resultCnt"></div>
         			<div id="area_id"></div>
-        			<input type="hidden" id="hidden_name" name="memId">
-        			<button id="btn_find_pw">해당 아이디 비밀번호 찾기</button>
+        			<input type="hidden" id="hidden_name" name="memName">
+        			<input type="hidden" id="hidden_memEmail" name="memEmail">
+        			<button id="btn_find_pw">선택한 아이디의 비밀번호 찾기</button>
         		</form>   		
         	</div>
-        
         </div>
     </div>
 </body>

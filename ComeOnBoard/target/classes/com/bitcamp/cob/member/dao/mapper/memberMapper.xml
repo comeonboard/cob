@@ -46,11 +46,18 @@
  	</select>	
  	
  	<select id="getMemId"
+ 			parameterType="com.bitcamp.cob.member.domain.FindIdPwInfo"
  			resultType="String"
  	>
- 		select memId from member1 where memEmail=#{param1}
+ 		select memId from member1 where memName=#{memName} and memEmail=#{memEmail}
  	</select>
  	
+ 	<select id="getMemPw"
+ 			parameterType="com.bitcamp.cob.member.domain.FindIdPwInfo"
+ 			resultType="int"
+ 	>
+ 		select count(*) from member1 where memId=#{memId} and memEmail=#{memEmail} and memName=#{memName};
+ 	</select>
  	
  	<update id="updateMember"
  			parameterType="com.bitcamp.cob.member.domain.Member"
@@ -86,14 +93,14 @@
 	
 	
 	<select id="selectFollowFriendByIdx"
- 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+ 		resultType="com.bitcamp.cob.member.domain.MemberInfo"
  	>
  		
  		select *, (select count(*) from friends where memIdxFollow = #{param1}) as friendChk from member1 m, friends f where memIdxFollow =#{param1} and m.memIdx = f.memIdxFollowing	 
  	</select>
  	
- 		<select id="selectFollowingFriendByIdx"
- 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+ 	<select id="selectFollowingFriendByIdx"
+ 		resultType="com.bitcamp.cob.member.domain.MemberInfo"
  	>
  		
  		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{param1}) as followChk from member1 m where memIdx = any (select memIdxFollow from friends where memIdxFollowing = #{param1}); 

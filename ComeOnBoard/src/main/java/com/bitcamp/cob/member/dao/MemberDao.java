@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.bitcamp.cob.member.domain.FindIdPwInfo;
 import com.bitcamp.cob.member.domain.LoginInfo;
 import com.bitcamp.cob.member.domain.Member;
 import com.bitcamp.cob.member.domain.MemberInfo;
@@ -59,6 +60,8 @@ public interface MemberDao {
 	List<MemberInfo> recommendMemberByIdx(RecommendType recommendType);
 	
 	// 이메일로 ID 찾기
-	List<String> getMemId(String memEmail);
+	List<String> getMemId(FindIdPwInfo findIdPwInfo);
+	// 이메일로 PW 찾기
+	int getMemPw(FindIdPwInfo findIdPwInfo);
 
 }

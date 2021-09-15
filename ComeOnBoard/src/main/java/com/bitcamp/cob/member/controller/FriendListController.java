@@ -15,16 +15,5 @@ public class FriendListController {
 		
 		return "member/friends";
 	}
-	
-	// RestController로 이동
-	/* @ResponseBody
-	@RequestMapping("/member/friendList")
-	public List<MemberInfo> getFriendList(int memIdx){
-		List<MemberInfo> list = null;
-		
-		list = service.getFriendList(memIdx);
-		
-		return list;
-	} */
 
 }

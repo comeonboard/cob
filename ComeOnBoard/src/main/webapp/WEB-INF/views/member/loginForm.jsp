@@ -14,6 +14,11 @@
 			alert('회원가입을 축하합니다.');
 		</script>
 	</c:if>
+	<c:if test="${updatePassword > 0 }">
+		<script>
+			alert('비밀번호가 변경되었습니다.<br>다시 로그인해주세요.')
+		</script>
+	</c:if>
 </head>
 
 <style>

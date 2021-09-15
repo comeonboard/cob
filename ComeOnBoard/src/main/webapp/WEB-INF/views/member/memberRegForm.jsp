@@ -181,10 +181,6 @@
 	    #btn_cert_number {
 	    	background-color: rgb(52,168,83);
 	    }
-		
-		#email_loading {
-			display : block;
-		}
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -454,7 +450,7 @@
                 </div>
                 <div class="input_area">
                     <input type="password" id="memPassword" name="memPassword" class="input_row" placeholder="비밀번호" required>
-                	<span id="msg_pw" class="msg color_grey"> 영문, 숫자, 특수문자 조합, 8-12자리</span>
+                	<span id="msg_pw" class="msg color_grey"> 영문, 숫자, 특수문자 각 1회 이상, 8-16자리</span>
                 </div>
                 <div class="input_area">
                     <input type="password" id="memRePw" name="memRePw" class="input_row" placeholder="비밀번호 확인" required>
@@ -494,7 +490,7 @@
                     <input type="text" id="input_email"class="input_short" placeholder="ex) cob@cob.com" name="memEmail" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$" required>
                     <button type="button" id="btn_chk_email" class="btn_chk" onclick="sendEmail()">인증번호 받기</button>
                     <span id="msg_email" class="msg"></span>
-                    <img id="email_loading" class="loadingimg display_none" alt="loading" src="<c:url value='/images/loading.gif'/>">
+                    <img id="email_loading" class="loadingimg display_none" alt="loading" src="<c:url value='/images/loading.gif'/>"><br>
                     <input type="text" id="input_certNum" class="input_short" placeholder="인증번호 입력">
                     <button type="button" id="btn_cert_number" class="btn_chk">인증번호 확인</button>
                 	<span id="msg_cert_number" class="msg"></span>
