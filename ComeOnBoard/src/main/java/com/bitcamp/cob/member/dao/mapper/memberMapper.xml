@@ -10,9 +10,8 @@
 			useGeneratedKeys="true"
 			keyProperty="memIdx"
 	>
-	
-	insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, preferAddr, memTel, memEmail, memPhoto) 
-	value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{preferAddr}, #{memTel}, #{memEmail}, #{memPhoto});	
+			insert into member1 (memId, nickName, memPassword, memName, memBirth, memGender, preferAddr, memTel, memEmail, memPhoto) 
+			value (#{memId}, #{nickName}, #{memPassword}, #{memName}, #{memBirth}, #{memGender}, #{preferAddr}, #{memTel}, #{memEmail}, #{memPhoto});	
 	
 	</insert>
 	
@@ -45,6 +44,12 @@
  	>
  		select * from member1 where memIdx=#{param1}
  	</select>	
+ 	
+ 	<select id="getMemId"
+ 			resultType="String"
+ 	>
+ 		select memId from member1 where memEmail=#{param1}
+ 	</select>
  	
  	
  	<update id="updateMember"

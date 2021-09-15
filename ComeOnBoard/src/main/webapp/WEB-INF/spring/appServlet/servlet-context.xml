@@ -44,14 +44,14 @@
 		<beans:property name="defaultEncoding" value="utf-8"/>
 		<beans:property name="javaMailProperties">
 			<beans:props>
-			<beans:prop key="mail.transport.protocal">smtp</beans:prop>
+			<beans:prop key="mail.transport.protocol">smtp</beans:prop>
 			<beans:prop key="mail.smtp.auth">true</beans:prop>
 			<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
 			<beans:prop key="mail.debug">true</beans:prop>
 			
 			<beans:prop key="mail.smtp.ssl.trust">smtp.gmail.com</beans:prop>
 			<beans:prop key="mail.smtp.starttls.required">true</beans:prop>
-			<beans:prop key="mail.smtp.ssl.protocals">TLSv1.2</beans:prop>
+			<beans:prop key="mail.smtp.ssl.protocols">TLSv1.2</beans:prop>
 			<beans:prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</beans:prop>
 			</beans:props>
 		</beans:property>

@@ -32,7 +32,6 @@
    							$('#container').hide();
    							$('#wrap_area_find_id').show();
    							$('#area_resultCnt').html('총 '+data.length+'개의 아이디가 검색되었습니다.')
-   							$('#hidden_name').val(memName);
    							$.each(data, function(index, item){
    								var html = '<div class="resultId"><input type="radio" name="memId" id="'+item+'" value="'+item+'">';
    								html += '<label for="'+item+'">'+item+'</label><br>';
@@ -307,19 +306,25 @@
 	    </div>
         <div id="container">
 
-            <h2> - 아이디 찾기 - </h2>
-
-            <div class="input_area">
-                <p>이름</p>
-                <input type="text" id="memName" name="memName" class="input_row" placeholder="이름">
-            </div>
-
-            <div id="input_area" class="input_area">
-                <p>이메일 주소</p>
-                <input type="text" id="memEmail" name="memEmail" class="input_row" placeholder="메일 주소 입력">
-            </div>   
-            <button type = "button" id="btn_find_id">아이디 찾기</button>
-
+            <h2> - 비밀번호  찾기 - </h2>
+                <form id="form_find_id_by_email" action="read_findId.html">
+                        <div class="input_area">
+                            <p>아이디</p>
+                            <input type="text" id="memId" name="memName" class="input_row" placeholder="아이디" value="${memId}">
+                        </div>
+                        
+                        <div class="input_area">
+                            <p>이름</p>
+                            <input type="text" id="memName" name="memName" class="input_row" placeholder="이름" value="${memName}">
+                        </div>
+        
+                        <div id="input_area" class="input_area">
+                            <p>이메일 주소</p>
+                            <input type="text" id="memEmail" name="memEmail" class="input_row" placeholder="메일 주소 입력">
+                        </div>
+                        
+                        <button type = "button" id="btn_find_id">아이디 찾기</button>
+                </form>
         </div>
         <div id="wrap_area_find_id" style="display:none">
         	<div id="area_find_id">
@@ -327,7 +332,6 @@
         		<h2>가입한 아이디 정보</h2>
         			<div id="area_resultCnt"></div>
         			<div id="area_id"></div>
-        			<input type="hidden" id="hidden_name" name="memId">
         			<button id="btn_find_pw">해당 아이디 비밀번호 찾기</button>
         		</form>   		
         	</div>

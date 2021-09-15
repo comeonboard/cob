@@ -20,9 +20,20 @@ public class EmailCheckController {
 			@RequestParam("memEmail") String memEmail,
 			HttpSession session
 			) {
-		service.sen
+		int result = service.sendEmail(memEmail, session);
 		
-		return 1;
+		return result;
+	}
+	
+	@PostMapping("/members/chkemail")
+	public boolean chkEmail(
+			@RequestParam("inputCertNum") int inputCertNum,
+			HttpSession session
+			) {
+		
+		boolean chk = service.chkEmail(inputCertNum, session);	
+		
+		return chk;
 	}
 	
 }

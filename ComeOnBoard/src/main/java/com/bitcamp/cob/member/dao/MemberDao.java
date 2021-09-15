@@ -57,5 +57,8 @@ public interface MemberDao {
 	
 	// 추천 친구 리스트 불러오기
 	List<MemberInfo> recommendMemberByIdx(RecommendType recommendType);
+	
+	// 이메일로 ID 찾기
+	List<String> getMemId(String memEmail);
 
 }
