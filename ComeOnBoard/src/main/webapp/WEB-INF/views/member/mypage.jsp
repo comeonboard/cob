@@ -26,6 +26,51 @@ function makeRedirect(){
 
 <script>
 	$(document).ready(function() {
+		
+		//내 기본 정보 가져오기
+		$.ajax({
+			url : '<c:url value="/members/"/>'+'${loginInfo.memIdx}',
+			type : 'get',
+			data : { memIdx : '${loginInfo.memIdx}'},
+			success : function(data){
+				if (data != null) {
+					console.log(data);
+					var preferGameList = data['preferGame'];
+					console.log(preferGameList);
+					for(var i=0; i < preferGameList.length; i++){
+						console.log(preferGameList[i]);
+					}
+					$('#Info_nickName').html(data.nickName);
+					$('#Info_memGender').html(data.memGender);
+					$('#Info_memBirth').html(data.memBirth);
+					$('#Info_preferAddr').html(data.preferAddr);
+				} 	
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
+		
+		/* 정보 불러올때 같이 가져옴
+		//내 선호게임 리스트 가져오기
+		$.ajax({
+			url : '<c:url value="/members/"/>'+${loginInfo.memIdx}+'/game',
+			type : 'get',
+			success : function(data) {
+				if (data.length>0) {
+					//console.log(data);
+				} 
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		}); */
 
 		// 친구 리스트 불러오기 
 		var friendList = getFriendList();
@@ -75,7 +120,6 @@ function makeRedirect(){
 			// 기본 사진으로 변경
 			$('#btn_memPhoto_default').on('click', function(){
 				var loginInfo = '${loginInfo}';
-				console.log(loginInfo);
 				$.ajax({
 
 					url : '<c:url value="/member/deleteMemPhoto"/>',
@@ -146,16 +190,21 @@ function makeRedirect(){
 					url : '<c:url value="/member/pwCheck"/>',
 					type : 'post',
 					data : {
+						memId : '${loginInfo.memId}',
 						memPassword : $('#oldPassword').val()
 					},
 					success : function(data) {
 						if (data) {
 							$('#msg_oldPw').html('비밀번호가 일치합니다.');
 							$('#msg_oldPw').addClass('color_blue');
+							$('#msg_oldPw').removeClass('color_grey');
+							$('#msg_oldPw').removeClass('color_red');
 							pwCheck = true;
 						} else {
 							$('#msg_oldPw').html('비밀번호가 일치하지 않습니다.<br>다시 입력해주세요.');
 							$('#msg_oldPw').addClass('color_red');
+							$('#msg_oldPw').removeClass('color_grey');
+							$('#msg_oldPw').removeClass('color_blue');
 						}
 					},
 					error : function(request, status, error) {
@@ -195,18 +244,20 @@ function makeRedirect(){
 			
 			// 비밀번호 일치 체크
 			$('#memRePw').focusout(function(){
-				
-				if ($('#memRePw').val() == $('#memPassword').val()) {
+				if ($('#memRePw').val().length>0 && $('#memRePw').val() == $('#memPassword').val()) {
 					$('#msg_repw').removeClass('display_none');
 					$('#msg_repw').html('비밀번호가 일치합니다.');
 					$('#msg_repw').addClass('color_blue');
 					$('#msg_repw').removeClass('color_grey');
+					$('#msg_repw').removeClass('color_red');
 					pwEqCheck = true;
 				} else {
 					$('#msg_repw').removeClass('display_none');
 					$('#msg_repw').html('비밀번호가 일치하지 않습니다.');
 					$('#msg_repw').addClass('color_red');
 					$('#msg_repw').removeClass('color_grey');
+					$('#msg_repw').removeClass('color_blue');
+					pWEqCheck = false;
 				}
 				
 			});
@@ -214,28 +265,38 @@ function makeRedirect(){
 			// ----------------------------------------------------------
 			$('#btn_updatePassword').on('click', function(){
 				if(pwCheck){
-					console.log('gg');
-					$.ajax({
-						url : '<c:url value="/member/updatePw"/>',
-						type : 'post',
-						data : {
-							memId : '${loginInfo.memId}',
-							memPassword : $('#memPassword').val()
-						},
-						success : function(data) {
-							if (data>0) {
-								alert('비밀번호가 변경되었습니다.');
-								$('#area_update_password').addClass('display_none');
-							} 
-						},
-						error : function(request, status, error) {
-							alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
-							console.log(request);
-							console.log(status);
-							console.log(error);
-						}
-					});	
-					
+					if(pwEqCheck){
+						var oldPw = $('#oldPassword').val();
+						var newPw = $('#memPassword').val();
+						
+						if(oldPw == newPw){
+							alert('기존 비밀번호와 같은 비밀번호로 변경할 수 없습니다.');
+						} else {
+							$.ajax({
+								url : '<c:url value="/member/updatePw"/>',
+								type : 'post',
+								data : {
+									memId : '${loginInfo.memId}',
+									memPassword : $('#memPassword').val()
+								},
+								success : function(data) {
+									if (data>0) {
+										alert('비밀번호가 변경되었습니다.');
+										$('#area_update_password').addClass('display_none');
+									} 
+								},
+								error : function(request, status, error) {
+									alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+									console.log(request);
+									console.log(status);
+									console.log(error);
+								}
+							});		
+						}	
+					} else {
+						alert('새로운 비밀번호가 일치한지 확인해주세요.');
+					}
+	
 				} else {
 					alert('기존 비밀번호를 먼저 확인해주세요.');
 				}
@@ -273,7 +334,7 @@ function makeRedirect(){
 		
 		// 정보 수정
 		$('#btn_update_profile').click(function(){
-			var memBirth = '${loginInfo.memBirth}'
+			var memBirth = $('#Info_memBrith').val();
 			if(memBirth != null){
 				var memBirthArray = memBirth.split('-');
 				var year = memBirthArray[0];
@@ -283,7 +344,7 @@ function makeRedirect(){
 				var day = memBirthArray[2].substring(0,2);
 				$('#day').val(day);
 			}
-			$('.genderSelect').val('${loginInfo.memGender}').attr("selected", "selected");
+			$('.genderSelect').val('').attr("selected", "selected");
 			$('#update_my_info').removeClass('display_none');
 		
 			// 우편번호 찾기 
@@ -611,7 +672,8 @@ function makeRedirect(){
     }
 
     .member_profile td {
-        width: 80px;
+        width: 120px;
+        height: 25px;
     }
 
     .area_update_profile {
@@ -1001,23 +1063,19 @@ function makeRedirect(){
                                 <table>
                                     <tr>
                                         <td>별 명</td>
-                                        <td id="Info_nickName">${loginInfo.nickName}</td>
+                                        <td id="Info_nickName"></td>
                                     </tr>
                                     <tr> 
                                         <td>성 별</td>
-                                        <td id="Info_memGender">${loginInfo.memGender}</td>              
+                                        <td id="Info_memGender"></td>              
                                     </tr>
                                     <tr>
                                         <td>생년월일</td>
-                                        <td id="Info_memBirth"><fmt:formatDate pattern="yyyy-MM-dd" value="${loginInfo.memBirth}"/></td>
-                                    </tr>
-                                    <tr> 
-                                        <td>e-mail</td>
-                                        <td id="Info_memEmail">${loginInfo.memEmail}</td>                      
+                                        <td id="Info_memBirth"></td>
                                     </tr>
                                     <tr> 
                                         <td>선호 지역</td>
-                                        <td id="Info_preferAddr">${loginInfo.preferAddr}</td>                   
+                                        <td id="Info_preferAddr" class="my_info"></td>                   
                                     </tr>
                                 </table>
                             </div>
@@ -1066,7 +1124,7 @@ function makeRedirect(){
 
                                         <div class="input_area">
                                             <p>닉네임</p>
-                                            <input type="text" id="nickName" class="input_row" value="${loginInfo.nickName}">
+                                            <input type="text" id="nickName" class="input_row">
                                         </div>
                         
                                         <div class="input_area">
@@ -1084,12 +1142,12 @@ function makeRedirect(){
                         
                                         <div class="input_area">
                                             <p>본인 확인 이메일</p>
-                                            <input type="text" id="memEmail" class="input_row" value="${loginInfo.memEmail}">
+                                            <input type="text" id="memEmail" class="input_row" value="">
                                         </div>
                         
                                         <div id="phoneNum_input" class="input_area">
                                             <p>휴대전화</p>
-                                            <input type="text" id="memTel" class="input_phoneNum" value="${loginInfo.memTel}">
+                                            <input type="text" id="memTel" class="input_phoneNum" value="">
                                             <button>인증번호 받기</button>
                                             <input type="text" class="input_row" placeholder="인증번호 입력">
                                         </div>
@@ -1099,7 +1157,7 @@ function makeRedirect(){
 						                   <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호" readonly>
 						                   <button id="btn_address">우편 번호</button>
 						                   <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
-						                   <input type="text" id="preferAddr" class="input_row" placeholder="선호 지역" value="${loginInfo.preferAddr}"readonly>
+						                   <input type="text" id="preferAddr" class="input_row" placeholder="선호 지역" readonly>
 						                 </div>
                                     </form>
                                     <button id="btn_updateMember" type="button">수정하기</button>
@@ -1146,6 +1204,14 @@ function makeRedirect(){
                             <button id="extra_friend_view" class="extra_view">더 보기</button>
                             
                             
+                        </div>
+                    </li>
+                    
+                    <li>
+                        <div class="mypage_menu">
+                                                        
+                            <h2>내 게임</h2>
+ 
                         </div>
                     </li>
                     <li>
@@ -1205,13 +1271,7 @@ function makeRedirect(){
                             </table>
                         </div>
                     </li>
-                    <li>
-                        <div class="mypage_menu">
-                                                        
-                            <h2>친구 관리</h2>
- 
-                        </div>
-                    </li>
+
                     <li>
                         <div class="mypage_menu">
                             <h2>카페 관리</h2>

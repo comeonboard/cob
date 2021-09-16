@@ -19,7 +19,7 @@ public interface MemberDao {
 	int selectById(String memId);
 	
 	// 비밀번호 확인
-	int selectByPw(String memPassword);
+	int selectPwById(@Param("memId")String memId, @Param("memPassword")String memPassword);
 	
 	// 닉네임 중복값 체크
 	int selectByNickName(String nickName);
@@ -51,8 +51,9 @@ public interface MemberDao {
 	// 친구 정보 삭제하기
 	int deleteFriend(@Param("memIdx")int memIdx, @Param("frIdx")int frIdx);
 	
-	// 친구 정보 불러오기
-	MemberInfo getFriend(@Param("memIdx")int memIdx, @Param("frIdx")int frIdx);
+	// 회원 정보 불러오기
+	MemberInfo getMember(@Param("memIdx")int memIdx, @Param("idx")int idx);
+	
 	// 친구 등록 
 	int postFriend(int memIdx, int frIdx);
 	
@@ -63,5 +64,7 @@ public interface MemberDao {
 	List<String> getMemId(FindIdPwInfo findIdPwInfo);
 	// 이메일로 PW 찾기
 	int getMemPw(FindIdPwInfo findIdPwInfo);
-
+	
+	// 선호게임 이름 불러오기
+	List<String> getPreferGame(int memIdx);
 }

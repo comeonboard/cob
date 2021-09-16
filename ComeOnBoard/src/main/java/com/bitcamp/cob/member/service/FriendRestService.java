@@ -22,9 +22,12 @@ public class FriendRestService {
 	}
 
 	// 친구 정보 보기
-	public MemberInfo getFriend(int memIdx, int frIdx) {
-		
-		return template.getMapper(MemberDao.class).getFriend(memIdx, frIdx);
+	public MemberInfo getMember(int memIdx, int idx) {
+		MemberDao dao = template.getMapper(MemberDao.class);
+		MemberInfo memberInfo = dao.getMember(memIdx, idx);
+		List<String> preferGame = dao.getPreferGame(memIdx);
+		memberInfo.setPreferGame(preferGame);
+		return memberInfo;
 	}
 	// 친구 등록 
 	public int postFriend(int memIdx, int frIdx) {
@@ -45,6 +48,20 @@ public class FriendRestService {
 	
 	// 친구 추천 목록 JSON
 	public List<MemberInfo> getRecommendFriend(RecommendType recommendType) {
-		return template.getMapper(MemberDao.class).recommendMemberByIdx(recommendType);
+		MemberDao dao = template.getMapper(MemberDao.class);
+		List<MemberInfo> list = dao.recommendMemberByIdx(recommendType);
+		
+		// 멤버에 해당하는 선호게임 리스트 불러오기
+		for(int i=0; i<list.size(); i++) {
+			int memIdx = list.get(i).getMemIdx();
+			List<String> preferGame = dao.getPreferGame(memIdx);
+			list.get(i).setPreferGame(preferGame);
+		}
+		return list;
+	}
+	
+	//선호 게임 목록 
+	public List<String> getPreferGame(int memIdx){
+		return template.getMapper(MemberDao.class).getPreferGame(memIdx);
 	}
 }

@@ -26,7 +26,7 @@
  				getFollowingFriendList();
  			} else if(tab_id == 'tab3'){
  				console.log(memIdx);
- 				getRecommendFriendByAddr(memIdx, '${loginInfo.preferAddr}');
+ 				getRecommendFriendByAddr(memIdx, '서울 도봉구');
  			}
         });
         
@@ -351,6 +351,7 @@
 			url: url,
 			type : 'get',
 			dataType: 'json',
+			async: 'false',
 			success : function(data) {
 				friendList = data;
 				$('#friend_list').empty();
@@ -421,14 +422,14 @@
 	}
 	// 추천 친구 리스트 불러오기
 	function getRecommendFriendByAddr(memIdx, preferAddr){
+		
+	
 		var friendsList = null;
 		var url = '<c:url value="/friends/recommendFriends/"/>'+ memIdx;
 		var recommendType =  {
 				memIdx : memIdx,
-				preferAddr : preferAddr,
-				preferGame : "라스베가스"
+				preferAddr : preferAddr
 			};
-		console.log(preferAddr);
 		$.ajax({
 			url: url,
 			type : 'get',
@@ -437,12 +438,12 @@
 			cotentType : 'application/json',
 			success : function(data) {
 				friendList = data;
+				console.log(data);
 				$('#friend_list').empty();
 				var areaHtml = '<h2>나와 선호지역이 같은 회원</h2>';
 				areaHtml += '<div id="area_friend_preferAddr"></div>';
 				areaHtml += '<h2>나와 선호게임이 같은 회원</h2>';
 				areaHtml += '<div id="area_friend_preferGame"></div>';
-				console.log(areaHtml);
 				$('#friend_list').append(areaHtml);
 				
 				$.each(data, function(index, item){

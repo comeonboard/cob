@@ -1,6 +1,7 @@
 package com.bitcamp.cob.member.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,6 +16,7 @@ public class MemberInfo {
 	private String preferAddr;
 	private String memPhoto;
 	private int followChk;
+	private List<String> preferGame;
 	
 	public int getMemIdx() {
 		return memIdx;
@@ -66,12 +68,22 @@ public class MemberInfo {
 	public void setFollowChk(int followChk) {
 		this.followChk = followChk;
 	}
+	
+	public List<String> getPreferGame() {
+		return preferGame;
+	}
+	public void setPreferGame(List<String> preferGame) {
+		this.preferGame = preferGame;
+	}
+	
 	@Override
 	public String toString() {
 		return "MemberInfo [memIdx=" + memIdx + ", nickName=" + nickName + ", memName=" + memName + ", memBirth="
 				+ memBirth + ", memGender=" + memGender + ", preferAddr=" + preferAddr + ", memPhoto=" + memPhoto
-				+ ", followChk=" + followChk + "]";
+				+ ", followChk=" + followChk + ", preferGame=" + preferGame + "]";
 	}
+	
+	
 	
 	
 	

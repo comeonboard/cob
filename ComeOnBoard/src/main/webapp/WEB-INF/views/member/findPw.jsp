@@ -118,6 +118,7 @@
 					$('#msg_repw').html('비밀번호가 일치하지 않습니다.');
 					$('#msg_repw').addClass('color_red');
 					$('#msg_repw').removeClass('color_grey');
+					checkPassword = false;
 				}
 				
 			});

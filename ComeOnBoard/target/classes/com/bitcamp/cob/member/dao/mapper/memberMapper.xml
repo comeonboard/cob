@@ -21,10 +21,10 @@
  		select count(*) from member1 where memId=#{id}
  	</select>
  	
- 	<select id="selectByPw"
+ 	<select id="selectPwById"
  			resultType="int"
  	>
- 		select count(*) from member1 where memPassword=#{memPassword}
+ 		select count(*) from member1 where memPassword=#{memPassword} and memId = #{memId}
  	</select>
  	
  	<select id="selectByNickName"
@@ -112,11 +112,11 @@
 	>
 		insert into friends (memIdxFollow, memIdxFollowing) value(#{param1}, #{param2});
 	</insert>
-	<select id="getFriend"
+	<select id="getMember"
 			parameterType="int"
 			resultType="com.bitcamp.cob.member.domain.MemberInfo"
 	>
-		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{memIdx}) as FollowChk from member1 m where memIdx = #{frIdx};
+		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{memIdx}) as FollowChk from member1 m where memIdx = #{idx};
 
 	</select>
 	
@@ -131,4 +131,14 @@
 	>
 		delete from friends where memIdxFollow = #{memIdx} and memIdxFollowing = #{frIdx};
 	</delete>
+	
+
+	<!-- 선호 게임 리스트 만들기 -->
+	<select id="getPreferGame"
+			parameterType="int"
+			resultType="String"
+	>
+	 	select distinct gameName from gamelist g join prefergame p where g.gameIdx = p.gameIdx and memIdx = ${memIdx};
+	</select> 
+
 </mapper>

@@ -1,7 +1,5 @@
 package com.bitcamp.cob.member.service;
 
-import javax.servlet.http.HttpSession;
-
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +14,12 @@ public class PwCheckService {
 	@Autowired
 	private SqlSessionTemplate template;
 
-	public int pwCheck(String pw) {
+	public int pwCheck(String mid, String pw) {
 		int result = 0;
 		
 		dao = template.getMapper(MemberDao.class);
 		
-		result = dao.selectByPw(pw);
+		result = dao.selectPwById(mid, pw);
 
 		return result;
 	}

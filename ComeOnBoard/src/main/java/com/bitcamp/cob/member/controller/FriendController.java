@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bitcamp.cob.member.domain.MemberInfo;
@@ -34,14 +35,14 @@ public class FriendController {
 		return result;
 	}
 	
-	@GetMapping("/friends/{frIdx}")
+	@GetMapping("/members/{idx}")
 	public MemberInfo getFriend(
-			@PathVariable("frIdx")int frIdx,
+			@PathVariable("idx")int idx,
 			Integer memIdx
 			){
-		MemberInfo friendInfo = service.getFriend(memIdx, frIdx);
+		MemberInfo memberInfo = service.getMember(memIdx, idx);
 		
-		return friendInfo;
+		return memberInfo;
 	}
 	
 	@GetMapping("/members/{memIdx}/friends/follow")

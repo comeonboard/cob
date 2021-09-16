@@ -37,9 +37,7 @@ public class LoginService {
 		
 		LoginInfo loginInfo = dao.selectByIdPw(id, pw);
 		if(loginInfo != null) {
-			// 로그인 처리
 			session.setAttribute("loginInfo", loginInfo);
-			
 			loginChk = true;
 		}
 		
