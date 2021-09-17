@@ -90,16 +90,16 @@
 	<!-- 게시글의 총 갯수 -->
 	<select id="countPost" resultType="int">
 		<if test="!(postSort!=null and postSort!='')">
-			select count(*) from post;
+			select count(*) from post
 		</if>
 		<if test="postSort!=null and postSort!=''">
-			select count(*) from post where postSort = #{postSort};
+			select count(*) from post where postSort = #{postSort}
 		</if>
 	</select>
 	
 	<!-- 조회수 증가 -->
 	<update id="addViews">
-		update post set views = views + 1 where postIdx = #{postIdx};
+		update post set views = views + 1 where postIdx = #{postIdx}
 	</update>
 	
 	<!-- 게시글 페이징 -->
@@ -108,34 +108,7 @@
 		select * from post order by postIdx desc limit #{start}, #{cntPerPage};
 	</select>
 	
-	<!-- 카테고리 + 페이징 게시글 페이징 -->
-	<select id="selectBySAP"
-		resultMap="postListResult">
-		select * from post where postSort = #{param1} order by postIdx desc limit #{param2.start}, #{param2.cntPerPage};
-	</select>
-	
 	<select id="selectBySearch"
-		parameterType="com.bitcamp.cob.post.domain.SearchType"
-		resultType="com.bitcamp.cob.post.domain.Post"> 
-		select * from post
-		<where>
-			<if test="searchType=='both'">
-				postWriter like concat('%', #{keyword}, '%') 
-				or postContent like concat('%', #{keyword}, '%')
-			</if>
-			<if test="searchType=='title'">
-				postTitle like concat('%', #{keyword}, '%') 
-			</if>
-			<if test="searchType=='content'">
-				postContent like concat('%', #{keyword}, '%') 
-			</if>
-			<if test="searchType=='nickName'">
-				postWriter like concat('%', #{keyword}, '%') 
-			</if>
-		</where>
-	</select>
-	
-	<select id="selectBySearch1"
 		parameterType="java.util.HashMap"
 		resultMap="postListResult"> 
 		select * from post 
@@ -181,6 +154,9 @@
 			<if test="item1.searchType=='nickName'">
 				postSort = #{postSort} and postWriter like concat('%', #{item1.keyword}, '%') 
 				order by postIdx desc limit #{item2.start}, #{item2.cntPerPage}
+			</if>
+			<if test="item1.keyword==null or item1.keyword==''">
+				postSort = #{postSort} order by postIdx desc limit #{item2.start}, #{item2.cntPerPage}
 			</if>
 		</where>
 	</select>

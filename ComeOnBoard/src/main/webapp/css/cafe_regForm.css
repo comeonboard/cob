@@ -90,6 +90,16 @@
         .info_menu{
             margin-top: 50px;
         }
+        
+        #thumbnail>img, #imgs>img {
+			height: 200px;
+			width: 400px;
+		}
+		
+		#thumbnail, #imgs{
+			overflow: hidden;
+			overflow-y: scroll;
+		}
 
  		#preview{
 			height: 200px;
@@ -109,22 +119,22 @@
 
 
         /* 파일 미리보기 */
-        ul.cvf_uploaded_files {
+        ul.uploaded_files {
             list-style-type: none; margin: 20px 0 0 0; padding: 0;
         }
-        ul.cvf_uploaded_files li {
+        ul.uploaded_files li {
             background-color: #fff; float: left; margin: 2px; width: 200px; height: 100px; line-height: 100px; position: relative;
         }
-        ul.cvf_uploaded_files li img.img-thumb {
+        ul.uploaded_files li img.img-thumb {
             width: 200px; height: 100px; border-radius: 5px;
         }
-        ul.cvf_uploaded_files .ui-selected {
+        ul.uploaded_files .ui-selected {
             background: red;
         }
-        ul.cvf_uploaded_files .highlight {
+        ul.uploaded_files .highlight {
             border: 1px dashed #000; width: 150px; background-color: #ccc; border-radius: 5px;
         }
-        ul.cvf_uploaded_files .delete-btn {
+        ul.uploaded_files .delete-btn {
             width: 24px; height: 24px; border: 0; position: absolute; top: 2.5px; right: 0px; padding: 0;
         }
         .bg-success {

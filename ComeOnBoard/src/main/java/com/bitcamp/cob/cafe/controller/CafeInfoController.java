@@ -1,6 +1,5 @@
 package com.bitcamp.cob.cafe.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bitcamp.cob.cafe.domain.Cafe;
-import com.bitcamp.cob.cafe.domain.CafeImg;
-import com.bitcamp.cob.cafe.domain.CafeReview;
 import com.bitcamp.cob.cafe.service.CafeInfoService;
-import com.bitcamp.cob.cafe.service.CafeReviewService;
 
 @Controller
 public class CafeInfoController {
@@ -22,35 +18,48 @@ public class CafeInfoController {
 	@Autowired
 	private CafeInfoService cafeInfoService;
 	
+	// 카페 페이지
 	@RequestMapping(value = "/cafe/cafe_page/{id}", method = RequestMethod.GET)
 	public String cafeInfo(Model model, @PathVariable("id") int idx, HttpSession session) {
 		
-		Cafe cafe = null;
-		//session.getAttribute(name);
-		//if(loginChk) {}
-		
+		Cafe cafe = null;		
 		cafe = cafeInfoService.getCafeInfo(idx);
 		model.addAttribute("cafeInfo", cafe);
+		model.addAttribute("cafeImg", cafe.getCafeImg());
+		System.out.println(cafe.getCafeImg());
 		return "cafe/cafe_page";
 	}
 	
+	// 카페 정보 입력폼
 	@RequestMapping(value = "/cafe/cafe_regForm", method = RequestMethod.GET)
-	public String cafeRegForm() {
-
-		return "cafe/cafe_regForm";
+	public void cafeRegForm() {}
+	
+	// 카페 정보 입력
+	@RequestMapping(value = "/cafe/cafe_regForm", method = RequestMethod.POST)
+	public String regCafe(Cafe cafe, Model model) {
+		System.out.println("인포 컨트롤러의 카페 정보 입력 메소드 실행 : "+cafe);
+		model.addAttribute("cafeRegResult", cafeInfoService.regCafe(cafe));
+		//System.out.println("생성된 IDX : " + cafe.getCafeIdx());
+		model.addAttribute("cafeIdx", cafe.getCafeIdx());
+		return "cafe/cafe_regImg";
 	}
 	
-	@RequestMapping(value = "/cafe/cafe_regForm", method = RequestMethod.POST)
-	public String cafeReg(Cafe cafe, CafeImg cafeImg, HttpServletRequest request, Model model) {
-		cafe.setMemIdx(1);
-		System.out.println("폼에서 전달된 데이터 : " + cafe);
-		System.out.println("폼에서 전달된 데이터 : " + cafeImg);
-		int result = cafeInfoService.cafeReg(cafe, cafeImg, request);
-		System.out.println("DB에서 반환된 데이터 : " + result);
-		model.addAttribute("result", result);
-		
-		return "cafe/cafe_list";
+	// 카페 정보 수정
+	@RequestMapping(value = "/cafe/cafe_info", method = RequestMethod.POST)
+	public String updateCafeInfo(Cafe cafe, Model model) {
+
+		model.addAttribute("cafeModifyResult", cafeInfoService.updateCafeInfo(cafe));
+		model.addAttribute("cafeIdx", cafe.getCafeIdx());
+		return "cafe/cafe_regResult";
 	}
+	
+	
+	// 이미지 저장폼
+	//@RequestMapping(value = "/cafe/cafe_regImg", method = RequestMethod.GET)
+	//public void cafeReg() {}
+	
+
+	
 
 
 }

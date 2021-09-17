@@ -22,21 +22,7 @@
 	<result column="cafeTel" property="cafeTel" />
 	<result column="cafeRating" property="cafeRating" />
 </resultMap>
-<!--
-<parameterMap type="com.bitcamp.cob.cafe.domain.Cafe" id="cafeInfo">
-	<parameter property="cafeIdx" />
-	<parameter property="memIdx" />
-	<parameter property="cafeName" />
-	<parameter property="cafeAddress" />
-	<parameter property="cafeTime" />
-	<parameter property="stdFee" />
-	<parameter property="tenPerFee" />
-	<parameter property="fourTable" />
-	<parameter property="grpTable" />
-	<parameter property="cafeTel" />
-	<parameter property="cafeRating" />
-</parameterMap>
--->
+
 <!-- sql tag 식별은 인터페이스 메소드명과 일치 -->
 <!-- 매개변수는 param1 param2로 구분, 매개변수가 많아지면 객체나 Map으로 -->
 <!-- 리스트 출력을 위한 select -->
@@ -45,12 +31,23 @@
 <select id="cafeListBySort"
 		parameterType="com.bitcamp.cob.cafe.domain.CafePaging"
 		resultMap="cafeListResult">
-	select * from boardgamecafe order by ${searchType} limit #{startNum}, #{endNum}
+	select bc.*, (select avg(cr.revRating) as revRating from cafereview cr where cr.cafeIdx = bc.cafeIdx group by cafeIdx) as cafeRating 
+	from boardgamecafe bc
+	<if test="sortType == 'cafeIdx'">
+	order by ${sortType} desc
+	</if>
+	<if test="sortType == 'cafeRating'">
+	order by ${sortType} desc
+	</if>
+	<if test="sortType == 'cafeAddress'">
+	order by ${sortType} 
+	</if>
+	limit #{startNum}, #{endNum}
 </select>
 
 <!-- 검색어 입력에 따른 카페 리스트 select -->
 <select id="cafeListByKeyword"
-		parameterType="com.bitcamp.cob.cafe.domain.CafeSearchType"
+		parameterType="com.bitcamp.cob.cafe.domain.CafePaging"
 		resultMap="cafeListResult">
 	select * from boardgamecafe 
 	
@@ -59,13 +56,12 @@
 			<include refid="cafeName"></include>
 		</if>
 		
-		<if test="searchType == 'cafeAdderss'">
+		<if test="searchType == 'cafeAddress'">
 			<include refid="cafeAddress"></include>
 		</if>
 		
 		<if test="searchType == 'both'">
-			<include refid="cafeName"></include>
-			<include refid="cafeAddress"></include>
+			<include refid="both"></include>
 		</if>
 		
 	</where>
@@ -73,11 +69,15 @@
 </select>
 
 <sql id="cafeName">
-	or cafeName like concat('%',  #{keyword}, '%')
+	or cafeName like concat('%',  #{keyword}, '%') limit #{startNum}, #{endNum}
 </sql>
 <sql id="cafeAddress">
-	or cafeAddress like concat('%',  #{keyword}, '%')
+	or cafeAddress like concat('%',  #{keyword}, '%') limit #{startNum}, #{endNum}
 </sql>
+<sql id="both">
+	or cafeName like concat('%',  #{keyword}, '%') or cafeAddress like concat('%',  #{keyword}, '%') limit #{startNum}, #{endNum}
+</sql>
+
 
 <!-- 페이징 처리를 위한 전체 카페의 수 -->
 <select id="getCafeTotalCnt"
@@ -88,7 +88,8 @@
 <!-- 카페 페이지 -->
 <select id="getCafeInfo"
 		resultMap="cafeListResult">
-	select * from boardgamecafe where cafeIdx = #{cafeIdx}		
+	select bc.*, (select AVG(revRating) from cafereview cr where cr.cafeIdx = bc.cafeIdx group by cafeIdx) as cafeRating
+	 from boardgamecafe bc where cafeIdx = #{cafeIdx}		
 </select>
 
 
@@ -96,9 +97,19 @@
 <select id="getCafeReview"
 		parameterType="com.bitcamp.cob.cafe.domain.CafeReviewPaging"
 		resultType="com.bitcamp.cob.cafe.domain.CafeReview">
-	select * from cafereview where cafeIdx = #{cafeIdx}	
+	select *, (select nickname from member1 m where m.memidx = c.memidx) as nickName 
+	from cafereview c 
+	where cafeIdx = #{cafeIdx} 
+	order by revRegTimestamp desc
+	limit #{startNum}, #{endNum}
 </select>
-		
+
+<!-- 선택한 카페의 리뷰 갯수 -->
+<select id="getTotalCafeReviewCnt"
+		resultType="int">
+	select count(*) from cafereview where cafeIdx = #{cafeIdx} 
+</select>
+
 <!-- 카페 리뷰 작성 -->
 <insert id="writeCafeReview"
 		parameterType="com.bitcamp.cob.cafe.domain.CafeReview">
@@ -106,17 +117,65 @@
 </insert>
 
 <!-- 카페 정보 등록 -->
-<insert id="cafeReg"
+<insert id="regCafe"
 		parameterType="com.bitcamp.cob.cafe.domain.Cafe"
 		useGeneratedKeys="true"  
 		keyProperty="cafeIdx">
 	insert into boardgamecafe (memIdx, cafeName, cafeAddress, cafeTime, stdFee, tenPerFee, fourTable, grpTable, cafeTel)
 	values (#{memIdx}, #{cafeName}, #{cafeAddress}, #{cafeTime}, #{stdFee}, #{tenPerFee}, #{fourTable}, #{grpTable}, #{cafeTel})	
 </insert>
-		
 
+<!-- 카페 리뷰 수정 -->
+<update id="updateCafeReview"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReview">
+	update cafereview set revContent = #{revContent}, revRating = #{revRating} where revIdx = #{revIdx}
+</update>
 
+<!-- 카페 리뷰 삭제 -->
+<delete id="deleteCafeReview">
+	delete from cafereview where revIdx = #{revIdx}
+</delete>
 
+<!-- 카페 썸네일 저장 -->
+<update id="regCafeThumbnail">
+	update boardgamecafe set cafeThumbnail = #{cafeThumbnail} where cafeIdx = #{cafeIdx}
+</update>
 
+<!-- 카페 이미지 저장 -->	
+<insert id="regCafeImg">
+	insert into cafeimg (cafeIdx, memIdx, cafeImg) values (#{cafeIdx}, #{memIdx} ,#{cafeImg})
+</insert>
+
+<!-- 카페 이미지 폴더 생성을 위한 idx값 반환 -->
+<select id="getCafeIdxName"
+		resultType="com.bitcamp.cob.cafe.domain.CafeImgInfo">
+	select cafeIdx, cafeName from boardgamecafe where memIdx = #{memIdx}
+</select>
+
+<!-- 카페 이미지 반환 -->
+<select id="getImgList"
+		resultType="com.bitcamp.cob.cafe.domain.CafeImgInfo"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeImgInfo"
+		>
+	select ci.cafeImgIdx, ci.cafeIdx, ci.cafeImg, (select cafeName from boardgamecafe bgc where ci.cafeIdx = bgc.cafeIDx) as cafeName from cafeimg ci where cafeIdx = #{cafeIdx} and memIdx = #{memIdx};
+</select>
+
+<!-- 카페 이미지 선택 삭제 -->
+<delete id="delImg">
+	delete from cafeimg where cafeImgIdx = #{cafeImgIdx}
+</delete>
+
+<!-- 카페 정보 수정 -->
+<update id="updateCafeInfo"
+		parameterType="com.bitcamp.cob.cafe.domain.Cafe">
+	update boardgamecafe set cafeName = #{cafeName}, cafeAddress = #{cafeAddress}, cafeTime = #{cafeTime}, stdFee = #{stdFee},
+							tenPerFee = #{tenPerFee}, fourTable = #{fourTable}, grpTable = #{grpTable}, cafeTel = #{cafeTel} where cafeIdx = #{cafeIdx}
+</update>
+
+<!-- 카페 정보에 담을 이미지 출력 -->
+<select id="getCafeImg"
+		resultType="String">
+	select cafeImg from cafeimg where cafeIdx = #{cafeIdx}		
+</select>
 
 </mapper>

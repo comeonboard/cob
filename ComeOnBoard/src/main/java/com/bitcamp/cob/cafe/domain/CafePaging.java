@@ -2,9 +2,13 @@ package com.bitcamp.cob.cafe.domain;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 public class CafePaging {
 
-	private String searchType; 
+	private String searchType;
+	private String sortType;
+	private String keyword;
 	private int page;
 	private int totalCnt;
 	private int startNum;
@@ -13,13 +17,28 @@ public class CafePaging {
 	
 	public CafePaging() {}
 
-	public CafePaging(String searchType, int page, int totalCnt, int startNum, int endNum, List<Cafe> cafe) {
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
 		this.searchType = searchType;
-		this.page = page;
-		this.totalCnt = totalCnt;
-		this.startNum = startNum;
-		this.endNum = endNum;
-		this.cafe = cafe;
+	}
+
+	public String getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(String sortType) {
+		this.sortType = sortType;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public int getPage() {
@@ -53,17 +72,7 @@ public class CafePaging {
 	public void setEndNum(int endNum) {
 		this.endNum = endNum;
 	}
-	
-	
-	public String getSearchType() {
-		return searchType;
-	}
 
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
-	}
-	
-	
 	public List<Cafe> getCafe() {
 		return cafe;
 	}
@@ -74,8 +83,9 @@ public class CafePaging {
 
 	@Override
 	public String toString() {
-		return "CafePaging [searchType=" + searchType + ", page=" + page + ", totalCnt=" + totalCnt + ", startNum="
-				+ startNum + ", endNum=" + endNum + ", cafe=" + cafe + "]";
+		return "CafePaging [searchType=" + searchType + ", sortType=" + sortType + ", keyword=" + keyword + ", page="
+				+ page + ", totalCnt=" + totalCnt + ", startNum=" + startNum + ", endNum=" + endNum + ", cafe=" + cafe
+				+ "]";
 	}
 
 }

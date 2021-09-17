@@ -6,19 +6,14 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class Cafe {
+public class Cafe2 {
 
 	private int cafeIdx;
 	private int memIdx;
 	private String cafeName;
 	private String cafeAddress;
 	private String cafeTime;
-	private int stdFee;
-	private int tenPerFee;
-	private int fourTable;
-	private int grpTable;
 	private String cafeTel;
-	private double cafeRating;
 	private MultipartFile cafeThumbnailFile;
 	private List<MultipartFile> cafeImgFile;
 	
@@ -29,7 +24,7 @@ public class Cafe {
 	private String stdFeeComma;
 	private String tenPerFeeComma;
 
-	public Cafe(){}
+	public Cafe2(){}
 
 	public int getCafeIdx() {
 		return cafeIdx;
@@ -71,52 +66,12 @@ public class Cafe {
 		this.cafeTime = cafeTime;
 	}
 
-	public int getStdFee() {
-		return stdFee;
-	}
-
-	public void setStdFee(int stdFee) {
-		this.stdFee = stdFee;
-	}
-
-	public int getTenPerFee() {
-		return tenPerFee;
-	}
-
-	public void setTenPerFee(int tenPerFee) {
-		this.tenPerFee = tenPerFee;
-	}
-
-	public int getFourTable() {
-		return fourTable;
-	}
-
-	public void setFourTable(int fourTable) {
-		this.fourTable = fourTable;
-	}
-
-	public int getGrpTable() {
-		return grpTable;
-	}
-
-	public void setGrpTable(int grpTable) {
-		this.grpTable = grpTable;
-	}
-
 	public String getCafeTel() {
 		return cafeTel;
 	}
 
 	public void setCafeTel(String cafeTel) {
 		this.cafeTel = cafeTel;
-	}
-
-	public double getCafeRating() {
-		return cafeRating;
-	}
-
-	public void setCafeRating(double cafeRating) {
-		this.cafeRating = cafeRating;
 	}
 
 	public MultipartFile getCafeThumbnailFile() {
@@ -151,11 +106,7 @@ public class Cafe {
 		this.cafeImg = cafeImg;
 	}
 
-public String getStdFeeComma() {
-		
-		DecimalFormat df = new DecimalFormat("###,###");
-		String stdFeeComma = df.format(this.stdFee);
-		
+	public String getStdFeeComma() {
 		return stdFeeComma;
 	}
 
@@ -164,10 +115,6 @@ public String getStdFeeComma() {
 	}
 
 	public String getTenPerFeeComma() {
-		
-		DecimalFormat df = new DecimalFormat("###,###");
-		String tenPerFeeComma = df.format(this.tenPerFee);
-		
 		return tenPerFeeComma;
 	}
 
@@ -177,12 +124,13 @@ public String getStdFeeComma() {
 
 	@Override
 	public String toString() {
-		return "Cafe [cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", cafeName=" + cafeName + ", cafeAddress="
-				+ cafeAddress + ", cafeTime=" + cafeTime + ", stdFee=" + stdFee + ", tenPerFee=" + tenPerFee
-				+ ", fourTable=" + fourTable + ", grpTable=" + grpTable + ", cafeTel=" + cafeTel + ", cafeRating="
-				+ cafeRating + ", cafeThumbnailFile=" + cafeThumbnailFile + ", cafeImgFile=" + cafeImgFile
-				+ ", cafeThumbnail=" + cafeThumbnail + ", cafeImg=" + cafeImg + ", stdFeeComma=" + stdFeeComma
-				+ ", tenPerFeeComma=" + tenPerFeeComma + "]";
+		return "Cafe2 [cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", cafeName=" + cafeName + ", cafeAddress="
+				+ cafeAddress + ", cafeTime=" + cafeTime + ", cafeTel=" + cafeTel + ", cafeThumbnailFile="
+				+ cafeThumbnailFile + ", cafeImgFile=" + cafeImgFile + ", cafeThumbnail=" + cafeThumbnail + ", cafeImg="
+				+ cafeImg + ", stdFeeComma=" + stdFeeComma + ", tenPerFeeComma=" + tenPerFeeComma + "]";
 	}
+
+
+
 	
 }
