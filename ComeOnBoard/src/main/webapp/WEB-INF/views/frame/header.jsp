@@ -30,7 +30,7 @@ function makeRedirect(){
                 <ul class="right_ul font_white">
                     <li><a href="<c:url value='/group/groupList'/>">모임</a></li>
                     <li><a href="<c:url value='/cafe/cafe_list'/>">카페</a></li>
-                    <li>게시판</li>    
+                    <li><a href="<c:url value='/post/postList'/>">게시판</a></li>    
                     <li><a href="<c:url value='/game/gamelist'/>">보드게임</a></li>  
                 </ul>
             </div>
