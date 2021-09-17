@@ -240,7 +240,7 @@ $(function(){
 	
     <div class="game_list">
 
-        <c:forEach items="${listView.gameList}" var="gameMain" >
+        <c:forEach items="${gamelist}" var="gameMain" >
         <div class="game_item">
             
             
@@ -277,21 +277,34 @@ $(function(){
             onclick="document.location.href='<c:url value ='/game/gameReg'/>'" >
 
         <div class="paging_number">
-	        <c:if test ="${listView.pageTotalCount>0 }">
-	        	<div  class="paging">
-	        	
-		        	<c:forEach begin="1" end="${listView.pageTotalCount }" var="num">
-		        		
-		        		
-		        		
-		        		<span>[<a href="gamelist?page=${num}&keyword=${searchType.keyword}">${num}</a>]</span>
-		        
-		        	</c:forEach>
-		        	
-	        	</div>
-	        </c:if>          
+           <!--  <h4> << <a href="#">1 | </a><a href="#">2 | </a><a href="#">3 </a> >> </h4> -->
+            <c:if test="${list % pageCnt > 0}  ">
+             <a href='<c:url value="/game/gamelist?page=${pageMaker.startPage-1}"/>'>이전</a> 
+            </c:if>
+             <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+            <td>
+                <a href='<c:url value="/game/gamelist?page=${idx}"/>'>${idx}</a>
+            </td>
+            </c:forEach>
+ 			<c:if test="${pageMaker.next && pageMaker.endPage > 0}">
+            <td>
+                <a href='<c:url value="/game/gamelist?page=${pageMaker.endPage+1}"/>'>다음</a>
+            </td>
+            </c:if>
+           ${listView} 
+           <c:if test="${listView.gameList ne null and not empty listView.gameList}">
+           	
+           </c:if>
         </div>
-
+        <c:if test ="${listView.pageTotalCount>0 }">
+        	<div  class="paging">
+	        	<c:forEach begin="1" end="${listView.pageTotalCount }" var="num">
+	        	
+	        		<span>[<a href="/game/gamelist?page=${num}">${num}</a>]</span>
+	        	
+	        	</c:forEach>
+        	</div>
+        </c:if>
 
         </div>
           

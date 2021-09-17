@@ -7,7 +7,8 @@
 <meta charset="UTF-8">
 
 <title>ComeOnBoard</title>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
 <style>
 
@@ -253,10 +254,10 @@
     }
 
    
-    a{
+    /* a{
         text-decoration: none;
         color: black;
-    }
+    } */
 
 	
 </style>
@@ -280,10 +281,40 @@
 
 		reader.readAsDataURL(event.target.files[0]);
 	}
+	
+
+	
+</script>
+
+<script>
+$(document).ready(function(){
+	
+	
+	$('#cob_gameRegBtn').on('click',function(){
+	
+		if($('#gameRule').val() == '' && $('#gameName').val() == ''){
+			
+			alert ('게임 이름과 RULE을 입력해주세요');
+			return false;
+		} else if ($('#gameRule').val() == ''){
+			
+			alert ('RULE을 입력해주세요');
+			return false;
+		} else if ($('#gameName').val() == ''){
+			
+			alert('게임 이름을 입력해주세요');
+			return false;
+			
+		}		
+	});
+
+});
+
+
 </script>
 <body class="main_body">
 
-	<%@ include file="/WEB-INF/views/gameFrame/multibar.jsp"%>
+    <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<%@ include file="/WEB-INF/views/gameFrame/searchbar.jsp"%>
 
 	<div class="background">
@@ -292,7 +323,8 @@
 			<h2>게임등록</h2>
 		</div>
 		<hr>
-		<form method="post" enctype="multipart/form-data" accept-charset="UTF-8" class="form_game_reg">
+		<form method="post" action="/cob/game/gamelist" enctype="multipart/form-data"
+		 accept-charset="UTF-8" class="form_game_reg">
 			<div class="reg_wrap">
 
 				<span class="area_game_photo">
@@ -379,7 +411,7 @@
 				</div>
 				
 				<div class="btn_game_reg">
-					<input type="submit" value="등록" name="cob_gameRegBtn" id="cob_gameRegBtn" onclick="btnclick()">
+					<input type="submit" value="등록" name="cob_gameRegBtn" id="cob_gameRegBtn" >
 				</div>
 				
 			</div>

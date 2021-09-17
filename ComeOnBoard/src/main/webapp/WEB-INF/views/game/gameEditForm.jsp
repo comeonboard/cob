@@ -8,6 +8,7 @@
 
 <title>ComeOnBoard</title>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
 <style>
 
@@ -290,16 +291,40 @@
 	}
 	
 	$(document).ready(function(){
-		$('#gameSort').val('${gamepage[0].gameSort}').attr("selected", "selected");	
-		// 게임 솔트에 아래 있는 ${gamepage[0].gameSort} 를 찾아서 selected : selected 해준다
-		$('#gameLmtAge').val('${gamepage[0].gameLmtAge}').attr("selected", "selected");	
+		$('#gameSort').val('${gamepage.gameSort}').attr("selected", "selected");	
+		// 게임 솔트에 아래 있는 ${gamepage.gameSort} 를 찾아서 selected : selected 해준다
+		$('#gameLmtAge').val('${gamepage.gameLmtAge}').attr("selected", "selected");	
 	});
 
 </script>
+<script>
+$(document).ready(function(){
+	
+	
+	$('#cob_gameRegBtn').on('click',function(){
+	
+		if($('#gameRule').val() == '' && $('#gameName').val() == ''){
+			
+			alert ('게임 이름과 RULE을 입력해주세요');
+			return false;
+		} else if ($('#gameRule').val() == ''){
+			
+			alert ('RULE을 입력해주세요');
+			return false;
+		} else if ($('#gameName').val() == ''){
+			
+			alert('게임 이름을 입력해주세요');
+			return false;
+		}		
+	});
 
+});
+
+
+</script>
 <body class="main_body">
 
-	<%@ include file="/WEB-INF/views/gameFrame/multibar.jsp"%>
+    <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<%@ include file="/WEB-INF/views/gameFrame/searchbar.jsp"%>
 
 
@@ -310,16 +335,17 @@
 			<h2>게임정보수정</h2>
 		</div>
 		<hr>
-		<form method="post" enctype="multipart/form-data" accept-charset="UTF-8" class="form_game_reg">
+		<form method="post" enctype="multipart/form-data" 
+		accept-charset="UTF-8" class="form_game_reg">
 			<div class="reg_wrap">
 
 				<span class="area_game_photo">
 					<div class="reg_default" alt="사진" id="image_container" ></div> 
 					<h3>변경 이미지</h3> 
-					<img src="<c:url value="/uploadfile/uploadgamefile"/>/${gamepage[0].gamePhoto}" class="reg_default" alt="사진" id="image_container"/>
+					<img src="<c:url value="/uploadfile/uploadgamefile"/>/${gamepage.gamePhoto}" class="reg_default" alt="사진" id="image_container"/>
 					<h3>현재 이미지</h3>
-					<input type="file" name="gamePhoto" id="image"  accept="image/*" onchange="setImg(event);" />
-					<!-- <label class="btn_game_photo" for="image"> 이미지 등록 </label> -->
+					<input type="file" class="hidden" name="gamePhoto" id="image"  accept="image/*" onchange="setImg(event);" />
+					<label class="btn_game_photo" for="image"> 이미지 변경 </label> 
 
 				</span>
 
@@ -327,7 +353,7 @@
 					<ul>
 						<li class="reg_item">게임명</li>
 						<li class="reg_text">
-						<input type="text" name="gameName" id="gameName" value="${gamepage[0].gameName}" >
+						<input type="text" name="gameName" id="gameName" value="${gamepage.gameName}" >
 						</li>
 					</ul>
 					<ul>
@@ -347,18 +373,18 @@
 					</ul>
 					<ul>
 						<li class="reg_item">게임인원</li>
-						<li class="reg_text"><input type="text" name="gamePerson" id="gamePerson" value="${gamepage[0].gamePerson}"></li>
+						<li class="reg_text"><input type="text" name="gamePerson" id="gamePerson" value="${gamepage.gamePerson}"></li>
 					</ul>
 					<ul>
 						<li class="reg_item">플레이타임</li>
-						<li class="reg_text"><input type="text" name="gameTime" id="gameTime" value="${gamepage[0].gameTime}"></li>
+						<li class="reg_text"><input type="text" name="gameTime" id="gameTime" value="${gamepage.gameTime}"></li>
 					</ul>
 				</div>
 				<div class="area_game_reg2">
 					<ul>
 						<li class="reg_item2">사용연령</li>
 						<li class="reg_text2">
-							<select name="gameLmtAge" id="gameLmtAge"  class="form-control mr-2" value="${gamepage[0].gameLmtAge}" >
+							<select name="gameLmtAge" id="gameLmtAge"  class="form-control mr-2" value="${gamepage.gameLmtAge}" >
 								<option value="전체연령가">전체연령가</option>
 								<option value="7세">7세</option>
 								<option value="12세">12세</option>
@@ -369,34 +395,34 @@
 					</ul>				
 					<ul>
 						<li class="reg_item2">출판사</li>
-						<li class="reg_text2"><input type="text" name="gamePublisher" id="gamePublisher" value="${gamepage[0].gamePublisher}"></li>
+						<li class="reg_text2"><input type="text" name="gamePublisher" id="gamePublisher" value="${gamepage.gamePublisher}"></li>
 					</ul>
 					<ul>
 						<li class="reg_item2">출시일</li>
-						<li class="reg_text2"><input type="text" name="gamePubDate" id="gamePubDate" value="${gamepage[0].gamePubDate}"></li>
+						<li class="reg_text2"><input type="text" name="gamePubDate" id="gamePubDate" value="${gamepage.gamePubDate}"></li>
 					</ul>
 				</div>
 
 				<div class="reg_intro">
 					<ul>
 						<li class="intro_li">INTRO</li>
-						<li class="intro_text"><textarea cols="60" rows="8" name="gameIntro" id="gameIntro" >${gamepage[0].gameIntro}</textarea></li>
+						<li class="intro_text"><textarea cols="60" rows="8" name="gameIntro" id="gameIntro" >${gamepage.gameIntro}</textarea></li>
 
 					</ul>
 
 					<ul>
 						<li class="intro_li">RULE</li>
-						<li class="intro_text"><textarea cols="60" rows="8" name="gameRule" id="gameRule" >${gamepage[0].gameRule}</textarea></li>
+						<li class="intro_text"><textarea cols="60" rows="8" name="gameRule" id="gameRule" >${gamepage.gameRule}</textarea></li>
 
 					</ul>
 
 					<ul>
 						<li class="intro_li">PLAY</li>
-						<li class="intro_text"><textarea cols="60" rows="8" name="gameVideo" id="gameVideo" >${gamepage[0].gameVideo}</textarea></li>
+						<li class="intro_text"><textarea cols="60" rows="8" name="gameVideo" id="gameVideo" >${gamepage.gameVideo}</textarea></li>
 
 					</ul>
 					
-					<textarea class="hidden" name="gameIdx" id="gameIdx" >${gamepage[0].gameIdx}</textarea>
+					<textarea class="hidden" name="gameIdx" id="gameIdx" >${gamepage.gameIdx}</textarea>
 					
 
 				</div>
