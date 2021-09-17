@@ -1,5 +1,11 @@
 package com.bitcamp.cob.cafe.domain;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 public class Cafe {
 
 	private int cafeIdx;
@@ -12,26 +18,18 @@ public class Cafe {
 	private int fourTable;
 	private int grpTable;
 	private String cafeTel;
-	private int cafeRating;
+	private double cafeRating;
+	private MultipartFile cafeThumbnailFile;
+	private List<MultipartFile> cafeImgFile;
 	
+	private String cafeThumbnail;
+	private List<String> cafeImg;
 	
-	
-	public Cafe(int cafeIdx, int memIdx, String cafeName, String cafeAddress, String cafeTime, int stdFee,
-			int tenPerFee, int fourTable, int grpTable, String cafeTel, int cafeRating) {
-		this.cafeIdx = cafeIdx;
-		this.memIdx = memIdx;
-		this.cafeName = cafeName;
-		this.cafeAddress = cafeAddress;
-		this.cafeTime = cafeTime;
-		this.stdFee = stdFee;
-		this.tenPerFee = tenPerFee;
-		this.fourTable = fourTable;
-		this.grpTable = grpTable;
-		this.cafeTel = cafeTel;
-		this.cafeRating = cafeRating;
-	}
+	// 천단위 , 변환
+	private String stdFeeComma;
+	private String tenPerFeeComma;
 
-	public Cafe(){};
+	public Cafe(){}
 
 	public int getCafeIdx() {
 		return cafeIdx;
@@ -113,12 +111,68 @@ public class Cafe {
 		this.cafeTel = cafeTel;
 	}
 
-	public int getCafeRating() {
+	public double getCafeRating() {
 		return cafeRating;
 	}
 
-	public void setCafeRating(int cafeRating) {
+	public void setCafeRating(double cafeRating) {
 		this.cafeRating = cafeRating;
+	}
+
+	public MultipartFile getCafeThumbnailFile() {
+		return cafeThumbnailFile;
+	}
+
+	public void setCafeThumbnailFile(MultipartFile cafeThumbnailFile) {
+		this.cafeThumbnailFile = cafeThumbnailFile;
+	}
+
+	public List<MultipartFile> getCafeImgFile() {
+		return cafeImgFile;
+	}
+
+	public void setCafeImgFile(List<MultipartFile> cafeImgFile) {
+		this.cafeImgFile = cafeImgFile;
+	}
+
+	public String getCafeThumbnail() {
+		return cafeThumbnail;
+	}
+
+	public void setCafeThumbnail(String cafeThumbnail) {
+		this.cafeThumbnail = cafeThumbnail;
+	}
+
+	public List<String> getCafeImg() {
+		return cafeImg;
+	}
+
+	public void setCafeImg(List<String> cafeImg) {
+		this.cafeImg = cafeImg;
+	}
+
+public String getStdFeeComma() {
+		
+		DecimalFormat df = new DecimalFormat("###,###");
+		String stdFeeComma = df.format(this.stdFee);
+		
+		return stdFeeComma;
+	}
+
+	public void setStdFeeComma(String stdFeeComma) {
+		this.stdFeeComma = stdFeeComma;
+	}
+
+	public String getTenPerFeeComma() {
+		
+		DecimalFormat df = new DecimalFormat("###,###");
+		String tenPerFeeComma = df.format(this.tenPerFee);
+		
+		return tenPerFeeComma;
+	}
+
+	public void setTenPerFeeComma(String tenPerFeeComma) {
+		this.tenPerFeeComma = tenPerFeeComma;
 	}
 
 	@Override
@@ -126,7 +180,9 @@ public class Cafe {
 		return "Cafe [cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", cafeName=" + cafeName + ", cafeAddress="
 				+ cafeAddress + ", cafeTime=" + cafeTime + ", stdFee=" + stdFee + ", tenPerFee=" + tenPerFee
 				+ ", fourTable=" + fourTable + ", grpTable=" + grpTable + ", cafeTel=" + cafeTel + ", cafeRating="
-				+ cafeRating + "]";
+				+ cafeRating + ", cafeThumbnailFile=" + cafeThumbnailFile + ", cafeImgFile=" + cafeImgFile
+				+ ", cafeThumbnail=" + cafeThumbnail + ", cafeImg=" + cafeImg + ", stdFeeComma=" + stdFeeComma
+				+ ", tenPerFeeComma=" + tenPerFeeComma + "]";
 	}
 	
 }

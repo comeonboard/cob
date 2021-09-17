@@ -19,15 +19,35 @@ public class cafeListService {
 	
 	// 정렬방법 선택시
 	public List<Cafe> cafeListBySort(CafePaging cafePaging) {
-		return template.getMapper(CafeDao.class).cafeListBySort(cafePaging);
+		System.out.println("서비스 정렬 설정시 실행");
+		return template.getMapper(CafeDao.class).cafeListBySort(getPage(cafePaging));
 	}
 	
 	// 검색어 입력시
-	public List<Cafe> cafeListByKeyword(CafeSearchType cafeSearchType) {
-		return template.getMapper(CafeDao.class).cafeListByKeyword(cafeSearchType);
+	public List<Cafe> cafeListByKeyword(CafePaging cafePaging) {
+		System.out.println("서비스 키워드 설정시 실행");
+		return template.getMapper(CafeDao.class).cafeListByKeyword(getPage(cafePaging));
 	}
 
+	// 전체 갯수 반환
 	public int getCafeTotalCnt() {
 		return template.getMapper(CafeDao.class).getCafeTotalCnt();
+	}
+	
+	// 페이징 처리
+	public CafePaging getPage(CafePaging cafePaging) {
+		
+		if(cafePaging.getPage() == 1) {
+			cafePaging.setStartNum(0);
+			cafePaging.setEndNum(9);
+		} else {
+			cafePaging.setStartNum(cafePaging.getPage()+(8*(cafePaging.getPage()-1)));
+			cafePaging.setEndNum(9);
+		}
+		//System.out.println("페이지번호 : "+cafePaging.getPage());
+		//System.out.println("시작번호 : "+cafePaging.getStartNum());
+		//System.out.println("마지막번호 : "+cafePaging.getEndNum());
+		
+		return cafePaging;
 	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -14,15 +15,53 @@
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
         $(document).ready(function(){
-            
-            $('ul.tabs li').click(function(){
-                $('.tab_link').removeClass('current');
 
-                var tab_id = $(this).attr('data-tab');
-                $(this).addClass('current');
-                $('.form_find').removeClass('on');
-                $('#'+tab_id).addClass('on');
-				return false;
+            $('#btn_find_id').on('click', function(){
+            	let memName = $('#memName').val();
+            	let memEmail = $('#memEmail').val();
+            	console.log(memName.length);
+            	if(memName.length<1){
+            		alert('이름을 입력해주세요.');
+            	} else if(memEmail.length<1) {
+            		alert('이메일을 입력해주세요.')
+            	} else {
+            		$.ajax({
+       					url: '<c:url value="/member/findId"/>',
+       					type : 'post',
+       					data : {
+       						"memName" : memName,
+       						"memEmail" : memEmail
+       					},
+       					success : function(data) {
+       						$('#loading_find_id').addClass('display_none');
+       						if (data.length>0) {
+       							$('#container').hide();
+       							$('#wrap_area_find_id').show();
+       							$('#area_resultCnt').html('총 '+data.length+'개의 아이디가 검색되었습니다.')
+       							$('#hidden_name').val(memName);
+       							$('#hidden_memEmail').val(memEmail);
+       							$.each(data, function(index, item){
+       								var html = '<div class="resultId"><input type="radio" name="memId" id="'+item+'" value="'+item+'">';
+       								html += '<label for="'+item+'">'+item+'</label><br>';
+       								html += '</div><hr>'
+       								$('#area_id').append(html);
+       							});
+       						} else {
+       							alert('입력하신 정보와 일치하는 아이디가 없습니다.');
+       						}
+       					},
+       					beforeSend : function() {
+       						$('#loading_find_id').removeClass('display_none');
+       					},
+       					error : function(request, status, error) {
+       						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+       						console.log(request);
+       						console.log(status);
+       						console.log(error);
+       					}
+                	});	
+            	}
+           		
             });
         });
             
@@ -56,17 +95,13 @@
         margin: 0 auto;
     }
 
-    #container {
+    #container,
+    #wrap_area_find_id {
         display: block;
         width: 768px;
         margin: 0 auto;
-        min-height: 700px;
+        min-height: 500px;
         padding-bottom: 50px;
-    }
-    .form_find_id_by_phoneNum,
-    .form_find_id_by_email {
-        width: 462px;
-        margin: 0 auto;
     }
 
     h2 {
@@ -98,7 +133,8 @@
         outline: rgb(52, 168, 83) 1px solid;
     }
 
-    .find_id_btn{
+    #btn_find_id,
+    #btn_find_pw {
         display: block;
         margin: 0 auto;
         color: white;
@@ -253,60 +289,66 @@
         height: 40px;
     }
 
-
+	#area_find_id {
+		margin: 0 auto;
+		width: 460px;
+	}
+	
+	#area_id {
+		background-color: #fff;
+		border-radius: 10px;
+	}
+	
+	.resultId {
+		padding : 15px;
+		height: 20px;
+		font-size: 20px;
+		font-weight: 400;
+	}
+	
+	.resultId input {
+		margin: 0 10px;
+	}
+	
+   	.loadingimg {
+   		width: 30px;
+    }
 </style>
 <body>
     <div class="wrap">
-        <div class="area_logo">
+     	<div class="area_logo">
 	        <a href="<c:url value='/'/>">
 	        	<img src="/cob/images/logo_full.png">
 	        </a>
-   		</div>
+	    </div>
         <div id="container">
 
             <h2> - 아이디 찾기 - </h2>
 
-            <ul class="tabs">
-                <li class="tab_link current" data-tab="tab1">휴대전화 인증으로 찾기</li>
-                <li class="tab_link" data-tab="tab2">이메일 인증으로 찾기</li>
-            </ul>
-            <div id="tab1" class="form_find on">
-                <form id="form_find_id_by_phoneNum" action="read_findId.html">
-    
-                        <div class="input_area">
-                            <p>이름</p>
-                            <input type="text" class="input_row" placeholder="이름">
-                        </div>
-        
-                        <div id="phoneNum_input" class="input_area">
-                            <p>휴대전화</p>
-                            <input type="text" class="input_phoneNum" placeholder="전화번호 입력">
-                            <button>인증번호 받기</button>
-                            <input type="text" class="input_row" placeholder="인증번호 6자리 입력">
-                        </div>
-                        
-                        <button class="find_id_btn">아이디 찾기</button>
-                </form>
+            <div class="input_area">
+                <p>이름</p>
+                <input type="text" id="memName" name="memName" class="input_row" placeholder="이름">
             </div>
 
-            <div id="tab2" class="form_find">
-                <form id="form_find_id_by_email" action="read_findId.html">
-                          <div class="input_area">
-                            <p>이름</p>
-                            <input type="text" class="input_row" placeholder="이름">
-                        </div>
-        
-                        <div id="phoneNum_input" class="input_area">
-                            <p>이메일 주소</p>
-                            <input type="text" class="input_phoneNum" placeholder="메일 주소 입력">
-                            <button>인증번호 받기</button>
-                            <input type="text" class="input_row" placeholder="인증번호 6자리 입력">
-                        </div>
-                        
-                        <button class="find_id_btn">아이디 찾기</button>
-                </form>
-            </div>
+            <div class="input_area">
+                <p>이메일 주소</p>
+                <input type="text" id="memEmail" name="memEmail" class="input_row" placeholder="메일 주소 입력">
+            	<img id="loading_find_id" class="loadingimg display_none" alt="loading" src="<c:url value='/images/loading.gif'/>">
+            </div>   
+            <button type = "button" id="btn_find_id">아이디 찾기</button>
 
+        </div>
+        <div id="wrap_area_find_id" style="display:none">
+        	<div id="area_find_id">
+        		<form action="<c:url value='/member/findPw'/>" method="post">
+        		<h2>가입한 아이디 정보</h2>
+        			<div id="area_resultCnt"></div>
+        			<div id="area_id"></div>
+        			<input type="hidden" id="hidden_name" name="memName">
+        			<input type="hidden" id="hidden_memEmail" name="memEmail">
+        			<button id="btn_find_pw">선택한 아이디의 비밀번호 찾기</button>
+        		</form>   		
+        	</div>
         </div>
     </div>
 </body>

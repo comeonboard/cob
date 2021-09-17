@@ -6,7 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>ComeOnBoard</title>
+    <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <style>
     * {
         margin: 0;
@@ -38,8 +40,10 @@
 
     .ex_wrap>div>input{
         display: inline-block;
-        margin : 8px 10px;
+        margin : 8px 0px;
+        margin-left : 5px;
         width: 50px;
+        visibility : hidden;
     }
 
     .ex_score{
@@ -198,7 +202,7 @@
     .rule_content > pre{
         padding: 30px;
         line-height: 1.5;
-        font-size: 17px;
+        font-size: 20px;
     }    
  
     .rule_content_name3 > iframe{
@@ -254,7 +258,10 @@
         box-shadow: 1px 1px 3px 1px #dadce0;
         border: 1px solid #dadce0;
     }
-
+    .review_btn:hover{
+		background-color: rgb(66, 133, 244); 
+        cursor: pointer;
+    } 
     .review_list{
         clear: left;
         margin-top: 20px;
@@ -262,7 +269,7 @@
     .list_item{
         clear: left;
         width: 872px;
-        height: 30px;
+        height: 60px;
         box-shadow: 1px 1px 3px 1px #dadce0;
         border: 1px solid #dadce0;
         margin-top: 5px;
@@ -270,18 +277,65 @@
     .list_id{
         float: left;
         border-right: 2px solid rgb(251, 188, 006);
-        padding: 2px 10px;
+        padding-top: 10px ;
+        width: 110px;
+        height: 48px;
+        text-align : center;
+        font-size:20px;
     }
     .list_text{
         float: left;
-        border-right: 2px solid rgb(251, 188, 006);
-        width: 600px;
-        padding: 2px 10px;
+       /* border-right: 2px solid rgb(251, 188, 006); */
+        width: 495px;
+        
     }
+    
+     .list_text>pre{
+        float: left;      
+        width: 475px;
+        padding: 10px;
+        white-space: pre-wrap;
+        text-overflow: ellipsis;
+        font-size:16px;
+        height: 48px;
+        text-align : center;
+    }   
+    
+    .list_rating{
+        float: left;
+        padding-top : 18px;
+        padding-right : 10px;
+        padding-left:10px;
+        font-size:16px;
+        border-right: 2px solid rgb(251, 188, 006);
+        border-left: 2px solid rgb(251, 188, 006);
+        height : 40px;
+        
+    }    
     .list_date{
         float: left;
-        padding: 2px 10px;
+        padding-top : 18px;
+        padding-right : 10px;
+        padding-left:10px;
+        border-right: 2px solid rgb(251, 188, 006);
+        height : 40px;
+        
     }
+    .list_delete{
+        float: right;
+        padding: 15px 3px;        
+    }    
+    .list_delete>button{
+    	background-color:#f7f7f7;
+    	border-radius: 5px;
+    	box-shadow: 1px 1px 3px 1px #dadce0;
+        border: 1px solid #dadce0;
+        width: 35px;
+    }
+    .list_delete>button:hover{
+		background-color: rgb(66, 133, 244); 
+        cursor: pointer;
+    }            
     .paging{
         margin-top: 25px;
         margin-left: auto;
@@ -304,18 +358,18 @@
         clear: left;
         margin: 0px auto;
         padding-top: 20px;
-        width: 189px;
+        width: 129px;
         height: 30px;
         
     }
     .moving>ul>li{
-        float: left;
+        text-align : center;
     }
     .moving>ul>li>a{
     	display : block;
-        width: 50px;
+        width: 70px;
         border-radius: 5px;
-        margin-right: 3px;
+        margin-right: 30px;
         box-shadow: 1px 1px 3px 1px #dadce0;
         border: 1px solid #dadce0;
         text-align : center;
@@ -377,17 +431,12 @@
      -webkit-text-fill-color: rgb(251, 188, 006);
     }
 
+	.rev_none{
+		display : none;
+	}
 
 </style>
 
-<script>
-
-function btnclick(){
-        alert('등록되었습니다');
-    }
-
-  
-</script>
 <script>
   function ratingToPercent(){
       const score = +this.restaurant.averageScore * 20;
@@ -395,13 +444,11 @@ function btnclick(){
     }  
 
 </script>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script>
     $(function(){
-    	var video = '${gamepage[0].gameVideo}';
-    	console.log(video);
- 
+    	var video = '${gamepage.gameVideo}';
+ 	
         var embed = $('#content_iframe'); // 영상코드
 
         $('#tab-3').on('click',function(){
@@ -424,167 +471,316 @@ function btnclick(){
             $('.rule_content_name3 ').empty();
         }) 
     });
-   
+
+</script>
+<script>
+
+$(document).ready(function(){
+	
+
+	var reIdx = null;
+	// 리뷰리스트 출력
+	$.ajax({
+		type: 'get',   //get방식으로 명시
+		url : '<c:url value="/game/gamerevpage"/>',  //이동할 jsp 파일 주소
+		data : {
+			gameIdx : ${gamepage.gameIdx}
+		},
+		dataType:'json',   //문자형식으로 받기
+		success: function(returnData){   
+		/* 	console.log(returnData);
+			console.log(${gamepage.gameIdx}); */
+			var data = returnData;
+			var html = '';
+			
+			$.each(data, function(idx, review){
+				console.log(idx);
+   				console.log(review)
+ 				
+ 				var reviewIdx = review.memIdx;
+   				html += '<ul class="list_item">'+'\n'+
+			                 '<li class="list_id">'+'<a href="#">'+review.nickname+'</a>'+'</li>'+'\n'+
+			                 '<li class="list_text">'+'<pre>'+review.revContent+'</pre>'+'</li>'+'\n'+
+			                 '<li class="list_rating">'+review.revRating+'</li>'+'\n'+
+			                 '<li class="list_date">'+review.revRegDate+'</li>'+'\n';
+			    if('${loginInfo.memIdx}' == reviewIdx){
+			    	html += '<li class="list_delete"><button onclick="rev_dele('+review.revIdx+');">삭제</button></li>'+'\n';
+			    	html += '<li class="list_delete"><button id="rev_edit" onclick="rev_edit('+review.revIdx+');">수정</button></li>'+'\n';			    	
+			    	console.log('똑같다고 실행됨');
+			    }           
+			                 
+			        html +=  '<li class="rev_none">'+review.revIdx+'</li>'+'\n'+
+			                 '<li class="rev_none">'+review.memIdx+'</li>'+'\n'+
+						'</ul>';
+						
+			});
+			$('.review_list').append(html);
+			
+		},
+		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			//alert('실패');
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+
+		},
+   		 complete : function(){	
+   		 }
+	});
+	
+
+
+});
+
+
+
+</script>
+<script>
+$(document).ready(function(){
+$(function(){
+	
+	if('${loginInfo.memAuth}' == 'manager'){
+		$('#btn_edit').css('visibility','visible');
+		$('#btn_delete').css('visibility','visible');
+	}
+
+}
+
+});
+
+</script>
+<script>
+//리뷰삭제
+function rev_dele(idx){
+	console.log(idx)
+	
+	$.ajax({
+		type: 'post',   //get방식으로 명시
+		url : '<c:url value="/game/gamepage1/"/>${gamepage.gameIdx}',  //이동할 jsp 파일 주소
+		data : {
+			revIdx : idx,
+			memIdx : ${loginInfo.memIdx}
+		},
+		//dataType:'json',   //문자형식으로 받기
+		success: function(){   
+				
+			alert("삭제됬습니다.")	
+			location.reload();
+					
+	
+		},
+		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			//alert('실패');
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	
+		},
+			 complete : function(){	
+				 
+			 }
+	});
+};
+/* 
+//리뷰 수정
+function rev_edit(idx,ratingmcontent){
+	console.log(idx)
+	
+	$.ajax({
+		type: 'post',   
+		url : '<c:url value="/game/gamepage2/"/>${gamepage.gameIdx}',  
+		data : {
+			revIdx : idx,
+			revRating : rating,
+			revContent : content
+		},
+		//dataType:'json',   //문자형식으로 받기
+		success: function(){   
+				
+			alert("삭제됬습니다.")	
+			location.reload();
+					
+	
+		},
+		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			//alert('실패');
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	
+		},
+			 complete : function(){	
+				 
+			 }
+	});
+};
+ */
+
+
+</script>
+
+<script>
+ 
+$(document).ready(function(){
+	
+	
+	$('#review_btn').on('click',function(){
+		
+		if ('${loginInfo.memIdx}' == '' ){
+			alert('로그인 해주세요');
+			return false;	
+			
+		} else if($('#revRating') == null || $('#revContent').val() == ''){			
+			alert ('평점과 리뷰 내용을 모두 입력해주세요');
+			return false;
+		} else if($('#revContent').val().length > 60){			
+			alert ('내용은 최대 40자 까지 가능합니다.');			
+			return false;
+		}else{
+			alert('등록되었습니다.');
+		}	
+	});
+
+}); 
 
 </script>
 <body class="main_body">
-
-	<%@ include file="/WEB-INF/views/gameFrame/multibar.jsp"%>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<%@ include file="/WEB-INF/views/gameFrame/searchbar.jsp"%>
 	
 		<div class="ex_wrap">
 
 			<div class="ex_title">
-				<h2>${gamepage[0].gameName}</h2>
-				<input type="button" class="btn_edit" value="edit"
-					onclick="location.href='<c:url value ='/game/gameEdit/'/>${gamepage[0].gameIdx}'">
+				<h2>${gamepage.gameName}</h2>
+				<input type="button" class="btn_edit" value="edit" id="btn_edit"
+					onclick="location.href='<c:url value ='/game/gameEdit/'/>${gamepage.gameIdx}'">
+				<input type="button" class="btn_edit" value="delete" id="btn_delete"
+					onclick="location.href='<c:url value ='/game/confirmDelete/'/>${gamepage.gameIdx}'">	
+					
+					
 					
 			</div>
 			<hr>
 
 			<div class="ex_score">
-				<h1>${gamepage[0].avg }</h1>
+				<h1>${gamepage.avg }</h1>
 			</div>
 
 			<div class="ex_list">
 				<ul class="ex_left">
-					<li>장르 : ${gamepage[0].gameSort}</li>
-					<li>플레이타임 : ${gamepage[0].gameTime}</li>
+					<li>장르 : ${gamepage.gameSort}</li>
+					<li>플레이타임 : ${gamepage.gameTime}</li>
 
 				</ul>
 				<ul class="ex_center">
-					<li>게임인원 :${gamepage[0].gamePerson}</li>
-					<li>사용연령 : ${gamepage[0].gameLmtAge}</li>
+					<li>게임인원 :${gamepage.gamePerson}</li>
+					<li>사용연령 : ${gamepage.gameLmtAge}</li>
 				</ul>
 				<ul class="ex_right">
-					<li>출시일 :${gamepage[0].gamePubDate}</li>
-					<li>출판사 :${gamepage[0].gamePublisher}</li>
+					<li>출시일 :${gamepage.gamePubDate}</li>
+					<li>출판사 :${gamepage.gamePublisher}</li>
 				</ul>
 			</div>
 
 			<div class="ex_img">
-				<img src="<c:url value="/uploadfile/uploadgamefile"/>/${gamepage[0].gamePhoto}" height = "160px" width="160px"/>	
+				<img src="<c:url value="/uploadfile/uploadgamefile"/>/${gamepage.gamePhoto}" height = "160px" width="160px"/>	
 			</div>
 
 		</div>
 
-		<div class="rule_wrap">
+	<div class="rule_wrap">
 
+		
 
+		<div class="rule_list">
 
-			<div class="rule_list">
+			<input type="radio" id="tab-1" name="show" checked> 
+			<input type="radio" id="tab-2" name="show"> 
+			<input type="radio" id="tab-3" name="show"> 
+			<input type="radio" id="tab-4" name="show">
 
-				<input type="radio" id="tab-1" name="show" checked> 
-				<input type="radio" id="tab-2" name="show"> 
-				<input type="radio" id="tab-3" name="show"> 
-				<input type="radio" id="tab-4" name="show">
-
-				<div class="rule_list_tab">
-					<label for="tab-1">Intro</label> 
-					<label for="tab-2">Rule</label> 
-					<label for="tab-3">play</label> 
-					<label for="tab-4">etc</label>
-				</div>
-
-				<div class="rule_content">
-					<pre class="rule_content_name1">${gamepage[0].gameIntro}</pre>
-					<pre class="rule_content_name2">${gamepage[0].gameRule}</pre>
-					<pre class="rule_content_name3" id="game_play"></pre>
-					<pre class="rule_content_name4">etc입니다</pre>
-				</div>
+			<div class="rule_list_tab">
+				<label for="tab-1">Intro</label> 
+				<label for="tab-2">Rule</label> 
+				<label for="tab-3">play</label> 
+				<label for="tab-4">etc</label>
 			</div>
-	
-	<div class="review_item">
-		<h1>review</h1>
-		<hr>
 
-
-		
-			<div class="review_wrap">
-	
-				<div class="star-rating space-x-4 mx-auto">
-					<input type="radio" id="5-stars" name="rating" value="5" /> 
-					<label for="5-stars" class="star pr-4">★</label>
-					<input type="radio" id="4-stars" name="rating" value="4" /> 
-					<label for="4-stars" class="star">★</label> 
-					<input type="radio" id="3-stars" name="rating" value="3" />
-					<label for="3-stars" class="star">★</label> 
-					<input type="radio" id="2-stars" name="rating" value="2" /> 
-					<label for="2-stars" class="star">★</label> 
-					<input type="radio" id="1-star" name="rating" value="1" /> 
-					<label for="1-star" class="star">★</label>
-				</div>
-		
-	
-				<div class="review_area">
-	
-					<textarea class="review_text" cols="50" rows="1"></textarea>
-					<input type="button" value="등록" class="review_btn"
-						onclick="btnclick()">
-				</div>
-	
+			<div class="rule_content">
+				<pre class="rule_content_name1">${gamepage.gameIntro}</pre>
+				<pre class="rule_content_name2">${gamepage.gameRule}</pre>
+				<pre class="rule_content_name3" id="game_play"></pre>
+				<pre class="rule_content_name4">etc입니다</pre>
 			</div>
-		
-
-
-
-		<div class="review_list">
-			<ul class="list_item">
-				<li class="list_id"><a href="#"> 어드민(admin)</a></li>
-				<li class="list_text"><a href="#">리뷰 페이지 입니다</a></li>
-				<li class="list_date">2021.08.20</li>
-			</ul>
-			<ul class="list_item">
-				<li class="list_id"><a href="#"> 어드민(admin)</a></li>
-				<li class="list_text"><a href="#">리뷰 페이지 입니다</a></li>
-				<li class="list_date">2021.08.20</li>
-			</ul>
-			<ul class="list_item">
-				<li class="list_id"><a href="#"> 어드민(admin)</a></li>
-				<li class="list_text"><a href="#">리뷰 페이지 입니다</a></li>
-				<li class="list_date">2021.08.20</li>
-			</ul>
-			<ul class="list_item">
-				<li class="list_id"><a href="#"> 어드민(admin)</a></li>
-				<li class="list_text"><a href="#">리뷰 페이지 입니다</a></li>
-				<li class="list_date">2021.08.20</li>
-			</ul>
-			<ul class="list_item">
-				<li class="list_id"><a href="#"> 어드민(admin)</a></li>
-				<li class="list_text"><a href="#">리뷰 페이지 입니다</a></li>
-				<li class="list_date">2021.08.20</li>
-			</ul>
 		</div>
 
-	</div>
 
-	<div class="paging">
-		<ul>
-			<li><a href="#">이전</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#">다음</a></li>
-		</ul>
-	</div>
-	<div class="moving">
-		<ul>
-			<li>
-				<a href="<c:url value ='/game/gamepage/'/>${gamepage[0].gameIdx+1}" id="prev" >이전</a>
-				
-			</li>
-			<li>
-				<a href="<c:url value ='/game/gamelist'/>"  id="list" >목록</a>
-				
-			</li>
-			<li>
-				<a href="<c:url value ='/game/gamepage/'/>${gamepage[0].gameIdx-1}" id="next" >다음</a>
-				
-			</li>
-		</ul>
-	</div>
+		<div class="review_item">
+			<h1>review</h1>
+			<hr>
+
+
+			<Form method="post" accept-charset="UTF-8">
+				<div class="review_wrap">
+
+					<div class="star-rating space-x-4 mx-auto">
+						<input type="radio" id="5-stars" name="revRating" id="revRating" value="5" /> 
+						<label for="5-stars" class="star pr-4">★</label> 
+						<input type="radio" id="4-stars" name="revRating" id="revRating" value="4" /> 
+						<label for="4-stars" class="star">★</label> 
+						<input type="radio" id="3-stars" name="revRating" id="revRating" value="3" /> 
+						<label for="3-stars" class="star">★</label>
+						<input type="radio" id="2-stars" name="revRating" id="revRating" value="2" /> 
+						<label for="2-stars" class="star">★</label> 
+						<input type="radio" id="1-star" name="revRating" id="revRating" value="1" /> 
+						<label for="1-star" class="star">★</label>
+					</div>
+
+
+					<div class="review_area">
+
+						<textarea class="review_text" cols="50" rows="1" name="revContent" id="revContent" placeholder="내용을 입력하세요(60자)"></textarea>
+						<input type="submit" value="등록" class="review_btn" id="review_btn">
+							
+
+					</div>
+
+					<textarea class="rev_none" name="gameIdx">
+						${gamepage.gameIdx}
+					</textarea>
+
+					<textarea class="rev_none" name="memIdx">
+						${loginInfo.memIdx}
+					</textarea>
+				</div>
+			</Form>
+
+
+
+			<div class="review_list">
+
+			</div>
+
+			<div class="paging">
+				<ul>
+					<li><a href="#">이전</a></li>
+					<li><a href="#">1</a></li>
+					<li><a href="#">2</a></li>
+					<li><a href="#">3</a></li>
+					<li><a href="#">4</a></li>
+					<li><a href="#">5</a></li>
+					<li><a href="#">다음</a></li>
+				</ul>
+			</div>
+			<div class="moving">
+				<ul>
+					<%-- <li><a
+						href='<c:url value ='/game/confirmDelete/'/>${gamepage.gameIdx}'
+						id="prev">삭제</a></li> --%>
+					<li><a href="<c:url value ='/game/gamelist'/>" id="list">목록</a>
+
+					</li>
+					<%-- <li><a
+						href="<c:url value ='/game/gamepage/'/>${gamepage.gameIdx-1}"
+						id="next">다음</a></li> --%>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<footer>
 		<h2>footer입니다</h2>
@@ -593,6 +789,6 @@ function btnclick(){
 
 
 
-
 </body>
+
 </html>

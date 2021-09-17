@@ -9,7 +9,6 @@ public class GameMain {
 	private String gameTime;
 	private String gameLmtAge;
 	private String gamePhoto;
-
 	private int avg;
 
 	public GameMain(int gameIdx, String gameName, String gameSort, String gamePerson, String gameTime,

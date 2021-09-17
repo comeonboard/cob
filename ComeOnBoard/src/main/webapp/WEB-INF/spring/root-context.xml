@@ -6,11 +6,14 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
+	<!-- 기존 로컬저장소  -->
+	<!-- p:jdbcUrl="jdbc:mysql://localhost:3306/project?serverTimezone=UTC" -->
+	
 	<!-- DataSource 설정  -->
 	<bean id="datasource"
 			class="com.zaxxer.hikari.HikariDataSource"
 			p:driverClassName="com.mysql.cj.jdbc.Driver"
-			p:jdbcUrl="jdbc:mysql://localhost:3306/project?serverTimezone=UTC"
+			p:jdbcUrl="jdbc:mysql://mysql205.c9h1klfuh6kq.ap-northeast-2.rds.amazonaws.com:3306/project?serverTimezone=UTC"	
 			p:username="bit"
 			p:password="bit">
 			

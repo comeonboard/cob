@@ -110,6 +110,5 @@ public class MemberUpdateService {
 			return photoName;
 		}
 	
-	// 비밀번호 변경
 	
 }

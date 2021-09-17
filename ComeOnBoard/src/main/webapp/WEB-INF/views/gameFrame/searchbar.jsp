@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 
 <title>ComeOnBoard</title>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <style>
     .searchbar{
@@ -54,8 +54,8 @@
 		<h1>
 			<a href="<c:url value ='/game/gamelist'/>"> 게임 DB </a>
 		</h1>
-		
-		<form method="post">
+		<!-- action : 지정한 url로 해당 데이터를 보낸다.  -->
+		<form action="/cob/game/gamelist" method="get">
 			<div class="search">
 				<input type="text" id="search_text" name="keyword"> 
 				<input type="submit" value="검색" id="btn1">

@@ -14,6 +14,7 @@
 			alert('회원가입을 축하합니다.');
 		</script>
 	</c:if>
+
 </head>
 
 <style>
@@ -163,7 +164,7 @@
 						reid : reid
 					},
 					success : function(data) {
-						if (data == "false") {
+						if (!data) {
 							$('#area_msg').removeClass('display_none');
 							$('#area_msg').html('아이디, 비밀번호가 일치하지 않습니다. <br> 다시 입력해주세요.');
 						} else {
@@ -181,7 +182,7 @@
 						console.log(status);
 						console.log(error);
 					}
-				})
+				});
 			}
 		});		
 	});
@@ -189,37 +190,37 @@
 
 <body>
     <div class="wrap">
-    <div class="area_logo">
-        <a href="<c:url value='/'/>">
-        	<img src="/cob/images/logo_full.png">
-        </a>
-    </div>
-    <div id="container">
-        <form method="POST" id="login_form">
-        	<fieldset class="login_form">
-                <legend>로그인</legend>
-                <div class="id_area">
-                    <input type="text" id="memId"name="memId" class="input_row" placeholder="아이디" value="${cookie.reid.value}">
-                </div>
-                <div class="pw_area">
-                    <input type="password" id="memPassword" name="memPassword" class="input_row" placeholder="비밀번호">
-                </div>
-                <div id="area_msg" class="color_red display_none">
-                </div>
-                <div class="area_chk">
-                    <input type="checkbox" id="reid_chk" name="reid" ${cookie.reid ne null ? 'checked' : ''}>
-                
-                    <label for="reid_chk">아이디 저장하기</label> 
-                </div>	
-    	        <input type="button" id="btn_login" value="로그인">
-                <input type="button" id="btn_kakao" value="카카오 아이디로 로그인하기">
-            </fieldset>
-        </form>
+	    <div class="area_logo">
+	        <a href="<c:url value='/'/>">
+	        	<img src="/cob/images/logo_full.png">
+	        </a>
+	    </div>
+    	<div id="container">
+	        <form method="POST" id="login_form">
+	        	<fieldset class="login_form">
+	                <legend>로그인</legend>
+	                <div class="id_area">
+	                    <input type="text" id="memId"name="memId" class="input_row" placeholder="아이디" value="${cookie.reid.value}">
+	                </div>
+	                <div class="pw_area">
+	                    <input type="password" id="memPassword" name="memPassword" class="input_row" placeholder="비밀번호">
+	                </div>
+	                <div id="area_msg" class="color_red display_none">
+	                </div>
+	                <div class="area_chk">
+	                    <input type="checkbox" id="reid_chk" name="reid" ${cookie.reid ne null ? 'checked' : ''}>
+	                
+	                    <label for="reid_chk">아이디 저장하기</label> 
+	                </div>	
+	    	        <input type="button" id="btn_login" value="로그인">
+	                <input type="button" id="btn_kakao" value="카카오 아이디로 로그인하기">
+	            </fieldset>
+	        </form>
 
             <div class="nav_login">
                 <ul>
-                    <li><a href="findId.html">아이디 찾기</a></li>
-                    <li><a href="findPw.html">비밀번호 찾기</a></li>
+                    <li><a href="<c:url value='/member/findId'/>">아이디 찾기</a></li>
+                    <li><a href="<c:url value='/member/findPw'/>">비밀번호 찾기</a></li>
                     <li id="last_li" ><a href="<c:url value='/member/memberReg'/>">회원 가입</a></li>       
                 </ul>
             </div>

@@ -6,7 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>ComeOnBoard</title>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> 
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> 
+<%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
 <style>
     * {
@@ -148,6 +149,7 @@
     width: 80px;
     margin: 2px 0px;
     border-radius: 7px;
+    visibility:hidden;
 }
 
 .reg_btn:hover{ 
@@ -165,42 +167,87 @@ a{
 }
 
 </style>
+<script>
+
+$(function(){
+	
+	
+	if('${loginInfo.memAuth}' == 'manager'){
+		$('#reg_btn').css('visibility','visible');
+	}
+	
+});
+
+
+ 
+</script>
+<script>
+$(function(){
+	$('#sortForm').change(function(){
+		
+	function sortlist(sort){
+		$.ajax({
+			url :'<c:url value="/game/gamelist"/>',
+			type : 'post',
+			data : {
+				sortType : $('#sortForm')
+			},
+			success : function(data){
+				$('#sortForm').val().submit();	
+			},
+			error : function(){
+				alert('이케하는거아님');
+			},
+			complete : function(){}
+		});
+		
+	}
+		
+	});
+	
+});
+</script>
 <body>
 
-	<%@ include file="/WEB-INF/views/gameFrame/multibar.jsp"%>
+    <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<%@ include file="/WEB-INF/views/gameFrame/searchbar.jsp"%>
 	
-	<div class="listbar">
-		<select>
-			<option value="전략">전략</option>
-			<option value="추상">추상</option>
-			<option value="컬렉터블">컬렉터블</option>
-			<option value="가족">가족</option>
-			<option value="어린이">어린이</option>
-			<option value="파티">파티</option>
-			<option value="테마">테마</option>
-			<option value="워게임">워게임</option>
-		</select>
-
-        
-        <ul>
-            <li><a href="#"> 등록순 </a> </li>
-            <li><a href="#"> 최신순 </a> </li>
-            <li><a href="#"> 평점순 </a> </li>
-        </ul>
-        
-        
-    </div>
+	<form method="post">
+		<div class="listbar">
+			
+				<select  name="sortKeyword" id="sortForm">
+					<option selected> 장르선택 </option>
+					<option value="전략" >전략</option>
+					<option value="추상" >추상</option>
+					<option value="컬렉터블" >컬렉터블</option>
+					<option value="가족" >가족</option>
+					<option value="어린이" >어린이</option>
+					<option value="파티" >파티</option>
+					<option value="테마" >테마</option>
+					<option value="워게임" >워게임</option>
+				</select>
+			
+	        
+		        <ul>
+		            <li><a href="<c:url value = '/game/gamelist/recently'/>"> 등록순 </a> </li>
+		            <li><a href="<c:url value = '/game/gamelist'/>"> 최신순 </a> </li>
+		            <li><a href="<c:url value = '/game/gamelist/avg'/>"> 평점순 </a> </li>
+		        </ul>
+	       
+	        
+	    </div>
+	</form>
 	
     <div class="game_list">
 
-        <c:forEach items="${gamelist}" var="gameMain" >
+        <c:forEach items="${listView.gameList}" var="gameMain" >
         <div class="game_item">
             
             
             <a href="<c:url value ='/game/gamepage/'/>${gameMain.gameIdx}">
             <img src="<c:url value="/uploadfile/uploadgamefile"/>/${gameMain.gamePhoto}" class="game_img"/>
             </a>
+            
             
             
             <ul>
@@ -221,18 +268,30 @@ a{
 	</c:forEach>
     </div>
    	
-
+	
 	
 	    <div class="paging">
 
         <div class="game_reg">
-            <input type="button" value="등록" class="reg_btn" 
+            <input type="button" value="등록" class="reg_btn" id="reg_btn"
             onclick="document.location.href='<c:url value ='/game/gameReg'/>'" >
 
         <div class="paging_number">
-            <h4> << <a href="#">1 | </a><a href="#">2 | </a><a href="#">3 </a> >> </h4>
+	        <c:if test ="${listView.pageTotalCount>0 }">
+	        	<div  class="paging">
+	        	
+		        	<c:forEach begin="1" end="${listView.pageTotalCount }" var="num">
+		        		
+		        		
+		        		
+		        		<span>[<a href="gamelist?page=${num}&keyword=${searchType.keyword}">${num}</a>]</span>
+		        
+		        	</c:forEach>
+		        	
+	        	</div>
+	        </c:if>          
         </div>
-        
+
 
         </div>
           

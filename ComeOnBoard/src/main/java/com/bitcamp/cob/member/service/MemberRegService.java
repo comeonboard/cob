@@ -29,8 +29,9 @@ public class MemberRegService {
 			) {
 		int resultCnt = 0;
 		File newFile = null;
-		regRequest.makeMemBirth();
 
+		regRequest.makeMemBirth();
+		System.out.println(regRequest.getMemBirth());
 		try {
 			String path = request.getSession().getServletContext().getRealPath(UPLOAD_URI);
 			File newDir = new File(path);

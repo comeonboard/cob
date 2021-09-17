@@ -2,13 +2,17 @@ package com.bitcamp.cob.cafe.domain;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class CafeReview {
 
 	private int revIdx;
 	private int cafeIdx;
 	private int memIdx;
+	private String nickName;
 	private String revContent;
-	private Timestamp revRegDate;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private Timestamp revRegTimestamp;
 	private int revRating;
 	
 	public CafeReview() {}
@@ -45,12 +49,12 @@ public class CafeReview {
 		this.revContent = revContent;
 	}
 
-	public Timestamp getRevRegDate() {
-		return revRegDate;
+	public Timestamp getRevRegTimestamp() {
+		return revRegTimestamp;
 	}
 
-	public void setRevRegDate(Timestamp revRegDate) {
-		this.revRegDate = revRegDate;
+	public void setRevRegTimestamp(Timestamp revRegTimestamp) {
+		this.revRegTimestamp = revRegTimestamp;
 	}
 
 	public int getRevRating() {
@@ -60,15 +64,20 @@ public class CafeReview {
 	public void setRevRating(int revRating) {
 		this.revRating = revRating;
 	}
+	
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
 
 	@Override
 	public String toString() {
-		return "CafeReview [revIdx=" + revIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", revContent="
-				+ revContent + ", revRegDate=" + revRegDate + ", revRating=" + revRating + "]";
+		return "CafeReview [revIdx=" + revIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", nickName=" + nickName
+				+ ", revContent=" + revContent + ", revRegTimestamp=" + revRegTimestamp + ", revRating=" + revRating
+				+ "]";
 	}
-	
-	
-	
 
-	
 }

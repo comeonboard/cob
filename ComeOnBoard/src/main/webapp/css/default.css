@@ -114,7 +114,8 @@
         margin-top: 50px;
     }
     .content_menu {
-        display: inline-block;
+   		margin: 0 auto;
+        display: block;
         width: 880px;
         height: 650px;
         overflow: hidden;
@@ -260,7 +261,7 @@
 		display: none;
 	}
     .color_red {
-    	color: rgb(234,67,53)
+    	color: rgb(234,67,53);
     }
     
     .color_blue {
@@ -269,4 +270,12 @@
     
     .color_grey {
     	color: #777;
+    }
+    
+   	button:hover {
+   		cursor: pointer;
+   	}
+   	
+   	.loadingimg {
+   		width: 30px;
     }

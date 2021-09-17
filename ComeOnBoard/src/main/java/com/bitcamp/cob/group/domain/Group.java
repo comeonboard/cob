@@ -18,16 +18,20 @@ public class Group {
 	private int grpMaxMem;
 	private int grpRegMem;
 	private int gameIdx; // 외래키
-	private String grpTitle;
+	private String grpTitle;	// 숫자제목을 가져올때 java.lang.NumberFormatException: For input string: "grpTitle"오류 -> 제목이 숫자일 경우 어떻게 해결을 봐야하지?
+	
 	private String nickName;
 	private String loc;
 	private String genre;
+	private int grpRegIdx;
+	private Timestamp grpRegDate;
+	private int grpConfirm;
 	
 	public Group() {}
 
 	public Group(int grpIdx, int memIdx, Timestamp grpPostDate, Date grpPostEndDate, String grpDate, String grpPhoto,
 			String grpContent, int grpMaxMem, int grpRegMem, int gameIdx, String grpTitle, String nickName, String loc,
-			String genre) {
+			String genre, int grpRegIdx, Timestamp grpRegDate, int grpConfirm) {
 		super();
 		this.grpIdx = grpIdx;
 		this.memIdx = memIdx;
@@ -43,6 +47,9 @@ public class Group {
 		this.nickName = nickName;
 		this.loc = loc;
 		this.genre = genre;
+		this.grpRegIdx = grpRegIdx;
+		this.grpRegDate = grpRegDate;
+		this.grpConfirm = grpConfirm;
 	}
 
 	public int getGrpIdx() {
@@ -78,7 +85,7 @@ public class Group {
 	}
 
 	public String getGrpDate() {
-		return grpDate;
+		return grpDate.replace("T", " ");
 	}
 
 	public void setGrpDate(String grpDate) {
@@ -126,7 +133,7 @@ public class Group {
 	}
 
 	public String getGrpTitle() {
-		return grpTitle;
+		return (String)grpTitle;
 	}
 
 	public void setGrpTitle(String grpTitle) {
@@ -157,13 +164,39 @@ public class Group {
 		this.genre = genre;
 	}
 
+	public int getGrpRegIdx() {
+		return grpRegIdx;
+	}
+
+	public void setGrpRegIdx(int grpRegIdx) {
+		this.grpRegIdx = grpRegIdx;
+	}
+
+	public Timestamp getGrpRegDate() {
+		return grpRegDate;
+	}
+
+	public void setGrpRegDate(Timestamp grpRegDate) {
+		this.grpRegDate = grpRegDate;
+	}
+
+	public int getGrpConfirm() {
+		return grpConfirm;
+	}
+
+	public void setGrpConfirm(int grpConfirm) {
+		this.grpConfirm = grpConfirm;
+	}
+
 	@Override
 	public String toString() {
 		return "Group [grpIdx=" + grpIdx + ", memIdx=" + memIdx + ", grpPostDate=" + grpPostDate + ", grpPostEndDate="
 				+ grpPostEndDate + ", grpDate=" + grpDate + ", grpPhoto=" + grpPhoto + ", grpContent=" + grpContent
 				+ ", grpMaxMem=" + grpMaxMem + ", grpRegMem=" + grpRegMem + ", gameIdx=" + gameIdx + ", grpTitle="
-				+ grpTitle + ", nickName=" + nickName + ", loc=" + loc + ", genre=" + genre + "]";
+				+ grpTitle + ", nickName=" + nickName + ", loc=" + loc + ", genre=" + genre + ", grpRegIdx=" + grpRegIdx
+				+ ", grpRegDate=" + grpRegDate + ", grpConfirm=" + grpConfirm + "]";
 	}
+
 	
 	
 	

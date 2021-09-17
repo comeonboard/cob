@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bitcamp.cob.game.dao.Dao;
+import com.bitcamp.cob.game.dao.GameDao;
 import com.bitcamp.cob.game.domain.Game;
 import com.bitcamp.cob.game.domain.GameMain;
 import com.bitcamp.cob.game.domain.GameRegRequest;
@@ -22,7 +22,7 @@ import com.bitcamp.cob.game.domain.SearchType;
 public class GameRegService {
 
 	final String UPLOAD_URI = "/uploadfile/uploadgamefile";
-	private Dao dao;
+	private GameDao dao;
 
 	@Autowired
 	private SqlSessionTemplate template;
@@ -68,7 +68,7 @@ public class GameRegService {
 		System.out.println(regRequest.getGameName());
 		
 		
-		dao =  template.getMapper(Dao.class);
+		dao =  template.getMapper(GameDao.class);
 		
 		resultCnt = dao.insertGame(game);
 		
@@ -91,7 +91,7 @@ public class GameRegService {
 
 	public List<GameMain> getGameMain(SearchType searchType){
 		
-		return template.getMapper(Dao.class).searchGame(searchType);
+		return template.getMapper(GameDao.class).searchGame(searchType);
 	
 	}		
 	

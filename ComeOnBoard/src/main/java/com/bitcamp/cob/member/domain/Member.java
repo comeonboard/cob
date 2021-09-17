@@ -3,12 +3,14 @@ package com.bitcamp.cob.member.domain;
 import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Member {
 
 	private int memIdx;
 	private String memId;
 	private String nickName;
+	@JsonIgnore
 	private String memPassword;
 	private String memName;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

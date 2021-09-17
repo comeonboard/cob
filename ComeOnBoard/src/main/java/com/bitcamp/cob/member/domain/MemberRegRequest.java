@@ -181,10 +181,13 @@ public class MemberRegRequest {
 
 
 	public void makeMemBirth() {
-		String birthDay = year+"-"+month+"-"+day+" 00:00:00";
-		Timestamp memBirth = Timestamp.valueOf(birthDay);
-		memBirth.toLocalDateTime();
-		this.memBirth = memBirth;
+
+		if(year > 0 && month > 0  && day > 0) {
+			String birthDay = year+"-"+month+"-"+day+" 00:00:00";
+			memBirth = Timestamp.valueOf(birthDay);
+			memBirth.toLocalDateTime();
+		}
+		
 		};
 	
 	

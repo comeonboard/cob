@@ -19,11 +19,12 @@ public class PwCheckController {
 	@RequestMapping(value="/member/pwCheck", method=RequestMethod.POST)
 	@ResponseBody
 	public boolean pwCheck(
-			@RequestParam("memPassword") String memPassword,
+			String memId,
+			String memPassword,
 			Model model
 			) {
 		boolean pwCheck = false;
-		int chk = checkService.pwCheck(memPassword);
+		int chk = checkService.pwCheck(memId, memPassword);
 		
 		if(chk>0) {
 			pwCheck = true;

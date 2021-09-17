@@ -6,7 +6,6 @@ public class CafeSearchType {
 	private String keyword;
 	
 	public CafeSearchType() {
-		super();
 	}
 
 	public CafeSearchType(String searchType, String keyword) {

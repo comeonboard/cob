@@ -32,12 +32,11 @@ public class MemberRegController {
 			HttpServletRequest request,
 			Model model
 			) {
-		System.out.println(regRequest);
 		int result = regService.memberReg(regRequest, request);
 		
 		model.addAttribute("result", result);
 		
-		String view = "member/reg";
+		String view = "member/error";
 		
 		if(result == 1) {
 			// 인덱스 페이지로 리다이렉트

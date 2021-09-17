@@ -77,6 +77,11 @@ list-style: none;
 
 
 
+.carousel-inner > .carousel-item > img {
+	min-width: 100%;
+	min-height: 100%;
+} 
+
 
 
 .cafe_wrap{
@@ -88,16 +93,19 @@ list-style: none;
 
 #carouselExampleControls{
     margin: 10px;
-    max-width: 600px;
-    height: 310px;
+    max-width: 65%;
+    height: 380px;
     display: inline-block;
     float: left;
+}
+.carousel-item{
+	width: 600px;
+    height: 310px;
 }
 .basic_info{
     margin: 10px;
     padding: 10px;
-    max-width: 300px;
-    min-width: 300px;
+    max-width: 30%;
     height: 380px;
     display: inline-block;
     overflow: hidden;
@@ -161,6 +169,26 @@ td>.btn{
 #post{
     margin: 10px 10px;
 }
+.modify_rev_form{
+	display: none;
+}
+
+.mod_del{
+	cursor: pointer;
+}
+
+.media p{
+	white-space: pre;
+}
+.media li{
+	color: #007bff;
+}
+.media li :hover{
+	text-decoration: underline;
+}
+
+
+
 
 
 .star-rating {
@@ -197,6 +225,43 @@ cursor: pointer;
 
 
 
+
+
+
+
+.star-rating-rev {
+display: flex;
+flex-direction: row-reverse;
+font-size: 1.25rem;
+line-height: 2.5rem;
+justify-content: space-around;
+padding: 0 0.2em;
+text-align: center; 
+width: 10em;
+margin-left: 5px;
+}
+
+.star-rating-rev input {
+display: none;
+}
+
+.star-rating-rev label {
+-webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+-webkit-text-stroke-width: 1px;
+-webkit-text-stroke-color: #000000;
+cursor: pointer;
+}
+
+.star-rating-rev :checked ~ label {
+-webkit-text-fill-color: gold;
+}
+
+.star-rating-rev label:hover,
+.star-rating-rev label:hover ~ label {
+-webkit-text-fill-color: #fff370;
+}
+
+
 /* 버튼 회전 */
 @-webkit-keyframes rotate-hor-center {
 0% {
@@ -224,3 +289,30 @@ cursor: pointer;
 }
 
 
+/* 파일 미리보기 */
+ul.cvf_uploaded_files {
+    list-style-type: none; margin: 20px 0 0 0; padding: 0;
+}
+ul.cvf_uploaded_files li {
+    background-color: #fff; float: left; margin: 2px; width: 200px; height: 100px; line-height: 100px; position: relative;
+}
+ul.cvf_uploaded_files li img.img-thumb {
+    width: 200px; height: 100px; border-radius: 5px;
+}
+ul.cvf_uploaded_files .ui-selected {
+    background: red;
+}
+ul.cvf_uploaded_files .highlight {
+    border: 1px dashed #000; width: 150px; background-color: #ccc; border-radius: 5px;
+}
+ul.cvf_uploaded_files .delete-btn {
+    width: 24px; height: 24px; border: 0; position: absolute; top: 2.5px; right: 0px; padding: 0;
+}
+.bg-success {
+    padding: 7px;
+}
+.thumnail {
+    height: 150px;
+    overflow: hidden;
+    overflow-y: scroll;
+}

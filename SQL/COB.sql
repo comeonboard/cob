@@ -8,10 +8,19 @@ memName varchar(20) not null,
 memBirth timestamp,
 memGender varchar(10),
 preferAddr varchar(255),
+memPoint int,
 memTel varchar(15) not null,
 memEmail varchar(40) not null,
-memPhoto varchar(255) default 'photo.png',
+memPhoto varchar(255) default 'default.png',
 memAuth varchar(10) not null default 'member' -- member, manager, ban, cafe
+);
+
+drop table friends;
+create table friends(
+memIdxFollow int,
+memIdxFollowing int,
+constraint fk_memIdxFollow foreign key(memIdxFollow) references member1(memIdx),
+constraint fk_memIdxFollowing foreign key(memIdxFollowing) references member1(memIdx)
 );
 
 drop table post;
