@@ -27,8 +27,26 @@ constraint fk_memIdxFollow foreign key(memIdxFollow) references member1(memIdx),
 constraint fk_memIdxFollowing foreign key(memIdxFollowing) references member1(memIdx)
 );
 
--- 게시물
-drop table project.post;
+-- 보유 게임
+drop table project.owngame;
+  CREATE TABLE project.`owngame` (
+  `gameIdx` int DEFAULT NULL,
+  `cafeIdx` int DEFAULT NULL,
+  CONSTRAINT `fk_gameIdx_owngame` FOREIGN KEY (`gameIdx`) REFERENCES `gamelist` (`gameIdx`),
+  CONSTRAINT `fk_cafeIdx_owngame` FOREIGN KEY (`cafeIdx`) REFERENCES `boardgamecafe` (`cafeIdx`)
+);
+
+  -- 선호 게임
+  drop table project.prefergame;
+  CREATE TABLE project.`prefergame` (
+  `gameIdx` int DEFAULT NULL,
+  `memIdx` int DEFAULT NULL,
+  CONSTRAINT `fk_gameIdx_prefergame` FOREIGN KEY (`gameIdx`) REFERENCES `gamelist` (`gameIdx`),
+  CONSTRAINT `fk_memIdx_prefergame` FOREIGN KEY (`memIdx`) REFERENCES `member1` (`memIdx`)
+);
+
+-- ------------------------------------------종원 ------------------------------------
+
 create table project.post(
 postIdx int not null auto_increment primary key,
 memIdx int not null,
@@ -43,82 +61,54 @@ postDislike int not null default 0,
 postRep int not null default 0,
 constraint fk_memIdx foreign key(memIdx) references member1(memIdx)
 );
+drop table post;
+select * from post;
 
--- 게시물 댓글
-drop table project.comment;
 create table project.comment(
 commIdx int auto_increment primary key,
+memIdx int not null,
 postIdx int not null,
 commContent text not null,
 commRegDate timestamp not null default current_timestamp,
 commLike int not null default 0,
 commDislike int not null default 0,
 commRep int not null default 0,
+foreign key(memIdx) references member1(memIdx),
 foreign key(postIdx) references post(postIdx)
 );
+drop table comment;
+select * from comment;
 
--- 게시물 대댓글
-drop table project.recomment;
 create table project.recomment(
 recommIdx int auto_increment primary key,
+memIdx int not null,
+postIdx int not null,
 commIdx int not null,
 recommContent text not null,
 recommRegDate timestamp not null default current_timestamp,
 recommLike int not null default 0,
 recommDislike int not null default 0,
 recommRep int not null default 0,
-foreign key(commIdx) references comment(commIdx)
+foreign key(memIdx) references member1(memIdx),
+foreign key(commIdx) references comment(commIdx),
+foreign key(postIdx) references post(postIdx)
 );
+drop table recomment;
+select * from recomment;
 
--- 모임
-drop table project.gamegroup;
-create table project.gamegroup(
- grpIdx int auto_increment primary key,
- memIdx int not null,
- grpPostDate timestamp not null default current_timestamp,
- grpPostEndDate timestamp not null,
- grpDate timestamp not null,
- grpPhoto varchar(255),
- grpContent text,
- grpMaxMem int,
- grpRegMem int,
- gameIdx int, -- 외래키로 가져와야함.
- constraint fk_grp_memIdx foreign key(memIdx) references project.member1(memIdx),
- constraint fk_grp_gameIdx foreign key(gameIdx) references gamelist(gameIdx)
+-- 좋아요 싫어요 신고 체크 테이블
+create table project.checklike(
+type varchar(20) not null,
+tableType varchar(20) not null,
+idx int not null,
+memIdx int not null
 );
+drop table checklike;
+select * from checklike;
 
--- 보드게임 카페
-drop table project.boardgamecafe;
-CREATE TABLE `project`.`boardgamecafe` (
-  `cafeIdx` INT NOT NULL auto_increment primary key,
-  `memIdx` INT NOT NULL,
-  `cafeName` VARCHAR(20) NOT NULL,
-  `cafeAddress` VARCHAR(255) NOT NULL,
-  `cafeTime` VARCHAR(20) NOT NULL,
-  `stdFee` INT NOT NULL,
-  `tenPerFee` INT NOT NULL,
-  `fourTable` INT NOT NULL,
-  `grpTable` INT NOT NULL,
-  `cafeTel` TEXT NOT NULL,
-  `cafeRating` INT NOT NULL default 0,
-  constraint fk_memIdx_boardgamecafe foreign key(memIdx) references member1(memIdx)
-);
+-- ------------------------------------------상명 ------------------------------------
 
--- 카페 리뷰
-drop table project.cafereview;
-CREATE TABLE `project`.`cafereview` (
-  `revIdx` INT NOT NULL auto_increment primary key,
-  `cafeIdx` INT NOT NULL,
-  `memIdx` INT NOT NULL,
-  `revContent` TEXT NOT NULL,
-  `revRegDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `revRating` INT NOT NULL,
-  constraint fk_cafeIdx_cafereview foreign key(cafeIdx) references boardgamecafe(cafeIdx),
-  constraint fk_memIdx_cafereview foreign key(memIdx) references member1(memIdx)
-  );
-  
-  -- 게임 리스트
-   drop table project.gamelist;
+drop table gamelist;
   create table project.gamelist(
     gameIdx int auto_increment primary key,
     gameName varchar(50) unique not null,
@@ -131,50 +121,127 @@ CREATE TABLE `project`.`cafereview` (
     gamePhoto varchar(255) default 'photo.png',
     gameIntro text ,
     gameRule text not null,
-    gameVideo text 
+    gameVideo text, 
+    gamePrcie int default 1000
 );
 
--- 게임 리뷰
-drop table project.gamereview;
-CREATE TABLE project.`gamereview` (
+select count(*) from gamelist where  gameidx > 0;
+select * from gamelist;
+delete from gamelist where gameidx=17;
+      select a.* 
+      from ( 
+      select gl.gameIdx, gl.gamename, gl.gamesort, 
+      gl.gamePerson, gl.gameTime, 
+      gl.gameLmtAge, gl.gamePhoto, 
+      avg(gr.revRating) as avg
+      from gamelist gl left outer join gamereview gr 
+      on gl.gameidx = gr.gameIdx 
+      group by gl.gameidx) a
+      where a.gamename = '';
+
+SELECT count(*)
+         FROM gamelist where gameidx>0;
+   
+         SELECT count(*)
+         FROM gamelist where gameidx>0;
+    select gl.gameIdx, gl.gamename, gl.gamesort, gl.gamePerson, gl.gameTime, 
+   gl.gameLmtAge, gl.gamePhoto, avg(gr.revRating) as avg
+   from gamelist gl left outer join gamereview gr 
+   on gl.gameidx = gr.gameIdx
+   group by gl.gameidx
+   order by gl.gameIdx desc;
+
+   
+drop table gamereview;
+CREATE TABLE project.gamereview (
   `revIdx` INT NOT NULL auto_increment primary key,
-  `gameIdx` INT NOT NULL,
+  `gameIdx` INT NOT NULL ,
   `memIdx` INT NOT NULL,
-  `revContent` TEXT NOT NULL,
+  `revContent` varchar(80) NOT NULL,
   `revRegDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `revRating` INT NOT NULL,
-  constraint fk_gameIdx_gamereview foreign key(gameIdx) references gamelist(gameIdx),
-  constraint fk_memIdx_gamereview foreign key(memIdx) references member1(memIdx)
+  constraint fk_gameIdx_gamereview foreign key(gameIdx) references gamelist(gameIdx) on delete cascade,
+  constraint fk_memIdx_gamereview foreign key(memIdx) references member1(memIdx) on delete cascade
   );
   
-  -- 선호 게임
-  drop table project.prefergame;
-  CREATE TABLE project.`prefergame` (
-  `gameIdx` int DEFAULT NULL,
-  `memIdx` int DEFAULT NULL,
-  CONSTRAINT `fk_gameIdx_prefergame` FOREIGN KEY (`gameIdx`) REFERENCES `gamelist` (`gameIdx`),
-  CONSTRAINT `fk_memIdx_prefergame` FOREIGN KEY (`memIdx`) REFERENCES `member1` (`memIdx`)
+select * from gamereview order by revidx desc ;
+select * from gamereview limit 0,3;
+select * from gamereview g , member1 m  where g.memidx = m.memidx;
+delete from gamereview where revIdx = 16 and memidx=1;
+update gamereview set revRating =1 , revContent ="업데이트 테스트~" where revidx = 28;
+select @ROWNUM:=@ROWNUM+1 AS ROWNUM,A.* FROM gamelist A, (SELECT @ROWNUM:=0) R order by gameIdx desc;
+
+-- ------------------------------------------재훈 ------------------------------------
+
+CREATE TABLE `project`.`boardgamecafe` (
+  `cafeIdx` INT NOT NULL auto_increment primary key,
+  `memIdx` INT NOT NULL,
+  `cafeName` VARCHAR(20) NOT NULL,
+  `cafeAddress` VARCHAR(255) NOT NULL,
+  `cafeTime` VARCHAR(20) NOT NULL,
+  `stdFee` INT NOT NULL,
+  `tenPerFee` INT NOT NULL,
+  `fourTable` INT NOT NULL,
+  `grpTable` INT NOT NULL,
+  `cafeTel` TEXT NOT NULL,
+  `cafeThumbnail` VARCHAR(255),
+  constraint fk_memIdx_boardgamecafe foreign key(memIdx) references member1(memIdx)
 );
 
--- 보유 게임
-drop table project.owngame;
-  CREATE TABLE project.`owngame` (
-  `gameIdx` int DEFAULT NULL,
-  `cafeIdx` int DEFAULT NULL,
-  CONSTRAINT `fk_gameIdx_owngame` FOREIGN KEY (`gameIdx`) REFERENCES `gamelist` (`gameIdx`),
-  CONSTRAINT `fk_cafeIdx_owngame` FOREIGN KEY (`cafeIdx`) REFERENCES `boardgamecafe` (`cafeIdx`)
+CREATE TABLE `project`.`cafereview` (
+  `revIdx` INT NOT NULL auto_increment primary key,
+  `cafeIdx` INT NOT NULL,
+  `memIdx` INT NOT NULL,
+  `revContent` TEXT NOT NULL,
+  `revRegTimestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `revRating` INT NOT NULL,
+  constraint fk_cafeIdx_cafereview foreign key(cafeIdx) references boardgamecafe(cafeIdx),
+  constraint fk_memIdx_cafereview foreign key(memIdx) references member1(memIdx)
+  );
+
+CREATE TABLE `project`.`cafeimg` (
+  `cafeImgIdx` INT NOT NULL auto_increment primary key,
+  `cafeIdx` INT NOT NULL,
+  `memIdx` INT NOT NULL,
+  `cafeImg` VARCHAR(255),
+  constraint fk_memIdx_cafeimg foreign key(memIdx) references member1(memIdx),
+  constraint fk_cafeIdx_cafeimg foreign key(cafeIdx) references boardgamecafe(cafeIdx)
 );
 
--- 게임 등록
-drop table project.groupreg;
-CREATE TABLE `project`.`groupreg` (
-  `grpRegIdx` INT NOT NULL,
-  `memIdx` INT not NULL,
-  `grpIdx` INT not NULL,
-  `grpRegDate` TIMESTAMP not NULL DEFAULT current_timestamp,
-  `grpConfirm` TINYINT not NULL DEFAULT 0,
-  PRIMARY KEY (`grpRegIdx`),
-  CONSTRAINT `fk_memIdx_groupreg` FOREIGN KEY (`memIdx`) REFERENCES `project`.`member1` (`memIdx`),
-  CONSTRAINT `fk_grpIdx_groupreg` FOREIGN KEY (`grpIdx`) REFERENCES `project`.`gamegroup` (`grpIdx`)
+  
+  -- ------------------------------------------현우 ------------------------------------
+  
+   drop table project.gamegroup1;
+ create table project.gamegroup1(
+ grpIdx int auto_increment primary key,
+ memIdx int,
+ grpPostDate timestamp default current_timestamp(), -- 모임등록 작성시간(모집 시작일)
+ grpPostEndDate date, -- 모집 마감일
+ grpDate text, -- 모임 시작일
+ grpContent text,
+ grpMaxMem int,
+ grpRegMem int,
+ gameIdx int, -- 외래키로 가져와야함.
+ grpTitle varchar(50),
+ nickName varchar(20),
+ loc varchar(20),
+ genre varchar(20)
 );
 
+
+
+
+
+drop table project.groupreg1;
+CREATE TABLE `project`.`groupreg1` (
+  `grpRegIdx` int auto_increment,
+  `memIdx` int not null unique,
+  `grpIdx` int ,
+  `grpRegDate` TIMESTAMP DEFAULT current_timestamp,
+  `grpConfirm` TINYINT DEFAULT 0,
+  PRIMARY KEY (`grpRegIdx`)
+  -- CONSTRAINT `fk_memIdx_groupreg1` FOREIGN KEY (`memIdx`) REFERENCES `project`.`member1` (`memIdx`),
+  -- CONSTRAINT `fk_grpIdx_groupreg1` FOREIGN KEY (`grpIdx`) REFERENCES `project`.`gamegroup` (`grpIdx`)
+);
+
+  -- ------------------------------------------윤성 ------------------------------------
