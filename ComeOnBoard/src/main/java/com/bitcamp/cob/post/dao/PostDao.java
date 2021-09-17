@@ -47,10 +47,8 @@ public interface PostDao {
 	int countPost(String postSort);
 	// 페이징 처리 게시글 조회
 	List<Post>pagingPost(PagingVO vo);
-	// 카테고리와 페이징하고 게시글 조회
-	List<Post> selectBySAP(String postSrot, PagingVO vo);
 	// 검색으로 리스트 조회
-	List<Post> selectBySearch1(Map<String, Object> map);
+	List<Post> selectBySearch(Map<String, Object> map);
 	// 검색으로 리스트 조회
 	List<Post> selectBySearchAndPaging(Map<String, Object> map);
 	

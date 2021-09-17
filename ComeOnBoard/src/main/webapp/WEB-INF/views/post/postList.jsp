@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Open Project : 회원 리스트</title>
+<title>Come on, Board : 게시판</title>
 <c:if test="${ param.deleteResult eq 1 }">
 	<script>
 		alert('해당 게시물이 삭제되었습니다.');
@@ -18,6 +18,7 @@
 integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" 
 crossorigin="anonymous">
 </script>
+<link rel="stylesheet" href="/cob/css/postList.css">
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<div id="container">
@@ -27,7 +28,7 @@ crossorigin="anonymous">
                 <div class="floating-banner">
                     <ul class="tabs">
                         <li class="shortcut_title">
-                            <a href="#">단축키<img src="/cobsp/images/shortkey.png"></a>
+                            <a href="#">단축키<img src="/cob/images/shortkey.png"></a>
                         </li>
                     </ul>
                     <ul class="tab-contents-container">
@@ -59,20 +60,16 @@ crossorigin="anonymous">
                             <a class="a1" href="<c:url value='/post/postList' />">전체</a>
                         </div>
                         <div class="nav_right">
-                            <li><a href="<c:url value='/post/postList?postSort=잡담'/>" style="color:#003f7f" >잡담</a></li>
-                            <li><a href="<c:url value='/post/postList?postSort=질문'/>" style="color:#007fff" >질문</a></li>
-                            <li><a href="<c:url value='/post/postList?postSort=후기'/>" style="color:#00bf5f" >후기</a></li>
-                            <li><a href="<c:url value='/post/postList?postSort=게임TIP'/>" style="color:#4f007c" >게임TIP</a></li>
-                            <li><a href="<c:url value='/post/postList?postSort=지역'/>" style="color:#ffaaaa" >지역</a></li>	
-                            <li><a href="<c:url value='/post/postList?postSort=기타'/>" style="color:#000000" >기타</a></li>
-                            <li><a href="<c:url value='/post/postList?postSort=공지'/>" style="color:#ff0000" >공지</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=잡담&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#003f7f" >잡담</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=질문&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#007fff" >질문</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=후기&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#00bf5f" >후기</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=게임TIP&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#4f007c" >게임TIP</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=지역&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ffaaaa" >지역</a></li>	
+                            <li><a href="<c:url value='/post/searchList?postSort=기타&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#000000" >기타</a></li>
+                            <li><a href="<c:url value='/post/searchList?postSort=공지&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ff0000" >공지</a></li>
                         </div>
                         <div>
                             <select id="cntPerPage" name="sel" onchange="selChange()" class="dataPerPage">
-								<option value="10"
-									<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
-								<option value="15"
-									<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
 								<option value="20"
 									<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
 								<option value="25"
@@ -84,13 +81,8 @@ crossorigin="anonymous">
                         
                         <script>
 							function selChange() {
-								var value = '${postSort}';
 								var select = $('#cntPerPage option:selected').val();
-								if(value == ''){
-									location.href="/cobsp/post/postList?nowPage=${paging.nowPage}&cntPerPage="+select;
-								} else{
-									location.href="/cobsp/post/postList?postSort=" + value + "&nowPage=${paging.nowPage}&cntPerPage="+select;
-								}
+									location.href="/cob/post/searchList?postSort=${postSort}&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.nowPage}&cntPerPage="+select;
 							}
 						</script>
                         
@@ -157,7 +149,7 @@ crossorigin="anonymous">
                     </div>
                     <script>
                     	function btn_search(){
-                    		location.href="/cobsp/post/searchList?postSort=${postSort}&searchType="+ $('#searchType').val() +"&keyword=" + $('#keyword').val();
+                    		location.href="/cob/post/searchList?postSort=${postSort}&searchType="+ $('#searchType').val() +"&keyword=" + $('#keyword').val();
                     	}
                     </script>
                     <!-- 글쓰기 페이지로 보내기 -->
@@ -166,7 +158,7 @@ crossorigin="anonymous">
                 <c:if test="${empty postSort}">
                 	<div style="display: block; text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/postList?&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
@@ -174,19 +166,19 @@ crossorigin="anonymous">
 									<b>${p }</b>
 								</c:when>
 								<c:when test="${p != paging.nowPage }">
-									<a href="<c:url value='/post/postList?&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
+									<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
 								</c:when>
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/postList?&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
                 <c:if test="${ !empty postSort}">
                 	<div style="display: block; text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/postList?postSort=${ postSort }&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
@@ -194,12 +186,12 @@ crossorigin="anonymous">
 									<b>${p }</b>
 								</c:when>
 								<c:when test="${p != paging.nowPage }">
-									<a href="<c:url value='/post/postList?postSort=${ postSort }&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
+									<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
 								</c:when>
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/postList?postSort=${ postSort }&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>

@@ -6,6 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<!-- css and image -->
+<link rel="stylesheet" href="/cob/css/postReg.css">
+<link rel="stylesheet" href="/cob/css/default.css">
+<link rel="icon" href="/cob/images/simple_logo.png">
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
@@ -15,45 +19,45 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 <link href="/js/summernote-ko-KR.js">
-<title>글쓰기</title>
-<%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
+
+<title>Come on, Board : 게시글 등록</title>
 <script>
-$(document).ready(function() {
-	$('#summernote').summernote({
-		placeholder: 'content',
-	    minHeight: 500,             // 최소 높이
-	    maxHeight: null,            // 최대 높이
-	    focus: true,                // 에디터 로딩후 포커스를 맞출지 여부
-	    lang: "ko-KR",				// 한글 설정
-	    /* callbacks: {
-			onImageUpload: function(files, editor, welEditable) {
-				for (var i = files.length - 1; i >= 0; i--) {
-		            sendFile(files[i], this);
-				}
-	        }
-		} */
+	$(document).ready(function() {
+		$('#summernote').summernote({
+			placeholder: 'content',
+		    minHeight: 500,             // 최소 높이
+		    maxHeight: null,            // 최대 높이
+		    focus: true,                // 에디터 로딩후 포커스를 맞출지 여부
+		    lang: "ko-KR",				// 한글 설정
+		    /* callbacks: {
+				onImageUpload: function(files, editor, welEditable) {
+					for (var i = files.length - 1; i >= 0; i--) {
+			            sendFile(files[i], this);
+					}
+		        }
+			} */
+		});
+		/* function sendFile(files, el) {
+			var form_data = new FormData();
+			form_data.append('file', file);
+	      	$.ajax({
+	        	data: form_data,
+	        	type: "POST",
+	        	url: '/uploadSummernoteImageFile',
+	        	contentType: false,
+	        	enctype: 'multipart/form-data',
+	        	processData: false,
+	        	success: function(img_name) {
+	          		$(el).summernote('editor.insertImage', img_name);
+	          		console.log('성공');
+	        	},
+	        	error: function(){
+	        		console.log('에러');
+	        	}
+	      	});
+	    }
+		 */
 	});
-	/* function sendFile(files, el) {
-		var form_data = new FormData();
-		form_data.append('file', file);
-      	$.ajax({
-        	data: form_data,
-        	type: "POST",
-        	url: '/uploadSummernoteImageFile',
-        	contentType: false,
-        	enctype: 'multipart/form-data',
-        	processData: false,
-        	success: function(img_name) {
-          		$(el).summernote('editor.insertImage', img_name);
-          		console.log('성공');
-        	},
-        	error: function(){
-        		console.log('에러');
-        	}
-      	});
-    }
-	 */
-});
 </script>
 </head>
 <body>

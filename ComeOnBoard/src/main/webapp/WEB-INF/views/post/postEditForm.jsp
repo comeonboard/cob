@@ -15,7 +15,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 <link href="/js/summernote-ko-KR.js">
-<title>글쓰기</title>
+<link rel="stylesheet" href="/cob/css/postReg.css">
+<title>Come on, Board : 게시글 수정</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script>
 $(document).ready(function() {

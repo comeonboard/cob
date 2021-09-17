@@ -206,20 +206,17 @@ public class PostController {
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "10";
+			cntPerPage = "20";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "10";
+			cntPerPage = "20";
 		}
 		
 		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		model.addAttribute("paging", vo);
 		
-		// 카테고리별로 리스트 출력
-		if(postSort != null) {
-			list = listService.getPostList(postSort, vo);
-		}else if(postSort == null || postSort.equals("")) {
+		if(postSort == null || postSort.equals("")) {
 			list = listService.getPostList(vo);
 		}
 		
@@ -241,57 +238,50 @@ public class PostController {
 			SearchType searchType) {
 
 		System.out.println("postSort : " + postSort + " nowPage : " + nowPage + " cntPerPage : " + cntPerPage);
-
+		System.out.println(searchType);
 		// 전체 리스트 출력
 		List<Post> list = null;
 		list = listService.getPostList();
 
 		// 게시글 페이징하고 리스트 출력
 		int total = countService.countPost(postSort);
+		System.out.println(postSort);
 		System.out.println(total);
 
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "10";
+			cntPerPage = "20";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "10";
+			cntPerPage = "20";
 		}
 
 		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		System.out.println(vo);
 		model.addAttribute("paging", vo);
 
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("item1", searchType);
+		map.put("item2", vo);
+		map.put("postSort", postSort);
+		
 		// 카테고리별로 리스트 출력
 		if(postSort != null && !postSort.equals("")) {
-			System.out.println("카테고리 있을 경우");
-			list = listService.getPostList(postSort, vo);
-			if(searchType != null) {
-				System.out.println("카테고리 있고 검색");
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("item1", searchType);
-				map.put("item2", vo);
-				map.put("postSort", postSort);
-
-				list = listService.getPostList(map);
-			}
+			list = listService.getPostList(map);
 		}else if(postSort == null || postSort.equals("")) {
-			System.out.println("카테고리 없을 경우");
+			System.out.println("카테고리 x 검색 x");	// 성공
+			System.out.println(vo);
 			list = listService.getPostList(vo);
-			if(searchType != null) {
-				System.out.println("카테고리 없고 검색");
-				System.out.println(searchType.getKeyword());
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("item1", searchType);
-				map.put("item2", vo);
+			if(!searchType.getKeyword().equals("")) {
+				System.out.println("카테고리 x 검색 o");	// 실패
+				
 				list = listService.getPostListSearchType(map);
 			}
 		}
-
 		model.addAttribute("postList", list);
 		model.addAttribute("postSort", postSort);
-
-		System.out.println("vo : " + vo);
+		model.addAttribute("searchType", searchType);
 
 		return "post/postList";
 	}

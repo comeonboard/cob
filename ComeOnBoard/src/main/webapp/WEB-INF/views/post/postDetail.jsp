@@ -5,15 +5,16 @@
 <%
 	// 테스트용 세션 저장
 	session.setAttribute("nickName", "닉네임");
-	session.setAttribute("memIdx", 1);
+	session.setAttribute("memIdx", 2);
  %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Open Project : 게시글 보기</title>
+<title>Come on, Board : 상세 게시글</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
+<link rel="stylesheet" href="/cob/css/postDetail.css">
 <script src="https://code.jquery.com/jquery-1.12.4.js" 
 integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" 
 crossorigin="anonymous">
@@ -108,7 +109,7 @@ crossorigin="anonymous">
                 imageUrl : "https://img.icons8.com/wired/64/000000/kakaotalk.png",
                 link : {
                     mobileWebUrl : "포스트 링크 (모바일)",
-                    webUrl : "http://localhost:8080/cobsp/post/postDetail?postIdx=${postDetail[1].postIdx}"
+                    webUrl : "http://localhost:8080/cob/post/postDetail?postIdx=${postDetail[1].postIdx}"
                 }
             },
             social : {
@@ -205,13 +206,13 @@ crossorigin="anonymous">
 	
 	<div id="shareSNS">
 		<!-- 카카오 공유 -->
-		<a id="btnKakao" class="btn px-1"><img src="/cobsp/images/kakao_logo.png" alt="카카오톡 공유"></a>
+		<a id="btnKakao" class="btn px-1"><img src="/cob/images/kakao_logo.png" alt="카카오톡 공유"></a>
 		<!-- facebook 공유 -->
-		<a id="shareFacebook" onclick="shareFacebook()"><img src="/cobsp/images/facebook_logo.png" alt="페이스북 공유"></a>
+		<a id="shareFacebook" onclick="shareFacebook()"><img src="/cob/images/facebook_logo.png" alt="페이스북 공유"></a>
 		<!-- 트위터 공유 -->
-		<a id="shareTwitter" onclick="shareTwitter()"><img src="/cobsp/images/twitter_logo.png" alt="트위터 공유"></a>
+		<a id="shareTwitter" onclick="shareTwitter()"><img src="/cob/images/twitter_logo.png" alt="트위터 공유"></a>
 		<!-- 네이버 공유 -->
-		<a id="shareNaver" onclick="shareNaver()"><img src="/cobsp/images/naverblog_logo.png" alt="네이버 공유하기"></a>
+		<a id="shareNaver" onclick="shareNaver()"><img src="/cob/images/naverblog_logo.png" alt="네이버 공유하기"></a>
 		<form id="myform" style="display:none">
 			<input type="hidden" id="url" value="https://marsland.tistory.com/471"><br/>
 		    <input type="hidden" id="title" value="${ postDetail[1].postTitle }"><br/>
@@ -236,12 +237,12 @@ crossorigin="anonymous">
                             <span class="time"><fmt:formatDate value="${postDetail[1].postRegDate}" type="date"
 							pattern="yyyy.MM.dd" /></span>
                             <a herf="#" >
-                                <img class="copy-url" src="/cobsp/images/copy--v1.png" alt="링크 주소복사 아이콘" title="주소복사">
+                                <img class="copy-url" src="/cob/images/copy--v1.png" alt="링크 주소복사 아이콘" title="주소복사">
                             </a>
                         </div>
                         <div class="header2">
                             <a href="#" class="imgSelect" data-id="id${postDetail[1].postIdx}">
-                            	<img src="/cobsp/images/user.png"/>${postDetail[1].postWriter}
+                            	<img src="/cob/images/user.png"/>${postDetail[1].postWriter}
                             </a>
                             <div class="nick-box id1 display-none">
                                 <ul>
