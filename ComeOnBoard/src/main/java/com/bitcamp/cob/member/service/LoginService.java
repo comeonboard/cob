@@ -30,17 +30,14 @@ public class LoginService {
 			HttpSession session,
 			HttpServletResponse response
 			) {
-		
 		boolean loginChk = false;
 		
-		dao = template.getMapper(MemberDao.class);
-		
-		LoginInfo loginInfo = dao.selectByIdPw(id, pw);
+		LoginInfo loginInfo = template.getMapper(MemberDao.class).selectByIdPw(id, pw);
+		System.out.println(loginInfo);
 		if(loginInfo != null) {
 			session.setAttribute("loginInfo", loginInfo);
 			loginChk = true;
 		}
-		
 		// 아이디 저장을 위한 Cookie 설정
 		if(reid != null && reid.length() > 1) {
 			Cookie cookie = new Cookie("reid", id);
@@ -58,4 +55,5 @@ public class LoginService {
 
 		return loginChk;
 	}
+	
 }

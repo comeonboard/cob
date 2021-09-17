@@ -16,7 +16,7 @@ public class MemberInfo {
 	private String preferAddr;
 	private String memPhoto;
 	private int followChk;
-	private List<String> preferGame;
+	private List<GameInfo> preferGame;
 	
 	public int getMemIdx() {
 		return memIdx;
@@ -69,10 +69,10 @@ public class MemberInfo {
 		this.followChk = followChk;
 	}
 	
-	public List<String> getPreferGame() {
+	public List<GameInfo> getPreferGame() {
 		return preferGame;
 	}
-	public void setPreferGame(List<String> preferGame) {
+	public void setPreferGame(List<GameInfo> preferGame) {
 		this.preferGame = preferGame;
 	}
 	
@@ -82,11 +82,6 @@ public class MemberInfo {
 				+ memBirth + ", memGender=" + memGender + ", preferAddr=" + preferAddr + ", memPhoto=" + memPhoto
 				+ ", followChk=" + followChk + ", preferGame=" + preferGame + "]";
 	}
-	
-	
-	
-	
-	
 	
 	
 }

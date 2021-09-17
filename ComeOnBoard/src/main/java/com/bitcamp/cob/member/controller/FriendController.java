@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bitcamp.cob.member.domain.Member;
 import com.bitcamp.cob.member.domain.MemberInfo;
 import com.bitcamp.cob.member.domain.RecommendType;
 import com.bitcamp.cob.member.service.FriendRestService;
@@ -24,18 +25,23 @@ public class FriendController {
 	private FriendRestService service;
 	
 	
-	@PostMapping("/friends/{fridx}")
+	@PostMapping("/friends/{idx}")
 	public int postFriend(
-			@PathVariable("fridx")int frIdx,
+			@PathVariable("idx")int frIdx,
 			Integer memIdx// 회원 idx 
 			){ 
-		System.out.println(memIdx);
 		int result = service.postFriend(memIdx, frIdx);
 
 		return result;
 	}
 	
-	@GetMapping("/members/{idx}")
+	@GetMapping("/members/login/{idx}")
+	public Member getMyInfo(@PathVariable("idx") int memIdx) {
+		Member member = service.getMyInfo(memIdx);
+		return member;
+	}
+	
+	@GetMapping("/member/{idx}")
 	public MemberInfo getFriend(
 			@PathVariable("idx")int idx,
 			Integer memIdx

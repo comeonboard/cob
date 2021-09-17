@@ -23,28 +23,27 @@ function makeRedirect(){
 <meta charset="UTF-8">
 <title>Come on, Board: my page</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
-
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(document).ready(function() {
-		
 		//내 기본 정보 가져오기
 		$.ajax({
-			url : '<c:url value="/members/"/>'+'${loginInfo.memIdx}',
+			url : '<c:url value="/member/"/>'+'${loginInfo.memIdx}',
 			type : 'get',
 			data : { memIdx : '${loginInfo.memIdx}'},
+			async: false,
 			success : function(data){
 				if (data != null) {
-					console.log(data);
 					var preferGameList = data['preferGame'];
-					console.log(preferGameList);
+					var html ='';
 					for(var i=0; i < preferGameList.length; i++){
-						console.log(preferGameList[i]);
+						html += '<button class="btn_game" data-game="'+preferGameList[i].gameIdx+'">'+preferGameList[i].gameName+'</button>';
 					}
 					$('#Info_nickName').html(data.nickName);
 					$('#Info_memGender').html(data.memGender);
 					$('#Info_memBirth').html(data.memBirth);
 					$('#Info_preferAddr').html(data.preferAddr);
-				} 	
+				} 	$('#area_game').html(html);
 			},
 			error : function(request, status, error) {
 				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
@@ -52,6 +51,13 @@ function makeRedirect(){
 				console.log(status);
 				console.log(error);
 			}
+		});
+		
+		//게임 정보로 이동하기
+		$('.btn_game').off('click').on('click', function(){
+			var gameIdx = $(this).attr('data-game');
+
+			location.href = '<c:url value="/game/gamepage/"/>'+gameIdx;
 		});
 		
 		/* 정보 불러올때 같이 가져옴
@@ -181,7 +187,6 @@ function makeRedirect(){
 			var pwCheck = false;
 			var pwEqCheck = false;
 			$('#area_update_password').removeClass('display_none');
-				
 			$('#oldPassword').focusin(function(){
 				$('#msg_oldPw').html(''); 
 			});
@@ -334,17 +339,42 @@ function makeRedirect(){
 		
 		// 정보 수정
 		$('#btn_update_profile').click(function(){
-			var memBirth = $('#Info_memBrith').val();
-			if(memBirth != null){
-				var memBirthArray = memBirth.split('-');
-				var year = memBirthArray[0];
-				$('#year').val(year);
-				var month = memBirthArray[1];
-				$('#month').val(month);
-				var day = memBirthArray[2].substring(0,2);
-				$('#day').val(day);
-			}
-			$('.genderSelect').val('').attr("selected", "selected");
+				$.ajax({
+					url: '<c:url value="/members/login/"/>'+'${loginInfo.memIdx}',
+					type : 'get',
+					dataType: 'json',
+					success : function(myInfo) {
+						if (myInfo != null) {
+							$('#nickName').val(myInfo.nickName);
+							$('#memEmail').val(myInfo.memEmail);
+							$('#preferAddr').val(myInfo.preferAddr);
+							$('#memTel').val(myInfo.memTel);
+							var memBirth = myInfo.memBirth;
+							if(memBirth != null){
+								var memBirthArray = memBirth.split('-');
+								var year = memBirthArray[0];
+								$('#year').val(year);
+								var month = memBirthArray[1];
+								$('#month').val(month);
+								var day = memBirthArray[2];
+								$('#day').val(day);
+							}
+							$('.genderSelect').val(myInfo.memGender).attr("selected", "selected");
+						
+						} else {
+							alert('다시 시도해주세요.');
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});
+				
+
+
 			$('#update_my_info').removeClass('display_none');
 		
 			// 우편번호 찾기 
@@ -438,6 +468,29 @@ function makeRedirect(){
 
 		});
 		
+		// 멤버의 권한을 카페로 변경
+	 	$('#btn_change_auth_cafe').on('click', function(){
+	 		$.ajax({
+	 			url: '<c:url value="/member/"/>'+'${loginInfo.memIdx}'+'/auth',
+	 			type: 'put',
+	 			data: {'memAuth' : 'cafe'},
+	 			async: false,
+	 			success: function(data){
+	 				if(data>0){
+	 					alert('카페회원으로 변경되었습니다.');
+	 					location.reload();
+	 				}
+	 			},
+	 			error : function(request, status, error) {
+					alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+					console.log(request);
+					console.log(status);
+					console.log(error);
+				}
+	 		});
+	 		
+	 	});
+			 
 		$('.btn_close').click(function(){
 
 			$(this).parent().addClass('display_none');
@@ -457,16 +510,6 @@ function makeRedirect(){
         100% {
         background-position: 0% 50%;
         }
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-    }
-
-    a {
-        text-decoration: none;
-        color: black;
     }
 
     .MultiBar a {
@@ -705,7 +748,8 @@ function makeRedirect(){
         width: 300px !important;
     } 
 
-    .area_select_menu {
+    .area_select_menu,
+    .select {
         margin: 0 20px;
         float: left;
         width: 160px;
@@ -717,7 +761,8 @@ function makeRedirect(){
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
     }
 
-    .area_select_menu:hover{
+    .area_select_menu:hover,
+    .select:hover {
         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
         background-size: 400% 400%;
         color: white;
@@ -1046,7 +1091,21 @@ function makeRedirect(){
     #table_friend td{
     	border-bottom: 1px solid #aaa;
     }
+    .btn_game {
+    	width: 100px;
+    	height: 150px;
+    	font-size: 20px;
+    	color: black;
+    	background-color: white;
+    	border : rgb(52, 168, 83) 1px solid;
+    	margin: 15px;
+    }
     
+    #btn_change_auth_cafe {
+	    margin: 10px;
+	    background-color: rgb(52, 168, 83);
+    	float: left;
+    }
 </style>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
@@ -1084,6 +1143,9 @@ function makeRedirect(){
                             	<button id="btn_update_password">비밀번호 변경</button>
                                 <button id="btn_update_profile">정보 수정</button>
                                 <button id="btn_deletMember">탈퇴</button>
+                                <c:if test="${loginInfo.memAuth ne 'cafe'}">
+                               	 <button id="btn_change_auth_cafe" type="button">카페 회원으로 전환</button>
+                                </c:if>
                             </div>
                             <div id="area_update_photo" class="display_none">
                             	<div id="frame_update_photo">
@@ -1155,7 +1217,7 @@ function makeRedirect(){
                                         <div id="address_area" class="input_area">
 						                   <p>선호 지역(주소 선택시 구까지 자동 입력)</p>
 						                   <input type="text" id="postCode" name="postCode" class="input_address" placeholder="우편 번호" readonly>
-						                   <button id="btn_address">우편 번호</button>
+						                   <button id="btn_address" type="button">우편 번호</button>
 						                   <input type="text" id="addr" name="addr" class="input_row" placeholder="주소" readonly>
 						                   <input type="text" id="preferAddr" class="input_row" placeholder="선호 지역" readonly>
 						                 </div>
@@ -1166,6 +1228,19 @@ function makeRedirect(){
 
                         </div>
                     </li>
+                    <c:if test="${loginInfo.memAuth eq 'cafe'}">
+						<li>
+                        <div class="mypage_menu">
+                            <h2>카페 관리</h2>
+                            <div>
+                            	<div onclick="" class="select">카페 등록</div>
+                            	<div onclick="" class="select">카페 관리</div>
+                            </div>
+                            
+                        </div>
+                    </li>
+					</c:if>
+                    
                     <li>
                         <div id="area_friend" class="mypage_menu">
                             <h2>친구 관리</h2>
@@ -1175,23 +1250,23 @@ function makeRedirect(){
                                 <table>
                                     <tr>
                                         <td class="col1">닉네임</td>
-                                        <td id="friend_nickName"></td>
+                                        <td id="friend_nickName" class="col2"></td>
                                     </tr>
                                     <tr>
                                         <td class="col1">생 일</td>
-                                        <td id="friend_memBirth"></td>
+                                        <td id="friend_memBirth" class="col2"></td>
                                     </tr>
                                     <tr>
                                         <td class="col1">성 별</td>
-                                        <td id="friend_memGender"></td>
+                                        <td id="friend_memGender" class="col2"></td>
                                     </tr>
                                     <tr>
-                                        <td class="col1">포인트</td>
-                                        <td class="col2">7200</td>
+                                        <td class="col1">선호게임</td>
+                                        <td id="friend_preferGame" class="col2"></td>
                                     </tr>
                                     <tr>
                                         <td class="col1">선호지역</td>
-                                        <td id="friend_preferAddr"></td>
+                                        <td id="friend_preferAddr" class="col2"></td>
                                     </tr>
                     
                                 </table>
@@ -1211,7 +1286,9 @@ function makeRedirect(){
                         <div class="mypage_menu">
                                                         
                             <h2>내 게임</h2>
- 
+ 							<div id="area_game">
+ 							</div>
+ 							<button id="extra_game_view" class="extra_view" onclick="location.href='<c:url value="/game/gamelist/"/>'">더 보기</button>
                         </div>
                     </li>
                     <li>
@@ -1270,15 +1347,9 @@ function makeRedirect(){
                                 </tr>
                             </table>
                         </div>
-                    </li>
+                   	</li>
 
-                    <li>
-                        <div class="mypage_menu">
-                            <h2>카페 관리</h2>
-                            <a id="make_cafe" href="#" class="area_select_menu"><div>카페 등록</div></a>
-                            <a id="update_cafe" href="#" class="area_select_menu"><div>카페 관리</div></a>
-                        </div>
-                    </li>
+                    
                 </ul>
         <form id="form_memIdx" method="post"><input name="memIdx" type="hidden" value="${loginInfo.memIdx}"></form>
         </div>
@@ -1314,6 +1385,7 @@ function makeRedirect(){
 			dataType: 'json',
 			async: false,
 			success : function(data) {
+				console.log(data);
 				friendList = data;
 				$('#table_friend').empty();
 				$.each(data, function(index, item){
@@ -1355,6 +1427,7 @@ function makeRedirect(){
 			$('#friend_nickName').html(friend.nickName);
 			$('#friend_memBirth').html(friend.memBirth);
 			$('#friend_memGender').html(friend.memGender);
+			$('#friend_preferGame').html(friend.preferGame[0].gameName);
 			$('#friend_preferAddr').html(friend.preferAddr);
 			$('#btn_delete_friend').attr('data-friend', frIdx);		
 			$('#btn_delete_friend').removeClass('display_none');

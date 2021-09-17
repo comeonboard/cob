@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.bitcamp.cob.member.domain.FindIdPwInfo;
+import com.bitcamp.cob.member.domain.GameInfo;
 import com.bitcamp.cob.member.domain.LoginInfo;
 import com.bitcamp.cob.member.domain.Member;
 import com.bitcamp.cob.member.domain.MemberInfo;
@@ -14,6 +15,9 @@ public interface MemberDao {
 	
 	// 회원 가입
 	int insertMember(Member member);
+	
+	// 회원 정보 모두 가져오기 
+	Member getAllMemberInfo(int memIdx);
 	
 	// ID 중복값 체크
 	int selectById(String memId);
@@ -66,5 +70,8 @@ public interface MemberDao {
 	int getMemPw(FindIdPwInfo findIdPwInfo);
 	
 	// 선호게임 이름 불러오기
-	List<String> getPreferGame(int memIdx);
+	List<GameInfo> getPreferGame(int memIdx);
+	
+	// 멤버 권한 변경하기
+	int updateMemberAuth(@Param("memIdx")int memIdx, @Param("memAuth")String memAuth);
 }

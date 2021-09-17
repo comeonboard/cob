@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.bitcamp.cob.member.service.FriendRestService;
 import com.bitcamp.cob.member.service.LoginService;
 
 @Controller
@@ -23,7 +24,7 @@ public class LoginController {
 	
 	@Autowired
 	private LoginService loginService;
-
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String loginForm() {
 		
@@ -38,11 +39,11 @@ public class LoginController {
 			@RequestParam(value = "reid", required = false) String reid,
 			HttpServletResponse response,
 			HttpServletRequest request,
-			HttpSession session	
+			HttpSession session
 			) {
 		
-		// 사용자가 입력한 id, pw 서비스에 전달해서 로그인 처리
 		boolean loginChk = loginService.login(memberid, password, reid, session, response);
+		
 		return loginChk;
 	}
 

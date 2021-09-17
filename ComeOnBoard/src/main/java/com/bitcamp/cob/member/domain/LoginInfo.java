@@ -6,6 +6,7 @@ public class LoginInfo {
 	private String memId;
 	private String nickName;
 	private String memPhoto;
+	private String preferAddr;
 	private String memAuth; // member, manager, ban, cafe
 	
 	public int getMemIdx() {
@@ -32,6 +33,12 @@ public class LoginInfo {
 	public void setMemPhoto(String memPhoto) {
 		this.memPhoto = memPhoto;
 	}
+	public String getPreferAddr() {
+		return preferAddr;
+	}
+	public void setPreferAddr(String preferAddr) {
+		this.preferAddr = preferAddr;
+	}
 	public String getMemAuth() {
 		return memAuth;
 	}
@@ -41,8 +48,11 @@ public class LoginInfo {
 	@Override
 	public String toString() {
 		return "LoginInfo [memIdx=" + memIdx + ", memId=" + memId + ", nickName=" + nickName + ", memPhoto=" + memPhoto
-				+ ", memAuth=" + memAuth + "]";
+				+ ", preferAddr=" + preferAddr + ", memAuth=" + memAuth + "]";
 	}
+	
+	
+
 	
 	
 	

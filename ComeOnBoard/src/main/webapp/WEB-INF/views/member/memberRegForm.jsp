@@ -182,7 +182,7 @@
 	    	background-color: rgb(52,168,83);
 	    }
 	</style>
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>0
 	<script>
 		$(document).ready(function() {
 			// 가입 전 데이터 확인

@@ -10,10 +10,9 @@
 
 <script>
 	$(document).ready(function(){
-		var fr = getFriendList();
+		getFriendList();
 		let tab_id = 'tab1';
-		let memIdx = ${loginInfo.memIdx};
-		console.log(memIdx);
+		let memIdx = '${loginInfo.memIdx}';
         $('.btn_menu').click(function(){
         	 $('#nickName_popup').hide();
 			 $('.btn_menu').removeClass('bgColor_blue');
@@ -25,8 +24,7 @@
  			} else if(tab_id == 'tab2'){
  				getFollowingFriendList();
  			} else if(tab_id == 'tab3'){
- 				console.log(memIdx);
- 				getRecommendFriendByAddr(memIdx, '서울 도봉구');
+ 				getRecommendFriend(memIdx);
  			}
         });
         
@@ -290,7 +288,7 @@
 			<ul class="ul_menu">
 				<li><button type="button" id="tab1" class="btn_menu bgColor_blue" data-tab="tab1">내가 등록한 친구 보기</button></li>
 				<li><button type="button" id="tab2" class="btn_menu" data-tab="tab2">나를 등록한 친구 보기</button></li>
-				<li><button type="button" id="tab3" class="btn_menu" data-tab="tab3">친구 추천</button></li>
+				<li><button type="button" id="tab3" class="btn_menu" data-tab="tab3">친구 추천 / 검색</button></li>
 			</ul>
 			<!-- 친구 정보 보기 팝업 -->
 			<div id="area_friend_info">
@@ -325,10 +323,7 @@
                   <button class="btn_close">창닫기</button>
            	</div>
 			<div id="friend_list">
-				<h2>나와 선호지역이 같은 회원</h2>
-					<div id="area_friend_preferAddr"></div>
-				<h2>나와 선호게임이 같은 회원</h2>
-					<div id="area_friend_preferGame"></div>
+
 			</div>	
 			<!-- 친구 이름 클릭시 팝업 -->
 			<div id="nickName_popup">
@@ -363,7 +358,7 @@
                     html += '</div></li>'
                    	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
                    	html += '<li class="col3">'+item.preferAddr+'</li>'
-                   	html += '<li class="col4">'+'선호게임'+'</li>'
+                   	html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
                    	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
                    	html += '</ul>'
          			
@@ -399,7 +394,7 @@
                     html += '</div></li>'
                    	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
                    	html += '<li class="col3">'+item.preferAddr+'</li>'
-                   	html += '<li class="col4">'+'선호게임'+'</li>'
+                   	html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
                    	if(item.followChk>0){
                        	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
                     } else {
@@ -421,14 +416,14 @@
 		return friendsList;
 	}
 	// 추천 친구 리스트 불러오기
-	function getRecommendFriendByAddr(memIdx, preferAddr){
-		
-	
+	function getRecommendFriend(memIdx){
+			console.log('${loginInfo.preferAddr}');
+
 		var friendsList = null;
 		var url = '<c:url value="/friends/recommendFriends/"/>'+ memIdx;
 		var recommendType =  {
 				memIdx : memIdx,
-				preferAddr : preferAddr
+				preferAddr : '${loginInfo.preferAddr}'
 			};
 		$.ajax({
 			url: url,
@@ -442,8 +437,8 @@
 				$('#friend_list').empty();
 				var areaHtml = '<h2>나와 선호지역이 같은 회원</h2>';
 				areaHtml += '<div id="area_friend_preferAddr"></div>';
-				areaHtml += '<h2>나와 선호게임이 같은 회원</h2>';
-				areaHtml += '<div id="area_friend_preferGame"></div>';
+				areaHtml += '<h2>친구 검색</h2>';
+				areaHtml += '<div id="area_search_friend"><input id="bar_search" type="text" name="search_content"><button id="btn_search" type="button">검색</button></div>';
 				$('#friend_list').append(areaHtml);
 				
 				$.each(data, function(index, item){
@@ -481,9 +476,8 @@
 	
 	//다른 회원 정보 불러오기
 	function getFriend(frIdx){
-		var url = "<c:url value='/friends/'/>"+frIdx;
 		$.ajax({
-			url: url,
+			url: '<c:url value="/member/"/>'+frIdx,
 			type : 'get',
 			data : { memIdx : '${loginInfo.memIdx}'},
 			dataType: 'json',
@@ -493,7 +487,7 @@
 					$('#friend_nickName').html(data.nickName);
 					$('#friend_memBirth').html(data.memBirth);
 					$('#friend_memGender').html(data.memGender);
-					$('#friend_preferGame').html(data.preferGame);
+					$('#friend_preferGame').html(data.preferGame[0].gameName);
 					$('#friend_preferAddr').html(data.preferAddr);
 					
 					if(data.followChk>0){
