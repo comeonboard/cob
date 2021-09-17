@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bitcamp.cob.group.domain.Group;
+import com.bitcamp.cob.group.domain.TitleAndContent;
 import com.bitcamp.cob.group.service.UpdateGroupBoardService;
 
 @Controller
-
-public class UpdateGroupController {
+public class UpdateGroupBoardController {
 
 	
 	@Autowired
@@ -20,33 +20,47 @@ public class UpdateGroupController {
 	
 	@RequestMapping(value="/group/updateGroup", method=RequestMethod.GET)
 	public String updateBoard(Group group, Model model) {
+	
+		Group result = updateService.reviewContent(group);
 		
-		group = updateService.reviewContent(group);
-		
-		model.addAttribute("updateBoard", group);
-		System.out.println(group);
+		model.addAttribute("updateBoard", result);
+	
 		return "group/updateGroup";
+
 	}
 	
 	
 	//모임 수정
 	//오류 확인하기
 	@RequestMapping(value="/group/updateGroup", method=RequestMethod.POST)
-	public String editGroupBoard(Group group, Model model ) {
-		//데이터 확인용
-		System.out.println("POST로 실행된 "+group);
+	public String editGroupBoard(Group group, Model model) {
 
-		int updateGrpIdx = updateService.groupBoardEdit(group);
-		
-		model.addAttribute("updateResult", updateGrpIdx);
+		updateService.groupBoardEdit(group);
 		
 		String viewReturn = "";
 		
+		viewReturn = "redirect:/group/readGroup?grpIdx="+group.getGrpIdx();
 		
-		viewReturn = "redirect:/group/createGroup?grpidx=";
 		
-		
-		return viewReturn+updateGrpIdx;
+		return viewReturn;
+
 	}
 	
+	
+	@RequestMapping(value="/group/updateGroupOnlyTitleAndContent", method=RequestMethod.POST)
+	public String editGroupBoardOnlyTitleAndContent(TitleAndContent tac) {
+		
+		updateService.updateOnlyTitleAndContent(tac);
+	
+		return "redirect:/group/groupList";
+	}
+	
+	
+	
 }
+
+
+
+
+
+

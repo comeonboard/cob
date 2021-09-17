@@ -15,68 +15,100 @@
 	crossorigin="anonymous" />
 
 <link rel="stylesheet" href="<c:url value="/css/readCreateGroup.css"/>">
+<%@ include file="/WEB-INF/views/frame/metaheader.jsp"%>
 
 <!-- 스타일시트 여러개 선언 가능!!! 우선순위: 아래>위 -->
-
-
 <!-- 공통 헤더 부분.jsp파일이기 땜에 include사용 -->
-<%@ include file="/WEB-INF/views/frame/footer.jsp"%>
 <%@ include file="/WEB-INF/views/frame/header.jsp"%>
-<%@ include file="/WEB-INF/views/frame/metaheader.jsp"%>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
 </head>
 
 
 <body>
-	
-		<div class="Wrapper">
-			<div id="content">
-				<div class="WritingWrap">
-					<div class="articletitle">
-						<br>
-						<hr>
-						<br>
-						<div style="width: 300px" class="title_inside_div">
-							<h3>위치: ${readCreateGroupPage.loc}</h3>
-							<h3>장르: ${readCreateGroupPage.genre}</h3>
-							<h3>인원:
-								${readCreateGroupPage.grpRegMem}/${readCreateGroupPage.grpMaxMem}</h3>
-						</div>
-						<div style="width: 500px" class="title_inside_div"
-							id="date_information">
-							<h3>모임 시작: ${readCreateGroupPage.grpDate}</h3>
-							<h3>모집 마감: ${readCreateGroupPage.grpPostEndDate}</h3>
-							<h3>작성자: ${readCreateGroupPage.nickName}</h3>
-						</div>
-					</div>
-					<br>
+	<div class="Wrapper">
+		<div id="content">
+			<div class="WritingWrap">
+				<div class="articletitle">
 					<hr>
-					<br>
-					<div>
-						<input type="button" id="join_group" value="모임 참가하기">
+					<div style="width: 200px" class="title_inside_div">
+						<h3>위치: ${readCreateGroupPage.loc}</h3>
+						<h3>장르: ${readCreateGroupPage.genre}</h3>
+						<h3>인원:
+							${readCreateGroupPage.grpRegMem}/${readCreateGroupPage.grpMaxMem}</h3>
 					</div>
-					<br>
-					<div>
-						<hr>
-						<br>
-						<div id="grpTitle">${readCreateGroupPage.grpTitle}</div>
-						<br>
-						<hr>
-						<br>
-						<div id="grpContent">${readCreateGroupPage.grpContent}</div>
-						<br>
-						<div id="edit">
-							<a href="<c:url value="/group/updateGroup"/>" style="color: rgb(66, 133, 244);">수정하기</a>&nbsp;&nbsp; 
-							<a href="#" style="color: rgb(66, 133, 244);">삭제하기</a>
-						</div>
-						<br> <br>
-						<hr>
+					<div style="width: 500px" class="title_inside_div"
+						id="date_information">
+						<h3>모임 시작: ${readCreateGroupPage.grpDate}</h3>
+						<h3>모집 마감: ${readCreateGroupPage.grpPostEndDate}</h3>
+						<h3>작성자: ${readCreateGroupPage.nickName}</h3>
 					</div>
 				</div>
-				<br>
+				<hr>
+				<div>
+					<%-- <a href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}" --%>
+					<a
+					id="join_group" onclick="attend_gameGroup()">모임 참가 신청</a>
+				</div>
+				<div>
+					<hr>
+					<div id="grpTitle">${readCreateGroupPage.grpTitle}</div>
+					<hr>
+					<div id="grpContent">${readCreateGroupPage.grpContent}</div>
+					<div id="edit">
+						<a href="updateGroup?grpIdx=${readCreateGroupPage.grpIdx}"
+							style="color: rgb(66, 133, 244);">수정하기</a>&nbsp;&nbsp; <a
+							onclick="confirm_delete_group_board()"
+							style="color: rgb(66, 133, 244);">삭제하기</a>
+					</div>
+					<hr>
+				</div>
 			</div>
 		</div>
-	
+	</div>
 </body>
 
+<script>
+	function confirm_delete_group_board() {
+		if (confirm("모임 게시글을 삭제하시겠습니까?") == true) {
+			location.href = "deleteGroupBoard?grpIdx=" + ${readCreateGroupPage.grpIdx}
+		} else {
+			return;
+		}
+
+	}
+
+	
+	function attend_gameGroup() {
+		var url = ${readCreateGroupPage.grpIdx} ;
+		console.log(url);
+		$.ajax({
+			url: "<c:url value='/group/groupEditorMyGroup?grpIdx="+url+"'/>",
+			type: "get",
+			data: { 
+				"memIdx" : "${loginInfo.memIdx}",
+				"nickName" : "${readCreateGroupPage.nickName}"
+			},
+			processData: true,
+			contentType: "application/json",
+			dataType: "json",
+			success: function(data) {
+				alert('데이터 전송에 성공하였습니다');
+			}
+		
+		})
+		
+	}
+	
+	
+</script>
+
+
+
 </html>
+
+
+
+

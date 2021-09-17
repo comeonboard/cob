@@ -2,6 +2,21 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:if test="${empty loginChk}">
+<script>
+function makeRedirect(){
+	var redirectUri = window.location.href;
+	sessionStorage.setItem("redirectUri", redirectUri);
+	location.href= '<c:url value="/member/login"/>' ;
+}
+</script>
+<script>
+	alert('로그인 후 사용이 가능합니다.');
+
+	makeRedirect();
+</script>
+</c:if>
+   
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -35,8 +50,10 @@
 			<div id="content">
 				<div class="WritingWrap">
 					<div class="WritingHeader">
+					<!-- 인풋 타입 히든으로 정보만 넘겨주고  표시x -->
+						<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
+						<input type="hidden" name="nickName" value="${loginInfo.nickName}">
 						<h2 class="title">모임 등록</h2>
-						<!-- <a href="groupContents.html"><span class="upload_contents">등록</span></a> -->
 						<input type="submit" value="등록" class="upload_contents">
 					</div>
 					<div class="articlecate">
@@ -70,14 +87,19 @@
 						</select>
 						<!-- 게임 종류 -->
 						<select name="genre" id="genre" style="width: 100px; height: 30px">
-							<option value="카드">카드</option>
-							<option value="할리갈리">할리갈리</option>
+							<option value="전략">전략</option>
+							<option value="추상">추상</option>
+							<option value="컬렉터블">컬렉터블</option>
+							<option value="가족">가족</option>
+							<option value="어린이">어린이</option>
+							<option value="파티">파티</option>
+							<option value="테마">테마</option>
+							<option value="워게임">워게임</option>
 						</select>
 						<!-- 모임 현재인원, 최대 정원 -->
 						<div class="block_count">
-							<label for="max_count" id="label_count">모임 최대인원</label> <select
-								name="grpMaxMem" id="label_count"
-								style="width: 100px; height: 30px">
+							<label for="max_count" id="label_count">모임 최대인원</label> 
+							<select name="grpMaxMem" id="label_count" style="width: 100px; height: 30px">
 								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
@@ -100,119 +122,32 @@
 								<option value="20">20</option>
 							</select>
 						</div>
-						<br>
 						<hr>
-						<br>
-						<div> 
-						<label for="grpPostEndDate" class="dateBox1">모집 마감일 &nbsp;</label>
-						<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
-						
-						<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2">
-						<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
+						<div>
+							<label for="grpPostEndDate" class="dateBox1">모집 마감일&nbsp;</label> 
+							<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
+								
+							<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2"> 
+							<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
 						</div>
-						<br><br>
 						<hr>
-						<br>
 					</div>
 					<div class="articletitle">
 						<textarea placeholder="제목을 입력해 주세요." class="textarea_input"
 							name="grpTitle"></textarea>
 					</div>
 					<div class="write_contents">
-						<!--   <form class="btns-form">
-                             <button type="button" data-cmd="fontSize">
-                            <i class="fad fa-text-size"></i>
-                        </button> 
-                            <button type="button" data-cmd="justifyLeft">
-                                <i class="fas fa-align-left"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyCenter">
-                                <i class="fas fa-align-center"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyFull">
-                                <i class="fas fa-align-justify"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyRight">
-                                <i class="fas fa-align-right"></i>
-                            </button>
-                            <button type="button" data-cmd="bold">
-                                <i class="fas fa-bold"></i>
-                            </button>
-                            <button type="button" data-cmd="italic">
-                                <i class="fas fa-italic"></i>
-                            </button>
-                            <button type="button" data-cmd="underline">
-                                <i class="fas fa-underline"></i>
-                            </button>
-                            <button type="button" data-cmd="insertOrderedList">
-                                <i class="fas fa-list-ol"></i>
-                            </button>
-                            <button type="button" data-cmd="insertUnorderedList">
-                                <i class="fas fa-list-ul"></i>
-                            </button>
-                            <button type="button" data-cmd="insertImage">
-                                <i class="far fa-image"></i>
-                            </button>
-                            <button type="button" data-cmd="createLink">
-                                <i class="fas fa-link"></i>
-                            </button>
-                            <button type="button" data-cmd="showCode" name="active">
-                                <i class="fas fa-code"></i>
-                            </button>
-                        </form>  -->
-						<!--  <iframe id="output" name="grpContent">내용을 입력해주세요.</iframe>  -->
+						
 						<br> <label for="w3review">내용</label>
 
 						<textarea name="grpContent" rows="30" cols="100"></textarea>
 					</div>
 				</div>
-				<br>
-
-
 			</div>
 		</div>
 	</form>
 
-	<script>
-		/*  const buttons = document.querySelectorAll('button');
-		 const btnForm = document.querySelector(".btns-form");
-		 let showCode = true;
-
-		 grpContent.document.designMode = "On";
-
-		 btnForm.addEventListener("click", async (e) => {
-		     const cmd = e.target.closest('button').getAttribute('data-cmd');
-		     switch (cmd) {
-		         case 'insertImage':
-		         case 'createLink':
-		             const url = await prompt('Enter Link Here: ', "");
-		             grpContent.document.execCommand(cmd, false, url);
-
-		             const atags = grpContent.document.querySelectorAll("a");
-		             atags.forEach((atag) => {
-		                 atag.target = "_blank";
-		                 atag.addEventListener("mouseover", (e) => { grpContent.document.designMode = "Off"; });
-		                 atag.addEventListener("mouseout", (e) => { grpContent.document.designMode = "On"; });
-		             });
-		             break;
-		         case 'showCode':
-		             const grpContentBody = grpContent.document.querySelector("body");
-		             if (showCode) {
-		                 grpContentBody.textContent = grpContentBody.innerHTML;
-		                 showCode = false;
-		             }
-		             else {
-		                 grpContentBody.innerHTML = grpContentBody.textContent;
-		                 showCode = true;
-		             }
-		             break;
-		         default:
-		             grpContent.document.execCommand(cmd, false, null);
-		             break;
-		     }
-		 });
-		 */
-	</script>
+	
 </body>
 
 </html>

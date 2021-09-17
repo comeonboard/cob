@@ -30,14 +30,12 @@
 <body>
 	<!-- form action의 경로를 해당 컨트롤러의 매핑 주소로 한다 -->
 	<!-- 해당 컨트롤러에서 'return 페이지'를 해주던가 redirect를 해주어서 게시글 리스트를 보여주면 된다 -->
-	<form method="post">
+	<form  method="POST">
 		<div class="Wrapper">
 			<div id="content">
 				<div class="WritingWrap">
 					<div class="WritingHeader">
 						<h2 class="title">모임 등록</h2>
-						<!-- <a href="groupContents.html"><span class="upload_contents">등록</span></a> -->
-						<input type="btn" value="삭제" class="upload_contents">
 						<input type="submit" value="등록" class="upload_contents">
 					</div>
 					<div class="articlecate">
@@ -101,9 +99,7 @@
 								<option value="20">20</option>
 							</select>
 						</div>
-						<br>
 						<hr>
-						<br>
 						<div> 
 						<label for="grpPostEndDate" class="dateBox1">모집 마감일 &nbsp;</label>
 						<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
@@ -111,65 +107,17 @@
 						<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2">
 						<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
 						</div>
-						<br><br>
 						<hr>
-						<br>
 					</div>
 					<div class="articletitle">
 						<textarea class="textarea_input"
 							name="grpTitle">${updateBoard.grpTitle}</textarea>
 					</div>
 					<div class="write_contents">
-						<!--   <form class="btns-form">
-                             <button type="button" data-cmd="fontSize">
-                            <i class="fad fa-text-size"></i>
-                        </button> 
-                            <button type="button" data-cmd="justifyLeft">
-                                <i class="fas fa-align-left"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyCenter">
-                                <i class="fas fa-align-center"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyFull">
-                                <i class="fas fa-align-justify"></i>
-                            </button>
-                            <button type="button" data-cmd="justifyRight">
-                                <i class="fas fa-align-right"></i>
-                            </button>
-                            <button type="button" data-cmd="bold">
-                                <i class="fas fa-bold"></i>
-                            </button>
-                            <button type="button" data-cmd="italic">
-                                <i class="fas fa-italic"></i>
-                            </button>
-                            <button type="button" data-cmd="underline">
-                                <i class="fas fa-underline"></i>
-                            </button>
-                            <button type="button" data-cmd="insertOrderedList">
-                                <i class="fas fa-list-ol"></i>
-                            </button>
-                            <button type="button" data-cmd="insertUnorderedList">
-                                <i class="fas fa-list-ul"></i>
-                            </button>
-                            <button type="button" data-cmd="insertImage">
-                                <i class="far fa-image"></i>
-                            </button>
-                            <button type="button" data-cmd="createLink">
-                                <i class="fas fa-link"></i>
-                            </button>
-                            <button type="button" data-cmd="showCode" name="active">
-                                <i class="fas fa-code"></i>
-                            </button>
-                        </form>  -->
-						<!--  <iframe id="output" name="grpContent">내용을 입력해주세요.</iframe>  -->
 						<br> <label for="w3review">내용</label>
-
 						<textarea name="grpContent" rows="30" cols="100">${updateBoard.grpContent}</textarea>
 					</div>
 				</div>
-				<br>
-
-
 			</div>
 		</div>
 	</form>
