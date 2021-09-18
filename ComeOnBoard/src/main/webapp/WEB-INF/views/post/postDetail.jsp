@@ -2,11 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-	// 테스트용 세션 저장
-	session.setAttribute("nickName", "닉네임");
-	session.setAttribute("memIdx", 2);
- %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,7 +132,7 @@ crossorigin="anonymous">
 	}
  	// 추천 비추천 신고하기 버튼
 	function btn_down(type, tableType, idx, memIdx){
- 		if( memIdx == ${sessionScope.memIdx}){
+ 		if( memIdx == ${loginInfo.memIdx}){
  			alert('작성자는 누를 수 없습니다!');
  		}else{
  			$.ajax({
@@ -145,7 +141,7 @@ crossorigin="anonymous">
  				data : { type : type,
  					tableType : tableType,
  					idx : idx,
- 					memIdx : ${sessionScope.memIdx}
+ 					memIdx : ${loginInfo.memIdx}
  	 			},
  				async : false,
  				success : function(msg){
@@ -281,7 +277,7 @@ crossorigin="anonymous">
             </div>
             <div class="contents-crud">
                 <a href="<c:url value='/post/write'/>" class="contents-c">글쓰기</a>
-	            <c:if test="${ sessionScope.memIdx == postDetail[1].memIdx}">
+	            <c:if test="${ loginInfo.memIdx == postDetail[1].memIdx}">
 	            	<a href="<c:url value='/post/postEdit?postIdx=${postDetail[1].postIdx}'/>" class="contents-u" >수정</a>
 	                <a href="<c:url value='/post/postDelete?postIdx=${postDetail[1].postIdx}'/>" class="contents-d" onclick="return confirm('해당게시글을 삭제하시겠습니까?');">삭제</a>
 	            </c:if>
@@ -302,7 +298,7 @@ crossorigin="anonymous">
                     	<form id="commForm">
 	                    	<textarea id="commText" class="write-comments" name="commContent" cols="100" rows="4" style="resize: none;" placeholder="댓글을 입력해주세요."></textarea>
 	                        <input id="postIdx" type="hidden" name="postIdx" value="${postDetail[1].postIdx}">
-	                        <input id="memIdx" type="hidden" name="memIdx" value="<c:out value="${sessionScope.memIdx}"/>">
+	                        <input id="memIdx" type="hidden" name="memIdx" value="<c:out value="${loginInfo.memIdx}"/>">
 	                        <input id="insert_comment" type="button" form="commForm" value="등록">
                     	</form>
                     </div>
@@ -516,7 +512,7 @@ crossorigin="anonymous">
 				type : "post",
 				data : { postIdx : ${postDetail[1].postIdx},
 					commIdx : commIdx,
-					memIdx : ${sessionScope.memIdx},
+					memIdx : ${loginInfo.memIdx},
 					recommContent : $('#recomments'+commIdx).val()
 				},
 				async: false,

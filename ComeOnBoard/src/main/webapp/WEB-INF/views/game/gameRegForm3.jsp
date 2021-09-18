@@ -323,7 +323,7 @@ $(document).ready(function(){
 			<h2>게임등록</h2>
 		</div>
 		<hr>
-		<form method="post" action="/cob/game/gamelist" enctype="multipart/form-data"
+		<form method="post" action="/cob/game/gameReg" enctype="multipart/form-data"
 		 accept-charset="UTF-8" class="form_game_reg">
 			<div class="reg_wrap">
 

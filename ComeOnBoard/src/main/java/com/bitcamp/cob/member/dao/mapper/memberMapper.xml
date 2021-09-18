@@ -116,6 +116,13 @@
  		select *, (select count(*) from friends f where m.memIdx = f.memIdxFollowing and memIdxFollow = #{param1}) as followChk from member1 m where memIdx = any (select memIdxFollow from friends where memIdxFollowing = #{param1}); 
  	</select>
 	
+	<select id="searchMember"
+			parameterType="String"
+			resultType="com.bitcamp.cob.member.domain.MemberInfo"
+	>
+		select * from member1 m left join prefergame p on m.memIdx = p.memIdx left join gamelist g on p.gameIdx = g.gameIdx where m.nickName like CONCAT('%', #{searchKeyword}, '%');
+	</select>
+	
 	<!-- 친구 관련 Rest mapper  -->
 	<insert id="postFriend"
 			parameterType="int"

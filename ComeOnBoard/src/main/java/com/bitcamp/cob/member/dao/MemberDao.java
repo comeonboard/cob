@@ -74,4 +74,7 @@ public interface MemberDao {
 	
 	// 멤버 권한 변경하기
 	int updateMemberAuth(@Param("memIdx")int memIdx, @Param("memAuth")String memAuth);
+	
+	// 검색 멤버 정보 가져오기
+	List<MemberInfo> searchMember(String keyword);
 }

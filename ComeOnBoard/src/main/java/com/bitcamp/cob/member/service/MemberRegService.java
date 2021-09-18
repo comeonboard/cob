@@ -31,7 +31,6 @@ public class MemberRegService {
 		File newFile = null;
 
 		regRequest.makeMemBirth();
-		System.out.println(regRequest.getMemBirth());
 		try {
 			String path = request.getSession().getServletContext().getRealPath(UPLOAD_URI);
 			File newDir = new File(path);
@@ -41,7 +40,7 @@ public class MemberRegService {
 				System.out.println("저장 폴더를 생성했습니다.");
 			}
 			
-			String newFileName = regRequest.getMemId();
+			String newFileName = regRequest.getMemId()+System.currentTimeMillis();
 			
 			newFile = new File(newDir, newFileName);
 			
@@ -49,9 +48,9 @@ public class MemberRegService {
 			
 			if(regRequest.getMemPhoto() != null && !regRequest.getMemPhoto().isEmpty()) {
 	
-					regRequest.getMemPhoto().transferTo(newFile);
-		
+				regRequest.getMemPhoto().transferTo(newFile);
 				member.setMemPhoto(newFileName);
+				
 			} else {
 				member.setMemPhoto("default.jpg");
 			}

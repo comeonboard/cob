@@ -10,7 +10,7 @@ public class GameReview {
 	private int gameIdx;
 	private int memIdx;
 	private String revContent;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm", timezone = "Asia/Seoul")
 	private Timestamp revRegDate;
 	private int revRating;
 	private String nickname;
@@ -70,7 +70,7 @@ public class GameReview {
 
 
 	public Timestamp getRevRegDate() {
-		return new Timestamp(revRegDate.getTime()-(1000*60*60*9));
+		return new Timestamp(revRegDate.getTime());
 		//return revRegDate;
 	}
 

@@ -10,7 +10,7 @@ public class MemberInfo {
 	private int memIdx;
 	private String nickName;
 	private String memName;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone="Asia/Seoul")
 	private Timestamp memBirth;
 	private String memGender;
 	private String preferAddr;
