@@ -25,7 +25,7 @@ public class MemberDeleteService {
 		
 		resultCnt = dao.deleteMember(memIdx);
 		if(resultCnt>0) {
-			session.removeAttribute("loginChk");
+			session.removeAttribute("loginInfo");
 			Cookie cookie = new Cookie("reid", "");
 			cookie.setPath("/");
 			cookie.setMaxAge(0);

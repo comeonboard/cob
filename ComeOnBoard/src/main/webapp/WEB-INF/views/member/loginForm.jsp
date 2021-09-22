@@ -16,6 +16,58 @@
 	</c:if>
 
 </head>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+	window.Kakao.init("dce72e3068b52b88d3c513ba27245b7c");
+
+	function kakaoLogin(){
+		Kakao.Auth.login({
+			scope: 'account_email, gender',
+			success: function(authObj){
+				console.log(authObj);
+				Kakao.API.request({
+					url: '/v2/user/me',
+					success: res => {
+						var memId = res.id;
+						var memEmail = res.kakao_account.email;
+						var memGender = res.kakao_account.gender=='male' ? '남자' : '여자';
+						console.log(memId+", "+ memEmail+", "+memGender);
+						$('#kakaoMemId').val(memId);
+						$('#kakaoMemEmail').val(memEmail);
+						$('#kakaoMemGender').val(memGender);
+						$('#kakaoReUri').val(sessionStorage.getItem("redirectUri"));
+						$('#form_kakao_login').submit();
+					}
+				})
+			
+			}
+		});
+	}
+	
+	if(!Kakao.Auth.getAccessToken()){
+		console.log('로그아웃되었습니다.');
+	} else{
+		console.log('로그인 되었습니다.');
+	}
+
+	function kakaoLogout(){
+		Kakao.Auth.logout(function(){
+			console.log(Kakao.Auth.getAccessToken());
+		});
+	}
+	function kakaoCut(){
+		Kakao.API.request({
+			  url: '/v1/user/unlink',
+			  success: function(response) {
+			    console.log(response);
+			  },
+			  fail: function(error) {
+			    console.log(error);
+			  }
+			});		
+	}
+
+</script>
 
 <style>
     * {
@@ -142,7 +194,6 @@
 <script>
 	$(document).ready(function(){
 		var redirectUri = sessionStorage.getItem("redirectUri");
-		console.log(redirectUri);
 		$('#btn_login').click(function(){
 			var memId = $('#memId').val();
 			var memPassword =$('#memPassword').val();
@@ -184,7 +235,7 @@
 					}
 				});
 			}
-		});		
+		});	
 	});
 </script>
 
@@ -213,10 +264,18 @@
 	                    <label for="reid_chk">아이디 저장하기</label> 
 	                </div>	
 	    	        <input type="button" id="btn_login" value="로그인">
-	                <input type="button" id="btn_kakao" value="카카오 아이디로 로그인하기">
+	                <img src="<c:url value='/images/kakao_login.png'/>" style="width: 460px;" onclick=kakaoLogin()>
+	                <input type="button" id="btn_logout" value="로그아웃" onclick=kakaoLogout()> 
+	                <input type="button" value="연결 끊기" onclick=kakaoCut()>
+	                <button id="getInfo" type="button">정보 받아오기</button> 
 	            </fieldset>
 	        </form>
-
+			<form id="form_kakao_login" method="post" action="<c:url value='/member/kakaoLogin'/>">
+				<input type="hidden" id="kakaoMemId" name="memId">
+				<input type="hidden" id="kakaoMemEmail" name="memEmail">
+				<input type="hidden" id="kakaoMemGender" name="memGender">
+				<input type="hidden" id="kakaoReUri" name="reUri">
+			</form>
             <div class="nav_login">
                 <ul>
                     <li><a href="<c:url value='/member/findId'/>">아이디 찾기</a></li>

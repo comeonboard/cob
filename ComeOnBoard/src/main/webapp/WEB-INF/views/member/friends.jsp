@@ -486,7 +486,7 @@
 				areaHtml += '<h2>친구 검색</h2>';
 				areaHtml += '<div id="area_search_friend"></div>'
 				areaHtml += '<div id="area_search_bar">';
-				areaHtml += '<input id="input_search" type="text" name="search_content"><button id="btn_search" type="button" onclick=getSearchMember()>검색</button>';
+				areaHtml += '<input id="input_search" type="text" name="search_content" placeholder="2글자 이상 입력"><button id="btn_search" type="button" onclick=getSearchMember()>검색</button>';
 				areaHtml += '</div>'
 				$('#friend_list').append(areaHtml);
 				

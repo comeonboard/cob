@@ -22,6 +22,9 @@ public interface MemberDao {
 	// ID 중복값 체크
 	int selectById(String memId);
 	
+	// Kakao 아이디로 멤버 정보 가져오기
+	LoginInfo selectByKakaoId(String memId);
+	
 	// 비밀번호 확인
 	int selectPwById(@Param("memId")String memId, @Param("memPassword")String memPassword);
 	
@@ -66,6 +69,7 @@ public interface MemberDao {
 	
 	// 이메일로 ID 찾기
 	List<String> getMemId(FindIdPwInfo findIdPwInfo);
+	
 	// 이메일로 PW 찾기
 	int getMemPw(FindIdPwInfo findIdPwInfo);
 	

@@ -27,6 +27,12 @@
  		select count(*) from member1 where memId=#{id}
  	</select>
  	
+ 	<select id="selectByKakaoId"
+ 			resultType="com.bitcamp.cob.member.domain.LoginInfo"
+ 	>
+ 		select * from member1 where memId=#{id}
+ 	</select>
+ 	
  	<select id="selectPwById"
  			resultType="int"
  	>

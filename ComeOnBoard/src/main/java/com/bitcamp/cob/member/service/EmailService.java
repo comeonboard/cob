@@ -25,7 +25,6 @@ public class EmailService {
 		int result = 1;
 		
 		int certNum = MakeCertNumber.makeCertNumber();
-		System.out.println(certNum);
 		
 		MimeMessage message = sender.createMimeMessage();
 		
@@ -36,11 +35,11 @@ public class EmailService {
 			html += "<h1>cob 해당 페이지에서  인증번호를 입력해주세요.</h1>";
 			message.setText(html, "UTF-8", "html");
 			message.addRecipient(RecipientType.TO, 
-								new InternetAddress(memEmail, "UTF-8"));
+								new InternetAddress(memEmail));
 			
 			sender.send(message);
 			
-		} catch (MessagingException | UnsupportedEncodingException e) {
+		} catch (MessagingException e) {
 			result = 0;
 			e.printStackTrace();
 			
@@ -53,8 +52,6 @@ public class EmailService {
 		boolean chk = false;
 		
 		int certNum = (int)session.getAttribute("certNum");
-		System.out.println("certNum = " + certNum);
-		System.out.println("inputCertnum = " +inputCertNum);
 		if(inputCertNum  == certNum) {
 			chk = true;
 		}
