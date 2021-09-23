@@ -2,7 +2,7 @@
 > 사용 기술  
  - Back-end : Spring framework, java, myBatis, AWS(e2, rds), MySQL, tomcat
  - Front-end : html, css, javascript, jquery, ajax, json, summernote
- - API : 카카오 로그인, 네이버 블로그, 카카오 맵, 카카오페이
+ - API : 카카오 로그인, 카카오 링크, 네이버 블로그, 네이버 블로그 공유하기, 카카오 맵, 카카오페이
  - Tool : github, sts
 ---
 
