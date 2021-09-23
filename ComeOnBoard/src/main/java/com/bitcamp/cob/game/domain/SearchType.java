@@ -2,17 +2,20 @@ package com.bitcamp.cob.game.domain;
 
 public class SearchType {
 	
-	private int page; // 페이징처리
+	private int page; // 페이징 시작 번호
 	private String searchType;
 	private String keyword;
-	private int firstRow;
-	private int gameCountPerPage;
+	private int firstRow; // 페이지에서 표시되는 첫번째 게시물.
+	private int gameCountPerPage; // 페이지에 표시될 게시물 갯수
+	private int orderType;
+	private int sortType;
 	
-	public SearchType(int page, String searchType, String keyword) {
+	public SearchType(int page, String searchType, String keyword,int sortType) {
 
 		this.page = page;
 		this.searchType = searchType;
 		this.keyword = keyword;
+		this.sortType=sortType;
 	}
 	
 	public SearchType() {
@@ -60,11 +63,37 @@ public class SearchType {
 		this.gameCountPerPage = gameCountPerPage;
 	}
 
+	
+	
+	public int getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(int orderType) {
+		this.orderType = orderType;
+	}
+	
+	
+	
+
+	public int getSortType() {
+		return sortType;
+	}
+
+	public void setSortType(int sortType) {
+		this.sortType = sortType;
+	}
+
 	@Override
 	public String toString() {
 		return "SearchType [page=" + page + ", searchType=" + searchType + ", keyword=" + keyword + ", firstRow="
-				+ firstRow + ", gameCountPerPage=" + gameCountPerPage + "]";
+				+ firstRow + ", gameCountPerPage=" + gameCountPerPage + ", orderType=" + orderType + ", sortType="
+				+ sortType + "]";
 	}
+
+
+
+
 
 	
 	

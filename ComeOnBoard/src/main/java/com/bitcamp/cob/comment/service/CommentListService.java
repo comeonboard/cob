@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.cob.comment.domain.Comment;
+import com.bitcamp.cob.comment.domain.CommentPagingRequest;
 import com.bitcamp.cob.post.dao.PostDao;
 
 @Service
@@ -15,11 +16,15 @@ public class CommentListService {
 	@Autowired
 	private SqlSessionTemplate template;
 
-	public List<Comment> getCommentList(int postIdx){
-		return template.getMapper(PostDao.class).selectCommList(postIdx);
-	}
-	
 	public Comment getBestComment(int postIdx){
 		return template.getMapper(PostDao.class).selectBestComment(postIdx);
+	}
+
+	public int getListCount(CommentPagingRequest request) {
+		return template.getMapper(PostDao.class).getComment(request);
+	}
+
+	public List<Comment> getCommentList(CommentPagingRequest request) {
+		return template.getMapper(PostDao.class).getCommentList(request);
 	}
 }

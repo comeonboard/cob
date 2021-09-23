@@ -54,7 +54,7 @@ public class RecommentRegRequest {
 	// MemberRegRequest -> Member 
 	// 사용자에게 받는 건 MemberRegRequest지만 DB저장은 Member라서 바꿔줘야한다.
 	public Recomment toRecomment() {
-		return new Recomment(0, postIdx, commIdx, memIdx, null, recommContent, null, 0, 0, 0);
+		return new Recomment(0, postIdx, commIdx, memIdx, null, recommContent, null, 0, 0, 0, null);
 	}
 
 	

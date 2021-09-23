@@ -55,19 +55,32 @@
     }
     .contents-header>.header1>.title{
         float: left;
+        font-size: 24px;
     }
     .contents-header>.header1>.time, .contents-header>.header1>a{
         float: right;
+        margin-top:10px;
     }
     .contents-header>.header1 img{
         width: 18px;
         margin-right: 5px;
     }
-    .contents-header>.header2 img{
-        vertical-align:middle;
-    }
     .contents-header>.header2>a{
         float: left;
+        overflow: hidden;
+        width:30px;
+        height:30px;
+        border-radius: 70%;
+    }
+    .contents-header>.header2 h3{
+        margin:5px 0 0 10px ;
+        float: left;
+    }
+    .contents-header>.header2 img{
+        vertical-align:middle;
+        width:100%;
+        height:100%;
+        object-fit : cover;
     }
     .contents-header>.header2>.nick-box{
         float: left;
@@ -75,9 +88,11 @@
     .contents-header-info>span{
         float: right;
         margin-right: 10px;
+        margin-top: 6px;
     }
     .contents-header-info>.commentsCnt{
         margin: 0;
+        margin-top: 6px;
     }
     /* contents-header end */
     
@@ -170,7 +185,10 @@
     .contents-text>img{
         max-width: 100%;
     }
-    .icons-wrap>a>img{
+    .icons-wrap>img:hover{
+    	cursor: pointer;
+    }
+    .icons-wrap>img{
         width:25px; 
         height:25px; 
         float: right;
@@ -209,10 +227,14 @@
         margin-right:3px; 
         width: 60px; 
         height: 60px;
+        overflow:hidden;
+        border-radius: 70%;
     }
     .comments-profile>img{
         margin-right:3px; 
-        width: 60px; height:60px;
+        width: 100%; 
+        height: 100%;
+        object-fit : cover;
     }
     .comments-info{
         margin: 5px 0 10px 0;
@@ -233,7 +255,7 @@
     }
 
     /* recomments start */
-    .recomments{
+    .editRecomments{
         overflow: hidden;
         float:right;
         width:90%;
@@ -241,15 +263,16 @@
         border: 5px solid rgb(125, 106, 235);
         border-radius: 8px;
         padding: 8px 15px;
+        margin-bottom: 8px;
     }
 
     .remove-comments{
         float: right;
     }
-    .recomments>.recomments-text{
+    .editRecomments .recomments-text{
         margin-top: 13px;
     }
-    .recomments>.recomments-text>.write-comments{
+    .editRecomments .recomments-text .write-comments{
         border-radius: 5px;
         border: 1px solid #CCC; 
         resize: none; 
@@ -257,7 +280,7 @@
         width: 85%;  
         padding: 4px;
     }
-    .recomments>.recomments-text>input{
+    .editRecomments .recomments-text>input{
         float: right; 
         width: 60px; 
         height: 50px; 
@@ -269,17 +292,25 @@
     /* recomments end */
 
     /* re-reconmments start */
-    .re-recomments{
+    .recomments{
         overflow: hidden;
     }
-    .re-recomments>img{
+    .recomments>img{
         float: left;
         margin-left: 4%;
     }
-    .re-recomments-profile>img{
+    .recomments-profile{
+    	float: left;
+    	overflow: hidden;
+    	width: 60px;
+    	height: 60px;
+    	border-radius: 70%;
+    }
+    .recomments-profile>img{
         float: left; 
-        width: 60px; 
-        height:60px;
+        width: 100%; 
+        height: 100%;
+        object-fit: cover;
     }
     /* re-reconmments end */
     
@@ -299,15 +330,15 @@
     .comments-write>div{
         margin-top: 13px;
     }
-    .comments-write>div>.write-comments{
+    .comments-write>div .write-comments{
         border-radius: 5px;
         border: 1px solid #CCC;
         resize: none; 
         float: left; 
         width: 90%;  
-        padding: 4px;
+        padding: 5px;
     }
-    .comments-write>div>input{
+    .comments-write>div input[type=button]{
         float: right; 
         width: 60px; 
         height: 50px;  
@@ -365,6 +396,9 @@
     }
     .btn-like:hover, .btn-dislike:hover {
         text-shadow: 0 0 0 #ea0;
+    }
+    .rep:hover{
+    	cursor: pointer;
     }
     /* btn-like */
 

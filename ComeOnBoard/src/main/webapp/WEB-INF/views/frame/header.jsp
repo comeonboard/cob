@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
 function makeRedirect(){
 	var redirectUri = window.location.href;
@@ -9,17 +10,19 @@ function makeRedirect(){
 	location.href= '<c:url value="/member/login"/>' ;
 }
 
+function logout(){
+	location.href='<c:url value="/member/logout"/>';
+}
 </script>
         <div class="nav_top">
             <ul class="area_gnb">
-                <li>시작페이지로</li>
                 <li>다크모드</li>
                 <li><a href="<c:url value='/member/mypage'/>">마이페이지</a></li>
                 <c:if test="${loginInfo == null}">
        	            <li><a href="#" onclick="makeRedirect()">로그인</a></li>
                 </c:if>
 				<c:if test="${loginInfo != null}">
-					<li><a href="<c:url value='/member/logout'/>">로그아웃</a></li>
+					<li><a href="#" onclick="logout()">로그아웃</a></li>
 				</c:if>
             </ul>
         </div>

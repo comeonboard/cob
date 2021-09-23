@@ -10,6 +10,8 @@
     <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 
 </head>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
 <body>
     <%@ include file="/WEB-INF/views/frame/header.jsp" %>
 

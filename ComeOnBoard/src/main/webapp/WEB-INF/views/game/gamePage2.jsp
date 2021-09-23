@@ -25,7 +25,7 @@
         border: 1px solid rgb(251, 188, 006); 
         width: 980px;
         margin: 0px auto;
-        height: 250px;
+        height: 270px;
         padding: 0px 5px;
     }
 
@@ -44,8 +44,15 @@
         margin-left : 5px;
         width: 50px;
         visibility : hidden;
+        
     }
-
+    .ex_wrap>div>form>input{
+        display: inline-block;
+        margin : 8px 0px;
+        margin-left : 5px;
+        width: 100px;
+        float : left;
+    }
     .ex_score{
         background-color: rgb(052,168,083);
         width:130px;
@@ -63,35 +70,52 @@
         font-size: 64px;
       
     }
+    .ex_list{
+    	width : 640px;
+    	float : left;
+    	height : 170px;
+    }
     .ex_left{
         margin-left: 40px;
         margin-top: 18px;
         float: left;
         font-size: 18px;
+        width : 150px;
+        height : 110px;
     } 
     .ex_left>li{
         margin-top: 20px;
         
     }   
     .ex_center{
-        margin-left:60px;
+        margin-left:20px;
         margin-top: 18px;
         float: left;
         font-size: 18px;
+        width : 200px;
+        height : 110px;
     }
     .ex_center>li{
         margin-top: 20px;
     }    
     .ex_right{
-        margin-left:60px;
+        margin-left:10px;
         margin-top: 18px;
         float: left;
         font-size: 18px;
+        width : 190px;
+        height : 110px;
     }
     .ex_right>li{
         margin-top: 20px;
     }    
-    
+     .ex_under{
+        margin-left:40px;
+        float: left;
+        font-size: 18px;
+        width : 500px;
+        height : 30px;
+    }    
     .ex_img{
         float: right;
         margin-right: 20px;
@@ -388,7 +412,7 @@
 
     hr{
             margin-bottom: 10px;
-            width: 250px;
+            width: 500px;
             background-color: rgb(251, 188, 006);
             height: 2px;
         }
@@ -434,7 +458,13 @@
 	.rev_none{
 		display : none;
 	}
-
+	.visible {
+		visibility : visible
+	}
+	.visible_hidden{
+		visibility : hidden
+	}
+	
 </style>
 
 <script>
@@ -487,6 +517,7 @@ $(document).ready(function(){
 			gameIdx : ${gamepage.gameIdx}
 		},
 		dataType:'json',   //문자형식으로 받기
+		aysnc: false,
 		success: function(returnData){   
 		/* 	console.log(returnData);
 			console.log(${gamepage.gameIdx}); */
@@ -512,7 +543,8 @@ $(document).ready(function(){
 			        html +=  '<li class="rev_none">'+review.revIdx+'</li>'+'\n'+
 			                 '<li class="rev_none">'+review.memIdx+'</li>'+'\n'+
 						'</ul>';
-						
+					/* html +='<form method="post">'+'\n'+ */
+							
 			});
 			$('.review_list').append(html);
 			
@@ -534,7 +566,7 @@ $(document).ready(function(){
 
 </script>
 <script>
-$(document).ready(function(){
+
 $(function(){
 	
 	if('${loginInfo.memAuth}' == 'manager'){
@@ -542,13 +574,40 @@ $(function(){
 		$('#btn_delete').css('visibility','visible');
 	}
 
-}
-
 });
 
 </script>
 <script>
-//리뷰삭제
+//리뷰수정
+/* function rev_edit(idx){
+	console.log(idx)
+	
+	if('${loginInfo.memIdx}' == '${review.memIdx}')
+	$.ajax({
+		type: 'post',   //get방식으로 명시
+		url : '<c:url value="/game/gamepage1/"/>${gamepage.gameIdx}',  //이동할 jsp 파일 주소
+		data : {
+			revIdx : idx,
+			memIdx : ${loginInfo.memIdx}
+		},
+		success: function(){   
+				
+			alert("삭제됬습니다.")	
+			location.reload();
+					
+	
+		},
+		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
+			//alert('실패');
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	
+		},
+			 complete : function(){	
+				 
+			 }
+	})
+};
+ */
 function rev_dele(idx){
 	console.log(idx)
 	
@@ -559,7 +618,7 @@ function rev_dele(idx){
 			revIdx : idx,
 			memIdx : ${loginInfo.memIdx}
 		},
-		//dataType:'json',   //문자형식으로 받기
+		dataType:'json',   //문자형식으로 받기
 		success: function(){   
 				
 			alert("삭제됬습니다.")	
@@ -577,6 +636,9 @@ function rev_dele(idx){
 			 }
 	});
 };
+
+
+
 /* 
 //리뷰 수정
 function rev_edit(idx,ratingmcontent){
@@ -616,19 +678,21 @@ function rev_edit(idx,ratingmcontent){
 <script>
  
 $(document).ready(function(){
-	
-	
+		
 	$('#review_btn').on('click',function(){
 		
 		if ('${loginInfo.memIdx}' == '' ){
 			alert('로그인 해주세요');
 			return false;	
 			
-		} else if($('#revRating') == null || $('#revContent').val() == ''){			
+		}else if($('#revContent').val() == ''){			
+			alert ('평점과 리뷰 내용을 모두 입력해주세요');
+			return false;
+		} else if(!$('#rev_form :input:radio:checked').val()){			
 			alert ('평점과 리뷰 내용을 모두 입력해주세요');
 			return false;
 		} else if($('#revContent').val().length > 60){			
-			alert ('내용은 최대 40자 까지 가능합니다.');			
+			alert ('내용은 최대 60자 까지 가능합니다.');			
 			return false;
 		}else{
 			alert('등록되었습니다.');
@@ -637,6 +701,52 @@ $(document).ready(function(){
 
 }); 
 
+</script>
+<script>
+$(document).ready(function(){
+	
+	console.log('hihi');
+	
+	//$('#btn_preferDel').addClass('visible_hidden')
+	//$('#btn_preferIns').addClass('visible_hidden')
+	
+	$.ajax({
+		url : '<c:url value="/game/preferChk"/>',
+		type : 'post',
+		data : {
+			memIdx : ${loginInfo.memIdx},
+			gameIdx : ${gamepage.gameIdx}
+		},
+		
+		success : function(data){
+		
+			if(data == 'Y'){
+				$('#btn_preferIns').removeClass('visible_hidden');
+				$('#btn_preferIns').addClass('visible');
+				
+			} else {
+
+				$('#btn_preferDel').removeClass('visible_hidden');
+				$('#btn_preferDel').addClass('visible');				
+				
+			}
+		},
+		error : function(request,status,error){
+			alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+			console.log(request);
+			console.log(status);
+			console.log(error);		
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+						
+			
+		},
+		complete : function(){	
+			
+		}		
+				
+	})
+	
+});
 </script>
 <body class="main_body">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -647,13 +757,30 @@ $(document).ready(function(){
 
 			<div class="ex_title">
 				<h2>${gamepage.gameName}</h2>
+				<form action ="/cob/game/preferGame/${gamepage.gameIdx}" method="post">
+					<textarea class="rev_none" name="gameIdx">
+						${gamepage.gameIdx}
+					</textarea>
+
+					<textarea class="rev_none" name="memIdx">
+						${loginInfo.memIdx}
+					</textarea>
+					<input type="submit" value="선호게임 등록" class = "btn_preferIns visible_hidden" id="btn_preferIns">					
+				</form>
+				<form action ="/cob/game/preferGame2/${gamepage.gameIdx}" method="post">
+					<textarea class="rev_none" name="gameIdx">
+						${gamepage.gameIdx}
+					</textarea>
+
+					<textarea class="rev_none" name="memIdx">
+						${loginInfo.memIdx}
+					</textarea>
+					<input type="submit" value="선호게임 삭제" class = "btn_preferDel visible_hidden" id="btn_preferDel">					
+				</form>	
 				<input type="button" class="btn_edit" value="edit" id="btn_edit"
 					onclick="location.href='<c:url value ='/game/gameEdit/'/>${gamepage.gameIdx}'">
 				<input type="button" class="btn_edit" value="delete" id="btn_delete"
-					onclick="location.href='<c:url value ='/game/confirmDelete/'/>${gamepage.gameIdx}'">	
-					
-					
-					
+					onclick="location.href='<c:url value ='/game/confirmDelete/'/>${gamepage.gameIdx}'">						
 			</div>
 			<hr>
 
@@ -668,13 +795,15 @@ $(document).ready(function(){
 
 				</ul>
 				<ul class="ex_center">
-					<li>게임인원 :${gamepage.gamePerson}</li>
-					<li>사용연령 : ${gamepage.gameLmtAge}</li>
+					<li>게임인원 : ${gamepage.gamePerson}</li>
+					<li>사용연령 : ${gamepage.gameLmtAge}</li>										
 				</ul>
 				<ul class="ex_right">
-					<li>출시일 :${gamepage.gamePubDate}</li>
-					<li>출판사 :${gamepage.gamePublisher}</li>
+					<li>출시일 : ${gamepage.gamePubDate}</li>					
 				</ul>
+				<ul class="ex_under">
+					<li>출판사 : ${gamepage.gamePublisher}</li>
+				</ul>				
 			</div>
 
 			<div class="ex_img">
@@ -705,7 +834,9 @@ $(document).ready(function(){
 				<pre class="rule_content_name1">${gamepage.gameIntro}</pre>
 				<pre class="rule_content_name2">${gamepage.gameRule}</pre>
 				<pre class="rule_content_name3" id="game_play"></pre>
-				<pre class="rule_content_name4">etc입니다</pre>
+				<pre class="rule_content_name4">
+					<button >구입하기</button>
+				</pre>
 			</div>
 		</div>
 
@@ -714,9 +845,8 @@ $(document).ready(function(){
 			<h1>review</h1>
 			<hr>
 
-
 			<Form method="post" accept-charset="UTF-8">
-				<div class="review_wrap">
+				<div class="review_wrap" id="rev_form">
 
 					<div class="star-rating space-x-4 mx-auto">
 						<input type="radio" id="5-stars" name="revRating" id="revRating" value="5" /> 
@@ -770,9 +900,9 @@ $(document).ready(function(){
 			<div class="moving">
 				<ul>
 					<%-- <li><a
-						href='<c:url value ='/game/confirmDelete/'/>${gamepage.gameIdx}'
-						id="prev">삭제</a></li> --%>
-					<li><a href="<c:url value ='/game/gamelist'/>" id="list">목록</a>
+						href="<c:url value ='/game/gamepage/'/>${gamepage.gameIdx+1}"
+						id="next">이전</a></li>  --%>
+					<li><a href="javascript:history.back()" id="list">목록</a>
 
 					</li>
 					<%-- <li><a
@@ -783,7 +913,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<footer>
-		<h2>footer입니다</h2>
+		<h2>footer입니다 ${gamepage.gamePrice}</h2>
 	</footer>
 
 

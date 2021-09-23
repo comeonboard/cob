@@ -31,9 +31,7 @@ public class GameRegController {
 			@ModelAttribute("regRequest") GameRegRequest regRequest, 
 			HttpServletRequest request,
 			Model model) {
-
-//		List<GameMain> list = null;		
-
+	
 		System.out.println("컨트롤러 post");
 		System.out.println(regRequest);
 
@@ -43,7 +41,7 @@ public class GameRegController {
 		model.addAttribute("result", result);
 
 		if (result == 1) {
-			view = "game/gameList2";
+			view = "redirect:/game/gamelist";
 		}
 		System.out.println(view);
 		System.out.println(result);

@@ -47,10 +47,11 @@
 					</div>
 				</div>
 				<hr>
-				<div>
-					<%-- <a href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}" --%>
-					<a
-					id="join_group" onclick="attend_gameGroup()">모임 참가 신청</a>
+				<div id="attend_div">
+					<!-- <a id="join_group" onclick="attend_gameGroup()"> -->
+					<a id="join_group" href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}">
+						모임 참가 신청
+					</a>
 				</div>
 				<div>
 					<hr>
@@ -63,7 +64,6 @@
 							onclick="confirm_delete_group_board()"
 							style="color: rgb(66, 133, 244);">삭제하기</a>
 					</div>
-					<hr>
 				</div>
 			</div>
 		</div>
@@ -71,9 +71,33 @@
 </body>
 
 <script>
+	$(document).ready(function () {
+		var memIdx = '${loginInfo.memIdx}';
+		<%-- var memIdx = '<%=(String)session.getAttribute("memIdx")%>'; --%>
+		var memIdxOnJsp = '${readCreateGroupPage.memIdx}';
+		
+		console.log(memIdx);
+		console.log(memIdx.length);
+
+		if ((memIdx != "null") && (memIdx == memIdxOnJsp)) {
+			$("#join_group").hide();
+		} else if ((memIdx != "null") && (memIdx != memIdxOnJsp)) {
+			$("#edit").hide();
+		} else if (memIdx.length == 0) {
+			console.log(memIdx);
+			/* sessionStorage.clear(); */
+			$("#join_group").hide();
+			$("#edit").hide();
+		}
+	})
+
+	
 	function confirm_delete_group_board() {
 		if (confirm("모임 게시글을 삭제하시겠습니까?") == true) {
-			location.href = "deleteGroupBoard?grpIdx=" + ${readCreateGroupPage.grpIdx}
+			location.href = "deleteGroupBoard?grpIdx=" + $
+			{
+				readCreateGroupPage.grpIdx
+			}
 		} else {
 			return;
 		}
@@ -81,28 +105,27 @@
 	}
 
 	
-	function attend_gameGroup() {
-		var url = ${readCreateGroupPage.grpIdx} ;
-		console.log(url);
-		$.ajax({
-			url: "<c:url value='/group/groupEditorMyGroup?grpIdx="+url+"'/>",
-			type: "get",
-			data: { 
-				"memIdx" : "${loginInfo.memIdx}",
-				"nickName" : "${readCreateGroupPage.nickName}"
-			},
-			processData: true,
-			contentType: "application/json",
-			dataType: "json",
-			success: function(data) {
-				alert('데이터 전송에 성공하였습니다');
-			}
-		
-		})
-		
-	}
+  	function attend_gameGroup() {
+ 			
+/* 	  	 var url = ${readCreateGroupPage.grpIdx} ;
+		 console.log(url);
+		 
+		  $.ajax({
+			 url: "<c:url value='/group/groupEditorMyGroup?grpIdx="+url+"'/>",
+			 type: "POST",
+			 data: { 
+			 "memIdx" : "${loginInfo.memIdx}",
+			 "nickName" : "${readCreateGroupPage.nickName}"
+			 },
+			 processData: true,
+			 contentType: "application/json",
+			 dataType: "json",
+			 success: function(data) {
+			 alert('데이터 전송에 성공하였습니다');
+			 }
+		 })   */
 	
-	
+	 } 
 </script>
 
 

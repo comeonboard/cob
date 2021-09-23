@@ -322,6 +322,7 @@ $(document).ready(function(){
 
 
 </script>
+
 <body class="main_body">
 
     <%@ include file="/WEB-INF/views/frame/header.jsp" %>

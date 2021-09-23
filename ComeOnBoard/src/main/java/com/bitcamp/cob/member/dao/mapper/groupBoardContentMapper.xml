@@ -15,22 +15,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		useGeneratedKeys="true" keyProperty="grpIdx">
 		<!-- groupList에서 출력시에는 jstl에서 패턴 사용(op-list.jsp에서 참고하기). -> Date형식(yyyy-mm-dd)으로 
 			출력 -->
-		insert into gamegroup1 ( nickName, memIdx, grpPostEndDate, grpDate, grpContent,
+		insert into gamegroup1 ( nickName, memIdx, grpPostEndDate, grpDate,
+		grpContent,
 		grpMaxMem, grpTitle, loc, genre)
-		values ( #{nickName}, #{memIdx}, #{grpPostEndDate}, #{grpDate}, #{grpContent}, 
+		values ( #{nickName},
+		#{memIdx}, #{grpPostEndDate}, #{grpDate}, #{grpContent},
 		#{grpMaxMem}, #{grpTitle}, #{loc},#{genre})
 	</insert>
-	
+
 
 
 	<!-- mapper가 2개 였음 (grpIdx가 없는쪽이 적용된거 -> 추가함) -->
-	<select id="selectGroupBoardContent"
-		parameterType="int"
+	<select id="selectGroupBoardContent" parameterType="int"
 		resultType="com.bitcamp.cob.group.domain.Group">
 		select *
 		from gamegroup1
-		where grpIdx=#{grpIdx} <!-- 매개변수에 grpIdx를 
-			전달해줘야 처리가 가능하다!! -->
+		where grpIdx=#{grpIdx} <!-- 매개변수에 grpIdx를 전달해줘야 처리가 
+			가능하다!! -->
 		order by grpDate
 	</select>
 
@@ -42,27 +43,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		update gamegroup1
 		set grpPostEndDate=#{grpPostEndDate},
 		grpDate=#{grpDate}, grpContent=#{grpContent},
-		grpMaxMem=#{grpMaxMem}, grpTitle=#{grpTitle}, loc=#{loc}, genre=#{genre}
+		grpMaxMem=#{grpMaxMem},
+		grpTitle=#{grpTitle}, loc=#{loc}, genre=#{genre}
 		where grpIdx=#{grpIdx}
 	</update>
 	<!-- groupEditor에서 제목과 내용만 업데이트 -->
 	<update id="updateCreatedTitleAndContent"
 		parameterType="com.bitcamp.cob.group.domain.TitleAndContent">
 		update gamegroup1
-		set grpTitle=#{grpTitle}, grpContent=#{grpContent}
+		set grpTitle=#{grpTitle},
+		grpContent=#{grpContent}
 		where grpIdx=#{grpIdx} and memIdx=#{memIdx}
 	</update>
 
-	
+
 	<delete id="deleteGroupBoardContent"
 		parameterType="com.bitcamp.cob.group.domain.Group">
-		<!-- update project.gamegroup1
-		set grpPostDate=null
-		,grpPostEndDate=null, grpDate=null, grpContent=null,
-		grpMaxMem=null,
-		grpTitle=null, loc=null, genre=null
-		where grpIdx=#{grpIdx}; -->
-		delete from project.gamegroup1 
+		<!-- update project.gamegroup1 set grpPostDate=null ,grpPostEndDate=null, 
+			grpDate=null, grpContent=null, grpMaxMem=null, grpTitle=null, loc=null, genre=null 
+			where grpIdx=#{grpIdx}; -->
+		delete from project.gamegroup1
 		where grpIdx=#{grpIdx}
 	</delete>
 
@@ -81,20 +81,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select *
 		from gamegroup1
 		order by grpIdx desc
-		limit #{param1}, #{param2}
+		limit #{param1},
+		#{param2}
 	</select>
-	<!-- 리스트 그룹 갯수 추출-->
+	<!-- 리스트 그룹 갯수 추출 -->
 	<select id="selectAllCount"
 		parameterType="com.bitcamp.cob.group.domain.SearchType"
 		resultType="int">
-		select count(*)  
+		select count(*)
 		from gamegroup1
-		<where> 
+		<where>
 			<!-- 값이 null일 경우 어떻게 해야하나? -->
 			<if test="keyword != null and searchCategory == 'searchAll' ">
 				loc like concat ('%',#{keyword},'%')
 				or
-				genre like concat ('%',#{keyword},'%')
+				genre like concat
+				('%',#{keyword},'%')
 				or
 				grpTitle like concat ('%',#{keyword},'%')
 				or
@@ -109,7 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="keyword != null and searchCategory == 'searchTitle' ">
 				grpTitle like concat ('%',#{keyword},'%')
 			</if>
-			<if test="keyword != null and searchCategory == 'searchNickname'  ">
+			<if
+				test="keyword != null and searchCategory == 'searchNickname'  ">
 				nickName like concat ('%',#{keyword},'%')
 			</if>
 		</where>
@@ -118,14 +121,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListBySearch"
 		parameterType="com.bitcamp.cob.group.domain.SearchType"
 		resultType="com.bitcamp.cob.group.domain.Group">
-		select * from gamegroup1 
-		
-		<where> 
+		select * from gamegroup1
+
+		<where>
 			<!-- 값이 null일 경우 어떻게 해야하나? -->
 			<if test="keyword != null and searchCategory == 'searchAll' ">
 				loc like concat ('%',#{keyword},'%')
 				or
-				genre like concat ('%',#{keyword},'%')
+				genre like concat
+				('%',#{keyword},'%')
 				or
 				grpTitle like concat ('%',#{keyword},'%')
 				or
@@ -140,47 +144,66 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="keyword != null and searchCategory == 'searchTitle' ">
 				grpTitle like concat ('%',#{keyword},'%')
 			</if>
-			<if test="keyword != null and searchCategory == 'searchNickname'  ">
+			<if
+				test="keyword != null and searchCategory == 'searchNickname'  ">
 				nickName like concat ('%',#{keyword},'%')
 			</if>
 		</where>
 		order by grpIdx desc
 		limit #{firstRow}, #{count}
 	</select>
-	
-	 
-	 
-	 
-	
-	
+
+
+
+
+
+
 	<!-- 모임 참가 insert -->
-	<insert id="insertJoinGroup"
-		parameterType="int">	<!-- parameterType이 domain 형식일 때: domain클래스의 변수명을 그대로 적어주어도 됨(식별가능)  -->
-								<!-- domain형식이 아니라면 여러 값이 들어올 때 어떤 값이 어떤 매개변수에 해당되는지 모르므로 #{param(순서숫자)}를 쓰거나 컨트롤러의 메소드 매개변수 위치에서 (@RequestParam("식별자") 타입  진짜매개변수) 설정을 해주어야 한다-->
+	<insert id="insertJoinGroup" parameterType="int">	<!-- parameterType이 domain 형식일 때: domain클래스의 변수명을 그대로 적어주어도 됨(식별가능) -->
+		<!-- domain형식이 아니라면 여러 값이 들어올 때 어떤 값이 어떤 매개변수에 해당되는지 모르므로 #{param(순서숫자)}를 
+			쓰거나 컨트롤러의 메소드 매개변수 위치에서 (@RequestParam("식별자") 타입 진짜매개변수) 설정을 해주어야 한다 -->
 		insert into groupreg1 (memIdx, grpIdx)
 		values (#{param1}, #{param2})
 	</insert>
-	
+
 	<!-- 참가한 모임 정보 select -->
+	<!-- parameterType="com.bitcamp.cob.group.domain.Group" 이게 있어야 하나? -->
 	<select id="selectJoinGroup"
-		parameterType="com.bitcamp.cob.group.domain.Group"
-		resultType="com.bitcamp.cob.group.domain.Group">
-		
+		resultType="com.bitcamp.cob.group.domain.RegGroup">
 		select *
 		from groupreg1
 		where grpRegIdx=#{grpRegIdx}
 	</select>
 
 	<!-- 내가 만든 모임 정보 select -->
-	<select id="selectMyGroup"
-		parameterType="int"
+	<select id="selectMyGroup" parameterType="int"
 		resultType="com.bitcamp.cob.group.domain.Group">
-		select * 
+		select *
 		from gamegroup1
 		where memIdx=#{memIdx}
 	</select>
+
+	<!-- 모임에 참가한 모든 사람의 닉네임 가져오기 -->
+	<select id="selectRegGroupNicknameMemidxGrpidx" 
+		parameterType="int"
+		resultType="com.bitcamp.cob.group.domain.NicknameMemidxGrpidx">
+		select nickName, mem.memIdx, reg.grpIdx
+		from groupreg1 as reg
+		right join member1 as mem
+		on reg.memIdx = mem.memIdx
+		where reg.grpIdx = #{grpIdx};
+	</select>
 	
-	
+	<!-- 참여신청 수락/거절 -->
+	<update id="judgeRequest">
+		update groupreg1
+		set grpConfirm = 1
+		where memIdx=#{param1} and grpIdx=#{param2}
+	</update>
+
 
 
 </mapper>
+
+
+

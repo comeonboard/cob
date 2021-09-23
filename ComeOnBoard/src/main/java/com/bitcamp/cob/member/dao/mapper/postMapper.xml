@@ -19,6 +19,7 @@
 		<result column="postLike" property="postLike"/>
 		<result column="postDislike" property="postDislike"/>
 		<result column="postRep" property="postRep"/>
+		<result column="memPhoto" property="memPhoto"/>
 	</resultMap>
 	
 	<resultMap id="commListResult" 
@@ -31,6 +32,7 @@
 		<result column="commLike" property="commLike"/>
 		<result column="commDislike" property="commDislike"/>
 		<result column="commRep" property="commRep"/>
+		<result column="memPhoto" property="memPhoto"/>
 	</resultMap>
 	
 	<resultMap id="recommListResult" 
@@ -43,6 +45,7 @@
 		<result column="recommLike" property="recommLike"/>
 		<result column="recommDislike" property="recommDislike"/>
 		<result column="recommRep" property="recommRep"/>
+		<result column="memPhoto" property="memPhoto"/>
 	</resultMap>
 	
 	<!-- 게시글 등록 -->
@@ -74,11 +77,11 @@
 	<!-- 이전 다음 현재글 출력 -->
 	<select id="selectPostDetail" resultMap="postListResult">
 	<![CDATA[
-		select * from post where postIdx IN (
+		select p.*, m.memPhoto from post p, member1 m where postIdx IN (
           ( SELECT postIdx FROM post WHERE postIdx < #{postIdx} ORDER BY postIdx DESC LIMIT 1 ),
           ( SELECT postIdx FROM post WHERE postIdx = #{postIdx} ),
           ( SELECT postIdx FROM post WHERE postIdx > #{postIdx} ORDER BY postIdx LIMIT 1)
-       )
+       ) and m.memIdx = p.memIdx
        ]]>
 	</select>
 	
@@ -97,6 +100,31 @@
 		</if>
 	</select>
 	
+	<select id="countPost1" resultType="int">
+		select count(*) from post where memIdx = #{memIdx}
+	</select>
+	
+	<select id="countPagingPost"
+		parameterType="java.util.HashMap"
+		resultType="integer">
+		select count(*) from post 
+		<where>
+			<if test="item1.searchType=='both'">
+				postTitle like concat('%', #{item1.keyword}, '%') 
+				or postContent like concat('%', #{item1.keyword}, '%')
+			</if>
+			<if test="item1.searchType=='title'">
+				postTitle like concat('%', #{item1.keyword}, '%') 
+			</if>
+			<if test="item1.searchType=='content'">
+				postContent like concat('%', #{item1.keyword}, '%') 
+			</if>
+			<if test="item1.searchType=='nickName'">
+				postWriter like concat('%', #{item1.keyword}, '%') 
+			</if>
+		</where>		
+	</select>
+	
 	<!-- 조회수 증가 -->
 	<update id="addViews">
 		update post set views = views + 1 where postIdx = #{postIdx}
@@ -106,6 +134,13 @@
 	<select id="pagingPost"
 		resultMap="postListResult">
 		select * from post order by postIdx desc limit #{start}, #{cntPerPage};
+	</select>
+	
+	<!-- 게시글 페이징 -->
+	<select id="searchPost"
+		resultMap="postListResult">
+		select * from post where memIdx = #{param2} order by postIdx desc 
+		limit #{param1.start}, #{param1.cntPerPage};
 	</select>
 	
 	<select id="selectBySearch"
@@ -194,7 +229,7 @@
 	
 	<select id="selectBestComment"
 		resultMap="commListResult">
-		select c.*,m.nickName as commWriter 
+		select c.*,m.nickName as commWriter , m.memPhoto as memPhoto
 		from comment c, member1 m where postIdx = #{postIdx} and m.memIdx=c.memIdx 
 		order by commLike desc limit 1
 	</select>
@@ -215,7 +250,8 @@
 	
 	<select id="selectRecommList"
 		resultMap="recommListResult">
-		select r.*, m.nickName as recommWriter from recomment r, member1 m 
+		select r.*, m.nickName as recommWriter, m.memPhoto as memPhoto 
+		from recomment r, member1 m 
 		where postIdx = #{postIdx} and m.memIdx = r.memIdx;
 	</select>
 	
@@ -287,4 +323,17 @@
 				where recommIdx = #{idx};
 		</if>
 	</update>
+	
+	<select id="getComment"
+		resultType="int">
+		select count(*) from comment where postIdx = #{postIdx}
+	</select>
+	
+	<select id="getCommentList"
+		parameterType="com.bitcamp.cob.comment.domain.CommentPagingRequest"
+		resultType="com.bitcamp.cob.comment.domain.Comment">
+		select c.*, m.nickName as commWriter, m.memPhoto as memPhoto from comment c, member1 m 
+		where postIdx = #{postIdx} and m.memIdx = c.memIdx 
+		order by commIdx desc limit #{startNum}, #{commPerPage}
+	</select>
 </mapper>

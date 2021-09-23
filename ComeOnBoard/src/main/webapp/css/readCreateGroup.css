@@ -7,6 +7,11 @@
 	padding-top: 20px;
 }
 
+hr {
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
 .Wrapper>#content {
 	width: 860px;
 	float: left;
@@ -39,7 +44,14 @@ button {
 	float: right;
 }
 
+#grpTitle {
+	margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 #grpContent {
+	margin-top:10px;
+	margin-bottom:10px;
 	border: 1px solid gray;
 	height: 400px;
 	padding-top: 10px;
@@ -49,6 +61,12 @@ button {
 
 #edit {
 	float: right;
+	margin-bottom:20px;
+}
+
+#attend_div {
+	margin-top:10px; 
+	margin-bottom:10px;
 }
 
 #join_group {
@@ -60,4 +78,5 @@ button {
 	font-size: 1.5em;
 	border:none;
 	border-radius:5px;
+	
 }

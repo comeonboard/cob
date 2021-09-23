@@ -68,6 +68,15 @@ public class FriendRestService {
 		return list;
 	}
 	
+	// 친구 검색 목록 JSON
+	public List<MemberInfo> getSearchMembder(String keyword){
+		MemberDao dao = template.getMapper(MemberDao.class);
+		List<MemberInfo> list = dao.searchMember(keyword);
+		getPreferGame(list);
+		
+		return list;
+	};
+	
 	//선호 게임 목록 
 	public void getPreferGame(List<MemberInfo> list){
 		

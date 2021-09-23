@@ -41,7 +41,7 @@ public class GameEditController {
 
 		if (result == 1) {
 			System.out.println("게임수정완료");
-			view = "redirect:/game/gamelist";
+			view = "redirect:/game/gamepage/"+regRequest.getGameIdx();
 		}
 		System.out.println("edit222 : " + result);
 		return view;

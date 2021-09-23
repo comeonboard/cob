@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bitcamp.cob.comment.domain.Comment;
 import com.bitcamp.cob.comment.domain.CommentRegRequest;
+import com.bitcamp.cob.comment.domain.CommentPagingRequest;
 import com.bitcamp.cob.comment.service.CommentCountService;
 import com.bitcamp.cob.comment.service.CommentDeleteService;
 import com.bitcamp.cob.comment.service.CommentEditService;
@@ -56,18 +57,44 @@ public class CommentController {
 	// 댓글 조회
 	@RequestMapping(value = "/comment/commentList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<Comment> selectCommList( 
-			@ModelAttribute("postIdx") int postIdx, 
-			Model model) {
-
-		List<Comment> list = null;
+	public Map<String, Object> selectCommList(CommentPagingRequest request, Model model,
+			@RequestParam(value="page",defaultValue = "1", required = false)int page) {
 		
-		list = listService.getCommentList(postIdx);
-		model.addAttribute("commList", list);
-		System.out.println(list);
-		return list;
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		int listcount = listService.getListCount(request);	// 댓글 총 갯수
+		System.out.println("listcount : " + listcount);
+		
+		// 총 페이지수
+		int maxpage = (listcount + request.getCommPerPage() - 1) / request.getCommPerPage(); // (13 + 9) / 10
+		System.out.println("maxpage : " + maxpage);
+		
+		// 시작 페이지수
+		int startpage = ((page - 1) / 10) * 10 + 1;
+		System.out.println("startpage : " + startpage);
+		
+		// 마지막 페이지수
+		int endpage = startpage + 10 - 1;
+		System.out.println("endpage : " + endpage);
+		if (endpage > maxpage) {
+			endpage = maxpage;
+		}
+
+		request.setCurrentPage(page);
+		request.setStartNum((page-1)*request.getCommPerPage());
+		request.setEndNum(endpage);
+
+		List<Comment> commList = listService.getCommentList(request);
+
+		result.put("List",  commList);
+		result.put("page",  page);
+		result.put("startpage",  startpage);
+		result.put("endpage",  endpage);
+		
+		model.addAttribute("pageNum", request.getCurrentPage());
+		return result;
 	}
-	
+
 	// 댓글 삭제
 	@RequestMapping(value="/comment/deleteComment", method=RequestMethod.POST) 
 	@ResponseBody

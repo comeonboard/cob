@@ -80,7 +80,6 @@
         $(document).on('click', '.btn_reg_friend', function(){
 			var frIdx = $(this).attr('data-friend');
 			regFriend(frIdx);
-			console.log(tab_id);
 			if(tab_id == 'tab2'){
            	 	getFollowingFriendList();
 			}
@@ -95,6 +94,9 @@
            	 	getFollowingFriendList();
 			}
         });
+        
+
+        
         
    
 
@@ -114,9 +116,23 @@
 	.area_friend_list {
 		margin: 40px auto;
 		width: 900px;
-		height: 1000px;
+		height: auto;
 		background-color: white;
 	}
+	
+	
+	#area_search_friend {
+		margin: 40px 0;
+		width: 900px;
+		min-height: auto;
+		background-color: white;
+	}
+	#area_search_bar {
+		margin: 0 auto;
+		width: 810px;
+		height: 50px;
+	}
+
 	
 	.ul_menu {
 		height: 50px;
@@ -277,7 +293,24 @@
     #btn_send_msg {
     	margin-left: 40px;
     }
+    
+    #input_search {
+    	float: left;
+    	height: 30px;
+    	width: 196px;
+    	
+    }
+    
+    #input_search:focus {
+    	border: #ddd solid 2px;
+    }
 	
+	#btn_search {
+		float: left;
+		width: 35px;
+		height: 35px;
+		border-radius: 0;
+	}
 </style>
 </head>
 
@@ -309,7 +342,7 @@
                    </tr>
                    <tr>
                        <td class="col1">선호게임</td>
-                       <td id="friend_preferGame" class="col2">7200</td>
+                       <td id="friend_preferGame" class="col2"></td>
                    </tr>
                    <tr>
                        <td class="col1">선호지역</td>
@@ -333,6 +366,13 @@
 						<li><a href="#" class="btn_close">닫기</a></li>
 					</ul>		
 			</div>
+			<!-- 
+				<h2>친구 검색</h2>
+			<div id="area_search_friend">
+				<input id="input_search" type="text" name="search_content">
+				<button id="btn_search" type="button"><img id="search_img" src="<c:url value='/images/search.png'/>"></button>
+			</div>
+			 -->
 		</div>
 	</div>
 </body>
@@ -358,7 +398,11 @@
                     html += '</div></li>'
                    	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
                    	html += '<li class="col3">'+item.preferAddr+'</li>'
-                   	html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+                   	if(item.preferGame.length>0){
+                   		html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+                   	} else {
+                   		html += '<li class="col4"></li>'
+                   	}
                    	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
                    	html += '</ul>'
          			
@@ -394,7 +438,11 @@
                     html += '</div></li>'
                    	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
                    	html += '<li class="col3">'+item.preferAddr+'</li>'
-                   	html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+                   	if(item.preferGame.length>0){
+                   		html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+                   	}  else {
+                   		html += '<li class="col4"></li>'
+                   	}
                    	if(item.followChk>0){
                        	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
                     } else {
@@ -417,7 +465,6 @@
 	}
 	// 추천 친구 리스트 불러오기
 	function getRecommendFriend(memIdx){
-			console.log('${loginInfo.preferAddr}');
 
 		var friendsList = null;
 		var url = '<c:url value="/friends/recommendFriends/"/>'+ memIdx;
@@ -433,12 +480,14 @@
 			cotentType : 'application/json',
 			success : function(data) {
 				friendList = data;
-				console.log(data);
 				$('#friend_list').empty();
 				var areaHtml = '<h2>나와 선호지역이 같은 회원</h2>';
 				areaHtml += '<div id="area_friend_preferAddr"></div>';
 				areaHtml += '<h2>친구 검색</h2>';
-				areaHtml += '<div id="area_search_friend"><input id="bar_search" type="text" name="search_content"><button id="btn_search" type="button">검색</button></div>';
+				areaHtml += '<div id="area_search_friend"></div>'
+				areaHtml += '<div id="area_search_bar">';
+				areaHtml += '<input id="input_search" type="text" name="search_content" placeholder="2글자 이상 입력"><button id="btn_search" type="button" onclick=getSearchMember()>검색</button>';
+				areaHtml += '</div>'
 				$('#friend_list').append(areaHtml);
 				
 				$.each(data, function(index, item){
@@ -452,14 +501,16 @@
                     html += '</div></li>'
                    	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
                    	html += '<li class="col3">'+item.preferAddr+'</li>'
-                   	html += '<li class="col4">'+'선호게임'+'</li>'
+                   	if(item.preferGame.length>0){
+                   		html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+                   	} else {
+                   		html += '<li class="col4"></li>'
+                   	}
                    	if(item.followChk>0){
                        	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
                     } else {
                     	html += '<li><button class="btn_reg_friend" data-friend="'+memIdx+'">등록</button></li>'
                     }
-                   	html += '</ul>'
-         			
         			$('#area_friend_preferAddr').append(html);
 					});	
 			},
@@ -472,6 +523,58 @@
 		});
 	
 		return friendsList;
+	}
+	
+	//회원 정보 검색하기
+	function getSearchMember(){
+
+		var url = '<c:url value="/member/search"/>';
+		$.ajax({
+			url: url,
+			type : 'get',
+			data : {"keyword" : $('#input_search').val()},
+			dataType: 'json',
+			async: 'false',
+			success : function(data) {
+				console.log(data);
+				$('#area_search_friend').empty();
+				$.each(data, function(index, item){
+					if(data.length!=0){
+						var memIdx = item.memIdx;
+						var html = '<ul class=frInfo>';
+	                    html += '<li class="col1"><div class="friend_profile_frame">'
+	                    html += '<img class="friend_photo" src="<c:url value="/uploadfile/member/"/>'+item.memPhoto+'">'
+	                    html += '</div></li>'
+	                   	html += '<li class="col2"><a href="#" class="namespace" data-friend="'+memIdx+'">'+item.nickName+'</a></li>'
+	                   	html += '<li class="col3">'+item.preferAddr+'</li>'
+	                   	if(item.preferGame.length>0){
+	                   		html += '<li class="col4">'+item.preferGame[0].gameName+'</li>'
+	                   	} else {
+	                   		html += '<li class="col4"></li>'
+	                   	}
+	                    if(item.followChk>0){
+	                       	html += '<li><button class="btn_delete_friend" data-friend="'+memIdx+'">삭제</button></li>'
+	                    } else {
+	                    	html += '<li><button class="btn_reg_friend" data-friend="'+memIdx+'">등록</button></li>'
+	                    }
+	                   	html += '</ul>'
+	                   	$('#area_search_friend').append(html);
+					} else {
+						alert('검색 결과가 없습니다.');
+					}
+        			
+					});	
+        			
+       			
+			},
+			error : function(request, status, error) {
+				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		});
+	
 	}
 	
 	//다른 회원 정보 불러오기
@@ -487,7 +590,9 @@
 					$('#friend_nickName').html(data.nickName);
 					$('#friend_memBirth').html(data.memBirth);
 					$('#friend_memGender').html(data.memGender);
-					$('#friend_preferGame').html(data.preferGame[0].gameName);
+                   	if(data.preferGame.length>0){
+                   		$('#friend_preferGame').html(data.preferGame[0].gameName);
+                   	}
 					$('#friend_preferAddr').html(data.preferAddr);
 					
 					if(data.followChk>0){

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bitcamp.cob.comment.domain.Comment;
+import com.bitcamp.cob.comment.domain.CommentPagingRequest;
 import com.bitcamp.cob.common.utils.PagingVO;
 import com.bitcamp.cob.post.domain.CheckRequest;
 import com.bitcamp.cob.post.domain.Post;
@@ -45,8 +46,14 @@ public interface PostDao {
 	
 	// 게시글 총 갯수
 	int countPost(String postSort);
+	// 게시글 총 갯수
+	int countPost1(int memIdx);
+	// 페이징 게시글 총 갯수
+	int countPagingPost(Map<String, Object> map);
 	// 페이징 처리 게시글 조회
 	List<Post>pagingPost(PagingVO vo);
+	// 작성자 게시글 조회
+	List<Post>searchPost(PagingVO vo, int memIdx);
 	// 검색으로 리스트 조회
 	List<Post> selectBySearch(Map<String, Object> map);
 	// 검색으로 리스트 조회
@@ -71,4 +78,9 @@ public interface PostDao {
 	int selectLikeCheck(CheckRequest checkRequest);
 	// 증가 버튼
 	int addbutton(CheckRequest checkRequest);
+	
+	// 댓글 리스트 총 갯수
+	int getComment(CommentPagingRequest request);
+	// 댓글 리스트 출력
+	List<Comment> getCommentList(CommentPagingRequest request);
 }

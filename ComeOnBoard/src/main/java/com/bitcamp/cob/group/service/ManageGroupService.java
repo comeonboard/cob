@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.bitcamp.cob.group.dao.GroupDao;
 
 import com.bitcamp.cob.group.domain.Group;
+import com.bitcamp.cob.group.domain.NicknameMemidxGrpidx;
+import com.bitcamp.cob.group.domain.RegGroup;
 
 @Service
 public class ManageGroupService {
@@ -25,7 +27,7 @@ public class ManageGroupService {
 	}
 	
 	// 참가한 그룹 가져오기
-	public Group selectEditGroup() {
+	public RegGroup selectEditGroup() {
 
 		return template.getMapper(GroupDao.class).selectJoinGroup();	
 		
@@ -38,4 +40,14 @@ public class ManageGroupService {
 	}
 	
 	
+	public ArrayList<NicknameMemidxGrpidx> selectRegGroupNickname(int grpIdx) {
+		
+		return template.getMapper(GroupDao.class).selectRegGroupNicknameMemidxGrpidx(grpIdx);
+		
+	}
+	
+	
 }
+
+
+

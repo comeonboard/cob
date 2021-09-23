@@ -50,7 +50,7 @@ public class CommentRegRequest {
 	// MemberRegRequest -> Member 
 	// 사용자에게 받는 건 MemberRegRequest지만 DB저장은 Member라서 바꿔줘야한다.
 	public Comment toComment() {
-		return new Comment(0, memIdx, postIdx, null, commContent, null, 0, 0, 0);
+		return new Comment(0, memIdx, postIdx, null, commContent, null, 0, 0, 0, null);
 	}
 
 	

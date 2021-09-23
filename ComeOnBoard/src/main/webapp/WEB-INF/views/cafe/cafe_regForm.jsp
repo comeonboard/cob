@@ -4,12 +4,17 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:if test="${empty loginInfo || loginInfo.memAuth ne 'cafe'}">
+	<script>
+		alert('카페 등록 권한이 없습니다.');
+		history.back();
+	</script>
+</c:if> 
 
-<script>
-	alert('카페 등록 권한이 없습니다.');
-	history.back();
-</script>
-
+<c:if test="${checkCafe == 1}">
+	<script>
+		alert('이미 등록하셨습니다.');
+		history.back();
+	</script>
 </c:if> 
 
 <!DOCTYPE html>  <!-- 문서의 첫행 표시, 웹 브라우저에 HTML5 임을 알림 -->

@@ -31,7 +31,7 @@ public class GroupManagementController {
 		//model에 집어넣기
 		model.addAttribute("readMyGameGroup", result);
 		
-		System.out.println(result);
+//		System.out.println(result);
 		
 		return "group/groupManagement";
 	}

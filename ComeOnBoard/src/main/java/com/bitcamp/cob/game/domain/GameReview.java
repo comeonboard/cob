@@ -70,8 +70,8 @@ public class GameReview {
 
 
 	public Timestamp getRevRegDate() {
-		return new Timestamp(revRegDate.getTime()-(1000*60*60*9));
-		//return revRegDate;
+		//return new Timestamp(revRegDate.getTime()+(1000*60*60*9));
+		return revRegDate;
 	}
 
 

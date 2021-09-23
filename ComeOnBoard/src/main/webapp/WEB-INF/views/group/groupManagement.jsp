@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${empty loginChk}">
+<%-- <c:if test="${empty loginChk}">
 <script>
 function makeRedirect(){
 	var redirectUri = window.location.href;
@@ -15,7 +15,7 @@ function makeRedirect(){
 
 	makeRedirect();
 </script>
-</c:if>   
+</c:if>    --%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -24,13 +24,11 @@ function makeRedirect(){
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Document</title>
 <link rel="stylesheet" href="<c:url value="/css/groupManagement.css"/>">
-
-<!-- 공통 헤더 부분.jsp파일이기 땜에 include사용 -->
-<%@ include file="/WEB-INF/views/frame/footer.jsp"%>
-<%@ include file="/WEB-INF/views/frame/header.jsp"%>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp"%>
+<!-- 공통 헤더 부분.jsp파일이기 땜에 include사용 -->
+<%@ include file="/WEB-INF/views/frame/header.jsp"%>
+
 
 
 <script>
@@ -71,11 +69,11 @@ function makeRedirect(){
 			<div id="div1" class="div">
 				<c:forEach items="${readMyGameGroup}" var="list" varStatus="status">
 				<div id="div1_1" class="secondary_div1">
-					<a href="<c:url value="/group/readGroup?grpIdx=${list.grpIdx}"/>">${readMyGameGroup[status.index].grpTitle}</a>
+					<a href="<c:url value='/group/readGroup?grpIdx=${list.grpIdx}'/>">${readMyGameGroup[status.index].grpTitle}</a>
 					<br>
-					<a href="<c:url value="/group/groupEditorMyGroup?grpIdx=${list.grpIdx}"/>">
-						<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
+					<a href="<c:url value='/group/groupEditorMyGroup?grpIdx=${list.grpIdx}'/>">
 						<input type="button" value="게시물관리" class="button">
+						<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
 					</a>
 					<input type="button" value="탈퇴" class="button" onclick="popUp1()">
 				</div>

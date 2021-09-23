@@ -1,11 +1,14 @@
 package com.bitcamp.cob.cafe.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bitcamp.cob.cafe.dao.CafeDao;
 import com.bitcamp.cob.cafe.domain.Cafe;
+import com.bitcamp.cob.member.domain.LoginInfo;
 
 @Service
 public class CafeInfoService {
@@ -28,6 +31,12 @@ public class CafeInfoService {
 	// 카페 정보 수정
 	public int updateCafeInfo(Cafe cafe) {
 		return template.getMapper(CafeDao.class).updateCafeInfo(cafe);
+	}
+
+	// 카페 등록 여부
+	public int checkCafe(HttpSession session) {
+		LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
+		return template.getMapper(CafeDao.class).checkCafe(loginInfo.getMemIdx());
 	}
 
 }

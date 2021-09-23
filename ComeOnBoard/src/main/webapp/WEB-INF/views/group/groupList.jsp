@@ -92,12 +92,16 @@
 
 						<!-- page값 사용 하는 곳 -->
 						<c:forEach begin="1" end="${pageListView.pageTotalCount}" var="num">
-						<div class="wrap_Count">
-							<%-- <div class="list_Count"><span><a href="groupList?page=${num}&searchCategory=${searchType.searchCategory}&keyword=${searchType.keyword}">[${num}]</a></span></div> --%>
-							<div class="list_Count"><span><a href="<c:url value="groupList?page=${num}&searchCategory=${searchType.searchCategory}&keyword=${searchType.keyword}" />">[${num}]</a></span></div>
+						<div class="wrap_list">
+							<ul class="list_count">
+								<li style="margin-right:10px;">
+									<a href="<c:url value="groupList?page=${num}&searchCategory=${searchType.searchCategory}&keyword=${searchType.keyword}"/>">[${num}]</a>
+								</li>
+							</ul>
 						</div>
 						</c:forEach>
 
+						<br>
 
 						<form id="search_var">
 								<select name="searchCategory" id="form_select_category">

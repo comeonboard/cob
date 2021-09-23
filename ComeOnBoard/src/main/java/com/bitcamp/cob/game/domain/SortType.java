@@ -8,7 +8,6 @@ public class SortType {
 	public SortType() {}
 
 	public SortType(String sortType, String sortKeyword) {
-		super();
 		this.sortType = sortType;
 		this.sortKeyword = sortKeyword;
 	}

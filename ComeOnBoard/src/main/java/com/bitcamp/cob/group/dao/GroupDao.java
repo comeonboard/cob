@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 
 import com.bitcamp.cob.group.domain.Group;
+import com.bitcamp.cob.group.domain.NicknameMemidxGrpidx;
+import com.bitcamp.cob.group.domain.RegGroup;
 import com.bitcamp.cob.group.domain.SearchType;
 import com.bitcamp.cob.group.domain.TitleAndContent;
 
@@ -51,13 +53,16 @@ public interface GroupDao {
 	public ArrayList<Group> selectMyGroup(int memIdx);
 	
 	//참가한 모임 select
-	public Group selectJoinGroup();
+	public RegGroup selectJoinGroup();
 	
 	//모임 참가 (groupreg에 insert)
 	public int insertJoinGroup(int memIdx, int grpIdx);
 
-
-
+	//모임에 참가한 사람의 닉네임 가져오기
+	public ArrayList<NicknameMemidxGrpidx> selectRegGroupNicknameMemidxGrpidx(int grpIdx);
+	
+	//모임 참가 수락/거절
+	public int judgeRequest(int memIdx, int grpIdx);
 	
 	
 }

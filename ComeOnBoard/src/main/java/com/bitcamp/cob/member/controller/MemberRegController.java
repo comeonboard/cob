@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bitcamp.cob.member.domain.MemberRegRequest;
 import com.bitcamp.cob.member.service.MemberRegService;
+import com.bitcamp.cob.util.MakeCertNumber;
 
 @Controller
 @RequestMapping("/member/memberReg")
@@ -32,6 +33,14 @@ public class MemberRegController {
 			HttpServletRequest request,
 			Model model
 			) {
+		// 카카오로 가입시 비밀번호 처리
+		String memPw = ""+regRequest.getMemPassword();
+		System.out.println(memPw);
+		if(memPw.equals("null")) {
+			regRequest.setMemPassword(""+MakeCertNumber.makeCertNumber());
+			System.out.println(regRequest.getMemPassword());
+		}
+		
 		int result = regService.memberReg(regRequest, request);
 		
 		model.addAttribute("result", result);

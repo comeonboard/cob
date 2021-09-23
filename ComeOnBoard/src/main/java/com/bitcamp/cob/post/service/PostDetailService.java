@@ -16,8 +16,6 @@ public class PostDetailService {
 	private SqlSessionTemplate template;
 	
 	public List<Post> selectpostDetail(int postIdx) {
-		List<Post> list = null;
-		list = template.getMapper(PostDao.class).selectPostDetail(postIdx);
-		return list;
+		return template.getMapper(PostDao.class).selectPostDetail(postIdx);
 	}
 }

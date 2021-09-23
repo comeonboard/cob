@@ -760,6 +760,18 @@ function makeRedirect(){
         border-radius: 10px;
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
     }
+    
+   	.area_select_menu_big {
+        margin: 0 40px;
+        float: left;
+        width: 320px;
+        height: 160px;
+        border-radius: 10%;
+        line-height: 160px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+    }
 
     .area_select_menu:hover,
     .select:hover {
@@ -1294,8 +1306,7 @@ function makeRedirect(){
                     <li>
                         <div class="mypage_menu">
                             <h2>모임 관리</h2>
-                            <a id="make_group" href="#" class="area_select_menu"><div>내가 만든 모임</div></a>
-                            <a id="enroll_group" href="#" class="area_select_menu"><div>내가 가입한 모임</div></a>
+                            <a id="make_group" href="#" class="area_select_menu_big"><div>내 모임 관리</div></a>
                         </div>
                     </li>
                     <li>
@@ -1427,7 +1438,9 @@ function makeRedirect(){
 			$('#friend_nickName').html(friend.nickName);
 			$('#friend_memBirth').html(friend.memBirth);
 			$('#friend_memGender').html(friend.memGender);
-			$('#friend_preferGame').html(friend.preferGame[0].gameName);
+			if(friend.preferGame.length>0){
+				$('#friend_preferGame').html(friend.preferGame[0].gameName);	
+			}
 			$('#friend_preferAddr').html(friend.preferAddr);
 			$('#btn_delete_friend').attr('data-friend', frIdx);		
 			$('#btn_delete_friend').removeClass('display_none');

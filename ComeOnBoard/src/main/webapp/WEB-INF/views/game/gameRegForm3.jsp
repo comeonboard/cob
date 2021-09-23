@@ -259,6 +259,8 @@
         color: black;
     } */
 
+
+
 	
 </style>
 <script>
@@ -312,6 +314,48 @@ $(document).ready(function(){
 
 
 </script>
+<script>
+	// 게임 이름 중복 체크
+	$(document).ready(function(){
+		
+		$('#gameName').focusout(function(){
+			
+			$.ajax({
+				url : '<c:url value="/game/nameChk"/>',
+				type : 'post',
+				data : {
+					gameName : $(this).val()
+				},
+				success : function(data){
+					
+					if(data == 'Y'){
+						$('#msg_name').html('사용가능');
+						$('#msg_name').addClass('color_blue');
+						$('#msg_name').removeClass('color_grey');
+					} else {						
+						$('#msg_name').html('중복된 게임이름입니다.');
+						$('#msg_name').addClass('color_red');
+						$('#msg_name').removeClass('color_grey');
+						$('#msg_name').removeClass('color_blue');
+					}
+				},
+				error : function(request,status,error){
+					alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+					console.log(request);
+					console.log(status);
+					console.log(error);					
+				},
+				complete : function(){
+					
+				}
+			})
+		
+		});
+			
+	});
+	
+	
+</script>
 <body class="main_body">
 
     <%@ include file="/WEB-INF/views/frame/header.jsp" %>
@@ -323,7 +367,7 @@ $(document).ready(function(){
 			<h2>게임등록</h2>
 		</div>
 		<hr>
-		<form method="post" action="/cob/game/gamelist" enctype="multipart/form-data"
+		<form method="post"  enctype="multipart/form-data"
 		 accept-charset="UTF-8" class="form_game_reg">
 			<div class="reg_wrap">
 
@@ -338,7 +382,10 @@ $(document).ready(function(){
 				<div class="area_game_reg">
 					<ul>
 						<li class="reg_item">게임명</li>
-						<li class="reg_text"><input type="text" name="gameName" id="gameName" ></li>
+						<li class="reg_text"><input type="text" name="gameName" id="gameName" >
+							<span id="msg_name" class="msg color_grey"></span>
+						</li>
+						
 					</ul>
 					<ul>
 						<li class="reg_item">장르</li>

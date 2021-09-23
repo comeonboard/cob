@@ -14,11 +14,12 @@ public class Comment {
 	private int commLike;
 	private int commDislike;
 	private int commRep;
+	private String memPhoto;
 	
 	public Comment() {}
 
 	public Comment(int commIdx, int memIdx, int postIdx, String commWriter, String commContent, Timestamp commRegDate, int commLike, int commDislike,
-			int commRep) {
+			int commRep, String memPhoto) {
 		this.commIdx = commIdx;
 		this.memIdx = memIdx;
 		this.postIdx = postIdx;
@@ -28,6 +29,7 @@ public class Comment {
 		this.commLike = commLike;
 		this.commDislike = commDislike;
 		this.commRep = commRep;
+		this.memPhoto = memPhoto;
 	}
 
 	public int getCommIdx() {
@@ -105,6 +107,14 @@ public class Comment {
 	// java.sql.TimeStamp -> java.util.Date
 	public Date getDate() {
 		return new Date(getCommRegDate().getTime());
+	}
+
+	public String getMemPhoto() {
+		return memPhoto;
+	}
+
+	public void setMemPhoto(String memPhoto) {
+		this.memPhoto = memPhoto;
 	}
 
 	@Override
