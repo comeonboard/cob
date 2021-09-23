@@ -69,6 +69,7 @@ public class Group {
 	}
 
 	public Timestamp getGrpPostDate() {
+//		return new Timestamp(grpPostDate.getTime()-(1000*60*60*9));
 		return grpPostDate;
 	}
 

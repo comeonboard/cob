@@ -201,7 +201,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where memIdx=#{param1} and grpIdx=#{param2}
 	</update>
 
+	<!-- grpConfirm = 0인 groupreg1 리스트 -->
+	<select id="selectGrpConfirmZero"
+		parameterType="int"
+		resultType="com.bitcamp.cob.group.domain.NicknameMemidxGrpidx">
+		select nickName, mem.memIdx, reg.grpIdx
+		from groupreg1 as reg
+		right join member1 as mem
+		on reg.memIdx = mem.memIdx
+		where reg.grpIdx = #{grpIdx} and reg.grpConfirm = 0
+	</select>
+	
 
+	<!-- grpConfirm = 1인 (참가 승인)groupreg1 리스트 -->
+	<select id="selectGrpConfirmOne"
+		parameterType="int"
+		resultType="com.bitcamp.cob.group.domain.NicknameMemidxGrpidx">
+		select nickName, mem.memIdx, reg.grpIdx
+		from groupreg1 as reg
+		right join member1 as mem
+		on reg.memIdx = mem.memIdx
+		where reg.grpIdx = #{grpIdx} and reg.grpConfirm = 1
+	</select>
 
 </mapper>
 

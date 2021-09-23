@@ -75,7 +75,7 @@ function makeRedirect(){
 						<input type="button" value="게시물관리" class="button">
 						<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
 					</a>
-					<input type="button" value="탈퇴" class="button" onclick="popUp1()">
+					<input type="button" value="삭제" class="button" onclick="popUp1()">
 				</div>
 				</c:forEach>
 			</div>
@@ -88,7 +88,7 @@ function makeRedirect(){
 					<br>
 					일시:
 					<br>
-					<input type="button" value="탈퇴" class="button2" onclick="popUp2()">
+					<input type="button" value="삭제" class="button2" onclick="popUp2()">
 				</div>
 			</div>
 		</div>

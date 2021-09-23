@@ -46,8 +46,25 @@ public class ManageGroupService {
 		
 	}
 	
+	// grpConfirm = 0
+	public ArrayList<NicknameMemidxGrpidx> selectGrpConfirm0(int grpIdx) {
+		
+		return template.getMapper(GroupDao.class).selectGrpConfirmZero(grpIdx);
+		
+	}
+	// grpConfirm = 1
+	public ArrayList<NicknameMemidxGrpidx> selectGrpConfirm1(int grpIdx) {
+		
+		return template.getMapper(GroupDao.class).selectGrpConfirmOne(grpIdx);
+		
+	}
+	
+	
 	
 }
+
+
+
 
 
 
