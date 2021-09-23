@@ -1,6 +1,6 @@
 # Come on, Board
 > 사용 기술  
- - Back-end : Spring framework, java, myBatis, AWS(e2, rds), MySQL, tomcat
+ - Back-end : Spring framework, java, myBatis, AWS(e2, rds), MySQL, tomcat, 
  - Front-end : html, css, javascript, jquery, ajax, json
  - API : 카카오 로그인, 네이버 블로그, 카카오 맵, 카카오페이
  - Tool : github, sts
