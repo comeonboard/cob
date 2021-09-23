@@ -24,7 +24,7 @@
 <script>
 	$(document).ready(function() {
 		$('#summernote').summernote({
-			placeholder: 'content',
+			placeholder: '내용을 입력해주세요',
 		    minHeight: 500,             // 최소 높이
 		    maxHeight: null,            // 최대 높이
 		    focus: true,                // 에디터 로딩후 포커스를 맞출지 여부
@@ -71,16 +71,14 @@
 				</div>
 				<div class="write_contents">
 					<form id="postForm" method="post">
-						<input type="number" name="memIdx" style="width: 20%;" placeholder="멤버 idx" /><br> 
-						<input type="text" name="postWriter" style="width: 20%;" placeholder="작성자" value="${ sessionScope.nickName }" /><br>	<!-- 세션값 바꾸기 -->
+						<input type="hidden" name="memIdx" style="width: 20%;" placeholder="멤버 idx" value="${loginInfo.memIdx }" /><br> 
+						<input type="hidden" name="postWriter" style="width: 20%;" placeholder="작성자" readonly value="${loginInfo.nickName }" /><br>	<!-- 세션값 바꾸기 -->
 						<div class="articlecate">
 							<select name="postSort" placeholder="카테고리" style="width: 100px; height: 30px">
 								<option value="잡담">잡담</option>
 								<option value="질문">질문</option>
 								<option value="후기">후기</option>
-								<option value="드로우/출시">드로우/출시</option>
 								<option value="게임TIP">게임TIP</option>
-								<option value="정보/세일">정보/세일</option>
 								<option value="지역">지역</option>
 								<option value="기타">기타</option>
 								<option value="공지">공지</option>
@@ -100,10 +98,6 @@
 			var postWriter = frm.postWriter.value;
 			var postContent = frm.postContent.value;
 			
-			if (postWriter.trim() == ''){
-				alert("작성자를 입력해주세요");
-				return false;
-			}
 			if (postTitle.trim() == ''){
 				alert("제목을 입력해주세요");
 				return false;

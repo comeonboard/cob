@@ -165,7 +165,15 @@ a{
 #etc{
 	display :none
 }
-
+#btn_order{
+	background-color: rgb(251, 188, 006); 
+	border : none;
+	font-size : 15px;
+	
+}
+#btn_order:hover{
+	color: rgb(66, 133, 244); 
+}
 </style>
 <script>
 
@@ -215,25 +223,50 @@ $(function(){
 	<form method="post">
 		<div class="listbar">
 			
-				<select  name="sortKeyword" id="sortForm">
+				<select  name="sortKeyword" id="sortForm" onchange="changeSort()">
 					<option selected> 장르선택 </option>
-					<option value="전략" >전략</option>
-					<option value="추상" >추상</option>
-					<option value="컬렉터블" >컬렉터블</option>
-					<option value="가족" >가족</option>
-					<option value="어린이" >어린이</option>
-					<option value="파티" >파티</option>
-					<option value="테마" >테마</option>
-					<option value="워게임" >워게임</option>
+					<option value="1" >전략</option>
+					<option value="2" >추상</option>
+					<option value="3" >컬렉터블</option>
+					<option value="4" >가족</option>
+					<option value="5" >어린이</option>
+					<option value="6" >파티</option>
+					<option value="7" >테마</option>
+					<option value="8" >워게임</option>
 				</select>
-			
-	        
-		        <ul>
-		            <li><a href="<c:url value = '/game/gamelist/recently'/>"> 등록순 </a> </li>
-		            <li><a href="<c:url value = '/game/gamelist'/>"> 최신순 </a> </li>
-		            <li><a href="<c:url value = '/game/gamelist/avg'/>"> 평점순 </a> </li>
-		        </ul>
-	       
+				<script>
+					function changeSort() {
+						var select = $('#sortForm').val();
+						
+						$.ajax({
+							
+							type : 'get',
+							url : '<c:url value="/game/gamelist"/>',
+							data : {
+									sortType : select
+								},
+							success : function(){
+								location.href = "gamelist?sortType="+select;
+							},
+							error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
+								//alert('실패');
+								alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+								
+							},
+							complete : function(){	
+									 
+							}							
+						})
+							
+					}				
+				</script>
+	        	<form  method="post">
+			        <ul>
+			        	<li><button type="submit" id="btn_order" name="orderType" value="1">등록순</button></li>
+			        	<li><button type="submit" id="btn_order" name="orderType" value="0">최신순</button></li>
+			        	<li><button type="submit" id="btn_order" name="orderType" value="2">평점순</button></li>
+			        </ul>
+		        </form>
 	        
 	    </div>
 	</form>
@@ -279,14 +312,28 @@ $(function(){
         <div class="paging_number">
 	        <c:if test ="${listView.pageTotalCount>0 }">
 	        	<div  class="paging">
-	        	
-		        	<c:forEach begin="1" end="${listView.pageTotalCount }" var="num">
-		        		
-		        		
-		        		
+	        	<c:if test="${listView.startPage != 1 }">
+				<a href="gamelist?page=${listView.startPage-1}&keyword=${searchType.keyword}&sortType=${searchType.sortType}&orderType=${searchType.orderType}">&lt;</a>
+				</c:if>
+				<c:forEach begin="${listView.startPage }" end="${listView.endPage }" var="p">
+					<c:choose>
+						<c:when test="${p == listView.currentPageNumber }">
+							<b>${p }</b>
+						</c:when>
+						<c:when test="${p != listView.currentPageNumber }">
+							<a href="gamelist?page=${p}&keyword=${searchType.keyword}&sortType=${searchType.sortType}&orderType=${searchType.orderType}">${p }</a>
+						</c:when>
+					</c:choose>
+				</c:forEach>	        	
+	        	<c:if test="${listView.endPage != listView.pageTotalCount}">
+					<a href="gamelist?page=${listView.endPage+1}&keyword=${searchType.keyword}&sortType=${searchType.sortType}&orderType=${searchType.orderType}">&gt;</a>
+				</c:if> 
+		       
+		        <%-- 	<c:forEach begin="1" end="${listView.pageTotalCount }" var="num">
+        		
 		        		<span>[<a href="gamelist?page=${num}&keyword=${searchType.keyword}">${num}</a>]</span>
 		        
-		        	</c:forEach>
+		        	</c:forEach> --%>
 		        	
 	        	</div>
 	        </c:if>          

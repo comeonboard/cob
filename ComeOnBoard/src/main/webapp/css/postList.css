@@ -86,6 +86,9 @@
         margin-right: 10px;
         border-right: 1px solid #ddd;
     }
+    .nav_left>.home>img{
+    	padding-top: 8px;
+    }
     /* board-header */
 
     /* checkbox */
@@ -173,6 +176,9 @@
     }
     .notice>.writer,.notice>.title, .content>.writer,.content>.title{
         text-align: left;
+    }
+    #title:hover{
+    	text-decoration: underline;
     }
     /* contents end */
     

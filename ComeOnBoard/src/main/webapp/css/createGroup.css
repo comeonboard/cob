@@ -31,6 +31,8 @@
         height: 30px;
         cursor: pointer;
     }
+    
+ 
 
     #output {
         width: 100%;
@@ -78,6 +80,7 @@
         font-size: 15px;
         line-height: 17px;
         outline: none;
+        margin-bottom:40px;
     }
 
     .articlecate>select {
@@ -112,4 +115,4 @@
         margin-top: 10px;
     }
     
-  
+   

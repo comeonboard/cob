@@ -168,7 +168,7 @@
 <!-- 카페 정보 수정 -->
 <update id="updateCafeInfo"
 		parameterType="com.bitcamp.cob.cafe.domain.Cafe">
-	update boardgamecafe set cafeName = #{cafeName}, cafeAddress = #{cafeAddress}, cafeTime = #{cafeTime}, stdFee = #{stdFee},
+	update boardgamecafe set cafeAddress = #{cafeAddress}, cafeTime = #{cafeTime}, stdFee = #{stdFee},
 							tenPerFee = #{tenPerFee}, fourTable = #{fourTable}, grpTable = #{grpTable}, cafeTel = #{cafeTel} where cafeIdx = #{cafeIdx}
 </update>
 
@@ -177,5 +177,65 @@
 		resultType="String">
 	select cafeImg from cafeimg where cafeIdx = #{cafeIdx}		
 </select>
+
+<!-- 카페 등록 여부 -->
+<select id="checkCafe"
+		resultType="int">
+	select count(*) from boardgamecafe where memIdx = #{memIdx} 
+</select>
+
+<!-- 카페 예약 버튼 반환 -->
+<select id="getReservButton"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReservation"
+		resultType="com.bitcamp.cob.cafe.domain.CafeReservation">
+	select cr.reservDate, cr.reservTime,
+ 	<if test='requestTable == "four"'>
+		count(cr.reservFourTable) as reservTable, bgc.FourTable as fixedTable
+	</if>	
+	<if test='requestTable == "grp"'>
+		count(cr.reservGrpTable) as reservTable, bgc.GrpTable as fixedTable	
+	</if>
+	from cafereservation cr, boardgamecafe bgc 
+	where cr.cafeIdx = bgc.cafeIdx and cr.cafeIdx= #{cafeIdx} and cr.reservDate=#{reservDate} 
+	group by reservTime
+</select>
+
+<!-- 카페 예약 -->
+<insert id="regReserv"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReservation">
+	insert into cafereservation (cafeIdx, memIdx, reservDate, reservTime, 
+	<if test='requestTable == "four"'>
+		reservFourTable)	
+	</if>	
+	<if test='requestTable == "grp"'>
+		reservgrpTable)	
+	</if>
+	values (#{cafeIdx}, #{memIdx}, #{reservDate}, #{reservTime}, 1);
+</insert>
+
+<!-- 카페 예약 리스트 반환 -->
+<select id="getReservList"
+		parameterType="com.bitcamp.cob.cafe.domain.CafeReservation"
+		resultType="com.bitcamp.cob.cafe.domain.CafeReservation">
+	select cr.reservIdx, cr.reservDate, cr.reservTime, m.memName,
+ 	<if test='requestTable == "four"'>
+		<!-- (select count(c.reservFourTable) from cafereservation c where c.reservIdx = cr.reservIdx group by reservTime) as reservTable, bgc.FourTable as fixedTable -->
+		(select count(cr2.reservFourTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.fourTable as fixedTable
+	</if>	
+	<if test='requestTable == "grp"'>
+		<!-- (select count(c.reservGrpTable) from cafereservation c where c.reservIdx = cr.reservIdx group by reservTime) as reservTable, bgc.Table as fixedTable -->
+		(select count(cr2.reservGrpTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.grpTable as fixedTable
+	</if>
+	from cafereservation cr, boardgamecafe bgc, member1 m
+	where cr.cafeIdx = bgc.cafeIdx and cr.memIdx = m.memIdx and cr.cafeIdx= #{cafeIdx} and cr.reservDate=#{reservDate}
+	order by reservTime
+</select>
+
+<!-- 카페 예약 취소 -->
+<delete id="delReserv">
+	delete from cafereservation where reservIdx = #{reservIdx}
+</delete>
+
+
 
 </mapper>

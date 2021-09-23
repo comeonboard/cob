@@ -197,6 +197,13 @@
 			<artifactId>mail</artifactId> 
 			<version>1.4.7</version> 
 		</dependency>
+		
+		<!-- 채팅 구현  websocket -->
+		<dependency> 
+            <groupId>org.springframework</groupId> 
+            <artifactId>spring-websocket</artifactId> 
+            <version>${org.springframework-version}</version> 
+        </dependency>
 				      
 	</dependencies>
     <build>

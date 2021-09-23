@@ -14,11 +14,12 @@ public class GamePage {
 	private String gameIntro;
 	private String gameRule;
 	private String gameVideo;
+	private int gamePrice;
 	private int avg;
 	
 	public GamePage(int gameIdx, String gameName, String gameSort, String gamePerson, String gameTime, String gameLmtAge,
 			String gamePublisher, String gamePubDate, String gamePhoto, String gameIntro, String gameRule,
-			String gameVideo, int avg) {
+			String gameVideo, int avg, int gamePrice) {
 
 		this.gameIdx = gameIdx;
 		this.gameName = gameName;
@@ -32,6 +33,7 @@ public class GamePage {
 		this.gameIntro = gameIntro;
 		this.gameRule = gameRule;
 		this.gameVideo = gameVideo;
+		this.gamePrice = gamePrice;
 		this.avg = avg;
 	}
 	
@@ -140,14 +142,26 @@ public class GamePage {
 	public void setAvg(int avg) {
 		this.avg = avg;
 	}
+	
+	
+	public int getGamePrice() {
+		return gamePrice;
+	}
+
+	public void setGamePrice(int gamePrice) {
+		this.gamePrice = gamePrice;
+	}
 
 	@Override
 	public String toString() {
 		return "GamePage [gameIdx=" + gameIdx + ", gameName=" + gameName + ", gameSort=" + gameSort + ", gamePerson="
 				+ gamePerson + ", gameTime=" + gameTime + ", gameLmtAge=" + gameLmtAge + ", gamePublisher="
 				+ gamePublisher + ", gamePubDate=" + gamePubDate + ", gamePhoto=" + gamePhoto + ", gameIntro="
-				+ gameIntro + ", gameRule=" + gameRule + ", gameVideo=" + gameVideo + ", revRating=" + avg + "]";
+				+ gameIntro + ", gameRule=" + gameRule + ", gameVideo=" + gameVideo + ", gamePrice=" + gamePrice
+				+ ", avg=" + avg + "]";
 	}
+
+	
 	
 	
 	

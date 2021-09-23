@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.bitcamp.cob.cafe.domain.Cafe;
 import com.bitcamp.cob.cafe.domain.CafeImgInfo;
 import com.bitcamp.cob.cafe.domain.CafePaging;
+import com.bitcamp.cob.cafe.domain.CafeReservation;
 import com.bitcamp.cob.cafe.domain.CafeReview;
 import com.bitcamp.cob.cafe.domain.CafeReviewPaging;
 import com.bitcamp.cob.cafe.domain.CafeSearchType;
@@ -47,6 +48,16 @@ public interface CafeDao {
 	int updateCafeInfo(Cafe cafe);
 	// 카페 이미지 반
 	List<String> getCafeImg(int idx);
+	// 카페 등록 여부
+	int checkCafe(int attribute);
+	// 카페 예약 리스트 반환
+	List<CafeReservation> getReservButton(CafeReservation cafeReservation);
+	// 카페 예약
+	int regReserv(CafeReservation cafeReservation);
+	// 카페 예약 확인 리스트
+	List<CafeReservation> getReservList(CafeReservation cafeReservation);
+	// 예약 취소
+	int delReserv(int reservIdx);
 	
 
 

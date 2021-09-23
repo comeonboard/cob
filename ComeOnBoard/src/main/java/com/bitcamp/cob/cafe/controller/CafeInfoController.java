@@ -32,7 +32,13 @@ public class CafeInfoController {
 	
 	// 카페 정보 입력폼
 	@RequestMapping(value = "/cafe/cafe_regForm", method = RequestMethod.GET)
-	public void cafeRegForm() {}
+	public void cafeRegForm(HttpSession session, Model model) {
+		int cafeIdx = 0;
+		// 카페 등록 여부
+		cafeIdx = cafeInfoService.checkCafe(session);
+		
+		model.addAttribute("checkCafe", cafeIdx);
+	}
 	
 	// 카페 정보 입력
 	@RequestMapping(value = "/cafe/cafe_regForm", method = RequestMethod.POST)
@@ -53,15 +59,6 @@ public class CafeInfoController {
 		return "cafe/cafe_regResult";
 	}
 	
-	
-	// 이미지 저장폼
-	//@RequestMapping(value = "/cafe/cafe_regImg", method = RequestMethod.GET)
-	//public void cafeReg() {}
-	
-
-	
-
-
 }
 
 

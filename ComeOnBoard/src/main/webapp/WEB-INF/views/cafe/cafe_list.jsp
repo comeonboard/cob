@@ -12,13 +12,11 @@
     <title>Come on, Board : Cafe list</title> <!-- 문서 제목 -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
     <!-- 카드 선택시 하단 줄 CSS -->
 	<link href="<c:url value="/css/hover.css"/>" rel="stylesheet" media="all">
 	
-
 	<link rel="stylesheet" href="<c:url value="/css/cafe_list.css"/>" type="text/css">
     <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 
@@ -76,8 +74,10 @@ function getList(cafePage){
 			var html = ''
 			if(returnData.startNum <= returnData.totalCnt){
 				$.each(data, function(idx, cafe) {
-					var path = '<c:url value="/uploadfile/cafe/"/>'+cafe.cafeIdx+'.'+cafe.cafeName+'/'+cafe.cafeThumbnail;
+					//var path = '<c:url value="/uploadfile/cafe/"/>'+cafe.cafeIdx+'.'+cafe.cafeName+'/'+cafe.cafeThumbnail;
+					var path = '<c:url value="/uploadfile/cafe/"/>1.스타벅스/thumbnail.png';
 					html += '<div class="card hvr-underline-from-center fade-in" onclick="location.href=\'<c:url value="/cafe/cafe_page/'+cafe.cafeIdx+'"/>\'">'+'\n'+
+					 	  //'<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
 					 	  '<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
 		                  '<div class="card-body">'+'\n'+
 	    	              '<h5 class="card-title">'+cafe.cafeName+'</h5>'+'\n'+
@@ -112,7 +112,7 @@ function getList(cafePage){
 
     <nav class="navbar navbar-light" style="background-color: #D6E9FF;">
     <ul class="nav-button">
-        <li><button type="button" id="btn_cafe_cafeidx_search" class="btn btn-outline-danger" value="cafeIdx" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeIdx"/>'">등록순</button></li>
+        <li><button type="button" id="btn_cafe_cafeidx_search" class="btn btn-outline-danger" value="cafeIdx" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeIdx"/>'">최신순</button></li>
         <li><button type="button" id="btn_cafe_rating_search" class="btn btn-outline-success" value="cafeRating" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeRating"/>'">평점순</button></li>
         <li><button type="button" id="btn_cafe_address_search" class="btn btn-outline-info" value="cafeAddress" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeAddress"/>'">지역순</button></li>
     </ul>            
@@ -133,7 +133,8 @@ function getList(cafePage){
      	<c:if test="${fn:length(list) > 0}">
     	<c:forEach items="${list}" var="list" >		
 			<div class="card hvr-underline-from-center fade-in" onclick="location.href='<c:url value="/cafe/cafe_page/${list.cafeIdx}"/>'">
-				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}.${list.cafeName}/${list.cafeThumbnail}" alt="Card image cap">
+				<%-- <img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}.${list.cafeName}/${list.cafeThumbnail}" alt="Card image cap"> --%>
+				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1.스타벅스/thumbnail.png" alt="Card image cap">
 				<div class="card-body">
 					<h5 class="card-title">${list.cafeName}</h5>
 					<p class="card-text" style="text-align: right;">1시간 : ${list.stdFeeComma}<br>10분 초과시 : ${list.tenPerFeeComma}</p>

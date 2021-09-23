@@ -16,11 +16,12 @@ public class Post {
 	private int postLike;
 	private int postDislike;
 	private int postRep;
+	private String memPhoto;
 	
 	public Post() {}
 	
 	public Post(int postIdx, int memIdx, String postWriter, int views, String postTitle, String postContent,
-			String postSort, Timestamp postRegDate, int postLike, int postDislike, int postRep) {
+			String postSort, Timestamp postRegDate, int postLike, int postDislike, int postRep, String memPhoto) {
 		this.postIdx = postIdx;
 		this.memIdx = memIdx;
 		this.postWriter = postWriter;
@@ -32,6 +33,7 @@ public class Post {
 		this.postLike = postLike;
 		this.postDislike = postDislike;
 		this.postRep = postRep;
+		this.memPhoto = memPhoto;
 	}
 	
 	public int getPostIdx() {
@@ -91,8 +93,8 @@ public class Post {
 	}
 
 	public Timestamp getPostRegDate() {
-		return new Timestamp(postRegDate.getTime()-(1000*60*60*9));
-		//return postRegDate;
+		//return new Timestamp(postRegDate.getTime()-(1000*60*60*9));
+		return postRegDate;
 	}
 
 	public void setPostRegDate(Timestamp postRegDate) {
@@ -125,6 +127,14 @@ public class Post {
 	// java.sql.TimeStamp -> java.util.Date
 	public Date getDate() {
 		return new Date(getPostRegDate().getTime());
+	}
+
+	public String getMemPhoto() {
+		return memPhoto;
+	}
+
+	public void setMemPhoto(String memPhoto) {
+		this.memPhoto = memPhoto;
 	}
 
 	@Override

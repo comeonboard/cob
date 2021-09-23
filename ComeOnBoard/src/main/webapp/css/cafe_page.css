@@ -100,7 +100,7 @@ list-style: none;
 }
 .carousel-item{
 	width: 600px;
-    height: 310px;
+    height: 350px;
 }
 .basic_info{
     margin: 10px;
@@ -185,6 +185,18 @@ td>.btn{
 }
 .media li :hover{
 	text-decoration: underline;
+}
+#date::placeholder{
+	color: #28a745;
+}
+
+.table td{
+	vertical-align: middle;
+} 
+
+.reserv_table{
+	margin-left: auto;
+	margin-right: auto;
 }
 
 
@@ -312,7 +324,7 @@ ul.cvf_uploaded_files .delete-btn {
     padding: 7px;
 }
 .thumnail {
-    height: 150px;
+    height: 300px;
     overflow: hidden;
     overflow-y: scroll;
 }

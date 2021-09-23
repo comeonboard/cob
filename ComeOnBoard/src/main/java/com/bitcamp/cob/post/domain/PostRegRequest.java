@@ -63,7 +63,7 @@ public class PostRegRequest {
 	// 사용자에게 받는 건 MemberRegRequest지만 DB저장은 Member라서 바꿔줘야한다.
 	public Post toPost() {
 		return new Post(0, memIdx, postWriter, 0, postTitle, postContent, postSort,
-				null, 0, 0, 0);
+				null, 0, 0, 0, null);
 	}
 
 	

@@ -187,7 +187,7 @@
 
     .tab-content.current {
         display: inherit;
-        
+        margin-top:86px;
     }
 
     .tab-p {
@@ -258,6 +258,7 @@
     #search_var {
         text-align: center;
         padding-top: 10px;
+        margin-top:10px;
         margin-bottom: 50px;
     }
 
@@ -290,3 +291,19 @@
         border: hidden;
         cursor: pointer;
     }
+    
+    
+    .wrap_list {
+    	margin-left:50%;
+    }
+ 
+    .wrap_list>.list_count {
+   		display:inline; 
+    	float:left;
+    	padding-top:10px;
+    	font-size:1.1em;
+    }
+    
+    
+    
+    

@@ -42,6 +42,27 @@
 	function alert_edit() {
 		alert("수정되었습니다.");
 	}
+	// 매개변수 != 값
+	// 매개변수는 내가 임의로 정해주는 말 그대로 (변하는 수)
+	// 함수 외부에서는 '값'을 전달해주는게 맞음
+	function sendAjax(midx, gidx) {
+		
+		$.ajax({
+			url: '<c:url value="/group/groupEditorAjax"/>',
+			type:'post',
+			data: { memIdx : midx, grpIdx : gidx },
+			success: function(data) {
+				alert('ajax 전송 성공');
+			},
+			error: function(data) {
+				alert('ajax 실패 '+data);
+			}
+		}) 
+		
+	}
+	
+	
+	
 </script>
 
 </head>
@@ -79,36 +100,29 @@
 			</form>
 
 			<!-- <form> -->
-				<div id="div2" class="div">
+				<div id="div2" class="div" style="overflow:scroll">
 					<h4>모임 참가 희망자</h4>
 					<hr>
 					<!-- 참가 희망자 리스트 -->
-					<c:forEach items="groupEditorReadResult" var="list">
+					<%-- <c:forEach items="groupEditorReadResult" var="list"> --%>
+					<c:forEach items="${editorNicknameMemidxGrpIdx}" var="list" varStatus="status">
 						<ul>
 							<li>
 								<div id="participant_list">
 									<!-- 닉네임 들어갈 자리 -->
-									${groupEditorReadResult.grpIdx}
+									${editorNicknameMemidxGrpIdx[status.index].nickName}
+									<%-- <input type="hidden" value="${editorNickname[status.index].memIdx}"> --%>
+									memIdx:${editorNicknameMemidxGrpIdx[status.index].memIdx}
 									<button class="btn btn-danger btn-sm" type="submit"
 										id="decline">거절</button>
 									<button class="btn btn-success btn-sm" type="submit"
-										id="accept">수락</button>
+										id="accept" onclick="sendAjax(${editorNicknameMemidxGrpIdx[status.index].memIdx}, ${editorNicknameMemidxGrpIdx[status.index].grpIdx})">수락</button>
+										<!-- sendAjax(memIdx, grpIdx) -->
 								</div>
 							</li>
 						</ul>
 					</c:forEach>
 					<!-- 참가 희망자 리스트 끝! -->
-
-					<!-- 숫자 목차 -->
-					<div id="number">
-						<a href="#">1/2/3/4/5</a>
-					</div>
-
-					<!-- 이전, 다음 버튼 -->
-					<div id="previous_or_next">
-						<button type="button" class="btn btn-outline-dark">이전</button>
-						<button type="button" class="btn btn-outline-dark">다음</button>
-					</div>
 				</div>
 			<!-- </form> -->
 		</div>

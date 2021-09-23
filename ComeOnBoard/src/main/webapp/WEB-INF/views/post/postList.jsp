@@ -54,8 +54,8 @@ crossorigin="anonymous">
                     </div>
                     <div class="board_nav">
                         <div class="nav_left">
-                            <a class="home" href="#">
-                                <img style="vertical-align:middle;" src="https://img.icons8.com/material-outlined/24/000000/home-page.png"/>
+                            <a class="home" href="<c:url value='/post/postList' />">
+                                <img src="https://img.icons8.com/material-outlined/24/000000/home-page.png"/>
                             </a>
                             <a class="a1" href="<c:url value='/post/postList' />">전체</a>
                         </div>
@@ -120,7 +120,7 @@ crossorigin="anonymous">
 								<c:forEach items="${postList}" var="post">
 									<tr>
 										<td id="postSort"><a href="<c:url value='/post/postList/${post.postSort}'/>">${post.postSort}</a></td>
-										<td><a onClick="addViews(${post.postIdx})" href="<c:url value='/post/postDetail?postIdx=${post.postIdx}'/>">${post.postTitle}</a></td>
+										<td><a id="title" onClick="addViews(${post.postIdx})" href="<c:url value='/post/postDetail?postIdx=${post.postIdx}'/>">${post.postTitle}</a></td>
 										<td>${post.postWriter}</td>
 										<td><fmt:formatDate value="${post.postRegDate}" type="date" pattern="yyyy.MM.dd" /></td>
 										<td>${post.views}</td>
@@ -153,12 +153,14 @@ crossorigin="anonymous">
                     	}
                     </script>
                     <!-- 글쓰기 페이지로 보내기 -->
-                    <a href="<c:url value='/post/write'/>" class="btn_write">글쓰기</a>
+                    <c:if test="${ !empty loginInfo }">
+	                    <a href="<c:url value='/post/write'/>" class="btn_write">글쓰기</a>
+	                </c:if>
                 </div>
-                <c:if test="${empty postSort}">
+                <c:if test="${empty postSort && empty memIdx}">
                 	<div style="display: block; text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
@@ -171,14 +173,14 @@ crossorigin="anonymous">
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
-                <c:if test="${ !empty postSort}">
+                <c:if test="${ !empty postSort }">
                 	<div style="display: block; text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
@@ -191,10 +193,33 @@ crossorigin="anonymous">
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
+                <c:if test="${!empty memIdx }">
+                	<div style="display: block; text-align: center;">		
+						<c:if test="${paging.startPage != 1 }">
+							<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+						</c:if>
+						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
+							<c:choose>
+								<c:when test="${p == paging.nowPage }">
+									<b>${p }</b>
+								</c:when>
+								<c:when test="${p != paging.nowPage }">
+									<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
+								</c:when>
+							</c:choose>
+						</c:forEach>
+						<c:if test="${paging.endPage != paging.lastPage}">
+							<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+						</c:if>
+					</div>
+                </c:if>
+                <div>
+                	<a href="<c:url value='/post/api'/>">보드게임 카페 찾기 & 네이버 블로그</a>
+   			 	</div>
             </div>
         </div>
     </div>

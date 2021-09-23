@@ -15,12 +15,13 @@ public class Recomment {
 	private int recommLike;
 	private int recommDislike;
 	private int recommRep;
+	private String memPhoto;
 	
 	public Recomment() {}
 	
 	
 	public Recomment(int recommIdx, int postIdx, int commIdx, int memIdx, String recommWriter, String recommContent, Timestamp recommRegDate,
-			int recommLike, int recommDislike, int recommRep) {
+			int recommLike, int recommDislike, int recommRep, String memPhoto) {
 		this.recommIdx = recommIdx;
 		this.postIdx = postIdx;
 		this.commIdx = commIdx;
@@ -31,6 +32,7 @@ public class Recomment {
 		this.recommLike = recommLike;
 		this.recommDislike = recommDislike;
 		this.recommRep = recommRep;
+		this.memPhoto = memPhoto;
 	}
 
 
@@ -90,7 +92,7 @@ public class Recomment {
 
 	public Timestamp getRecommRegDate() {
 		return new Timestamp(recommRegDate.getTime()-(1000*60*60*9));
-		//return postRegDate;
+		//return recommRegDate;
 	}
 
 	public void setRecommRegDate(Timestamp recommRegDate) {
@@ -123,6 +125,15 @@ public class Recomment {
 	// java.sql.TimeStamp -> java.util.Date
 	public Date getDate() {
 		return new Date(getRecommRegDate().getTime());
+	}
+
+	public String getMemPhoto() {
+		return memPhoto;
+	}
+
+
+	public void setMemPhoto(String memPhoto) {
+		this.memPhoto = memPhoto;
 	}
 
 	@Override

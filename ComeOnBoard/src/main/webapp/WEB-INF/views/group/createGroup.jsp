@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${empty loginChk}">
+<%-- <c:if test="${empty loginChk}">
 <script>
 function makeRedirect(){
 	var redirectUri = window.location.href;
@@ -15,8 +15,8 @@ function makeRedirect(){
 
 	makeRedirect();
 </script>
-</c:if>
-   
+</c:if> --%>
+
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -50,7 +50,7 @@ function makeRedirect(){
 			<div id="content">
 				<div class="WritingWrap">
 					<div class="WritingHeader">
-					<!-- 인풋 타입 히든으로 정보만 넘겨주고  표시x -->
+						<!-- 인풋 타입 히든으로 정보만 넘겨주고  표시x -->
 						<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
 						<input type="hidden" name="nickName" value="${loginInfo.nickName}">
 						<h2 class="title">모임 등록</h2>
@@ -98,9 +98,10 @@ function makeRedirect(){
 						</select>
 						<!-- 모임 현재인원, 최대 정원 -->
 						<div class="block_count">
-							<label for="max_count" id="label_count">모임 최대인원</label> 
-							<select name="grpMaxMem" id="label_count" style="width: 100px; height: 30px">
-								<option value="1">1</option>
+							<label for="max_count" id="label_count">모임 최대인원</label> <select
+								name="grpMaxMem" id="label_count"
+								style="width: 100px; height: 30px">
+								
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
@@ -122,22 +123,22 @@ function makeRedirect(){
 								<option value="20">20</option>
 							</select>
 						</div>
-						<hr>
-						<div>
-							<label for="grpPostEndDate" class="dateBox1">모집 마감일&nbsp;</label> 
-							<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
-								
-							<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2"> 
-							<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
+						<!-- <hr> -->
+						<div id="date">
+							<label for="grpPostEndDate" class="dateBox1">모집 마감일&nbsp;</label>
+							<input type="date" id="grpPostEndDate" name="grpPostEndDate"
+								class="dateBox1"> <input type="datetime-local"
+								id="grpDate" name="grpDate" class="dateBox2"> <label
+								for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
 						</div>
-						<hr>
+						<hr style="margin-top: 30px; margin-bottom: 20px;">
 					</div>
 					<div class="articletitle">
 						<textarea placeholder="제목을 입력해 주세요." class="textarea_input"
 							name="grpTitle"></textarea>
 					</div>
 					<div class="write_contents">
-						
+
 						<br> <label for="w3review">내용</label>
 
 						<textarea name="grpContent" rows="30" cols="100"></textarea>
@@ -147,7 +148,7 @@ function makeRedirect(){
 		</div>
 	</form>
 
-	
+
 </body>
 
 </html>

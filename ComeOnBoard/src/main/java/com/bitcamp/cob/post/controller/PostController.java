@@ -56,6 +56,12 @@ public class PostController {
 	@Autowired
 	private SelectService selectService;
 	
+	// naver api
+	@RequestMapping(value="/post/api",method=RequestMethod.GET)
+	public String goapi() {
+		return "post/api";
+	}
+	
 	// 게시글 등록
 	@RequestMapping(value = "/post/write", method = RequestMethod.GET)
 	public String regPostForm() {
@@ -186,45 +192,62 @@ public class PostController {
 		addService.addViews(postIdx);
 	}
 	
-	// 게시글 리스트 출력
+	// 초기 리스트 출력
 	@RequestMapping(value = "/post/postList", method = RequestMethod.GET)
 	public String postList(PagingVO vo, Model model,
 			@RequestParam(value="postSort", required = false)String postSort,
 			@RequestParam(value="nowPage", required = false)String nowPage,
-			@RequestParam(value="cntPerPage", required = false)String cntPerPage,
-			SearchType searchType) {
+			@RequestParam(value="cntPerPage", required = false)String cntPerPage) {
 		
 		System.out.println("postSort : " + postSort + " nowPage : " + nowPage + " cntPerPage : " + cntPerPage);
 		
 		// 전체 리스트 출력
 		List<Post> list = null;
-		list = listService.getPostList();
 		
 		// 게시글 페이징하고 리스트 출력
 		int total = countService.countPost(postSort);
 		System.out.println(total);
 
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "20";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "20";
-		}
+		nowPage = "1";
+		cntPerPage = "20";
 		
 		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
 		model.addAttribute("paging", vo);
 		
-		if(postSort == null || postSort.equals("")) {
-			list = listService.getPostList(vo);
-		}
+		list = listService.getPostList(vo);
 		
 		model.addAttribute("postList", list);
 		model.addAttribute("postSort", postSort);
 		
-		System.out.println("vo : " + vo);
-		System.out.println(listService.getPostList(vo));
+		return "post/postList";
+	}
+	
+	// 작성자 리스트 출력
+	@RequestMapping(value = "/post/searchList1", method = RequestMethod.GET)
+	public String searchList(PagingVO vo, Model model,
+			@RequestParam(value="nowPage", required = false)String nowPage,
+			@RequestParam(value="cntPerPage", required = false)String cntPerPage,
+			@RequestParam(value="memIdx")int memIdx) {
+		
+		// 전체 리스트 출력
+		List<Post> list = null;
+		
+		// 게시글 페이징하고 리스트 출력
+		int total = countService.countPost1(memIdx);
+		model.addAttribute("memIdx", memIdx);
+		System.out.println(total);
+		
+		if(nowPage==null && cntPerPage==null) {
+			nowPage = "1";
+			cntPerPage = "20";
+		}
+		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		model.addAttribute("paging", vo);
+		System.out.println(vo);
+		
+		list = listService.searchPostList(vo,memIdx);
+		
+		model.addAttribute("postList", list);
 		
 		return "post/postList";
 	}
@@ -241,7 +264,6 @@ public class PostController {
 		System.out.println(searchType);
 		// 전체 리스트 출력
 		List<Post> list = null;
-		list = listService.getPostList();
 
 		// 게시글 페이징하고 리스트 출력
 		int total = countService.countPost(postSort);
@@ -267,18 +289,29 @@ public class PostController {
 		map.put("postSort", postSort);
 		
 		// 카테고리별로 리스트 출력
-		if(postSort != null && !postSort.equals("")) {
-			list = listService.getPostList(map);
-		}else if(postSort == null || postSort.equals("")) {
+		if(postSort != null && !postSort.equals("")) {	// 카테고리 o
+			
+			list = listService.getPostList(map);	// 성공
+		
+		}else if(postSort == null || postSort.equals("")) {	// 카테고리 X
+			
 			System.out.println("카테고리 x 검색 x");	// 성공
 			System.out.println(vo);
 			list = listService.getPostList(vo);
+			
 			if(!searchType.getKeyword().equals("")) {
-				System.out.println("카테고리 x 검색 o");	// 실패
 				
+				System.out.println("카테고리 x 검색 o");	// 절반 성공
+				total = countService.countPagingPost(map);
+				vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+				System.out.println(vo);
+				model.addAttribute("paging", vo);
+				map.put("item2", vo);
 				list = listService.getPostListSearchType(map);
+			
 			}
 		}
+		
 		model.addAttribute("postList", list);
 		model.addAttribute("postSort", postSort);
 		model.addAttribute("searchType", searchType);

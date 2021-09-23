@@ -50,11 +50,7 @@
 		console.log('로그인 되었습니다.');
 	}
 
-	function kakaoLogout(){
-		Kakao.Auth.logout(function(){
-			console.log(Kakao.Auth.getAccessToken());
-		});
-	}
+
 	function kakaoCut(){
 		Kakao.API.request({
 			  url: '/v1/user/unlink',
@@ -265,9 +261,7 @@
 	                </div>	
 	    	        <input type="button" id="btn_login" value="로그인">
 	                <img src="<c:url value='/images/kakao_login.png'/>" style="width: 460px;" onclick=kakaoLogin()>
-	                <input type="button" id="btn_logout" value="로그아웃" onclick=kakaoLogout()> 
-	                <input type="button" value="연결 끊기" onclick=kakaoCut()>
-	                <button id="getInfo" type="button">정보 받아오기</button> 
+	                <input type="button" value="카카오 연결 끊기" onclick=kakaoCut()>
 	            </fieldset>
 	        </form>
 			<form id="form_kakao_login" method="post" action="<c:url value='/member/kakaoLogin'/>">
