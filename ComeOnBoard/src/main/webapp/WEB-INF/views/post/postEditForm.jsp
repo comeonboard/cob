@@ -6,6 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<!-- css and image -->
+<link rel="stylesheet" href="/cob/css/postReg.css">
+<link rel="stylesheet" href="/cob/css/default.css">
+<link rel="icon" href="/cob/images/simple_logo.png">
 <!-- include libraries(jQuery, bootstrap) -->
 <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script> 
@@ -15,9 +19,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 <link href="/js/summernote-ko-KR.js">
-<link rel="stylesheet" href="/cob/css/postReg.css">
 <title>Come on, Board : 게시글 수정</title>
-<%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script>
 $(document).ready(function() {
 	$('#summernote').summernote({
