@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Come on, Board : 검색</title>
+<title>Come on, Board : 카페 검색</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>

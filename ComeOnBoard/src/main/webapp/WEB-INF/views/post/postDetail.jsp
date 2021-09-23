@@ -518,7 +518,7 @@ function removeAllChildNods(el) {
                         </div>
                         <div class="header2">
                             <a class="imgSelect" data-id="post${postDetail[1].postIdx}">
-                            	<img src="/cob/uploadfile/member/${postDetail[1].memPhoto}"/>
+                            	<img src="<c:url value="/uploadfile/member/${postDetail[1].memPhoto}"/>"/>
                             </a>
                             <h3>${postDetail[1].postWriter}</h3>
                             <div class="nick-box post${postDetail[1].postIdx} display-none">
@@ -710,9 +710,9 @@ function removeAllChildNods(el) {
 						htmls = "등록된 댓글이 없습니다.";
 					}else{
 						$.each(list, function(key,value){
-							var date = new Date(value.commRegDate);
-							var month = date.getMonth() + 1;
-							var commRegDate = date.getFullYear() + ". " + month + ". " + date.getDate() + ". " + date.getHours() + ":" + date.getMinutes();
+							//var date = new Date(value.commRegDate);
+							//var month = date.getMonth() + 1;
+							//var commRegDate = date.getFullYear() + ". " + month + ". " + date.getDate() + ". " + date.getHours() + ":" + date.getMinutes();
 						
 							//console.log("data : " + list);
 							//console.log(list);
@@ -720,11 +720,11 @@ function removeAllChildNods(el) {
 			                //console.log("start : " + startpage);
 			                //console.log("end : " + endpage);
 			                htmls += '<ul><li><div id="comm' + value.commIdx + '" class="id">';
-							htmls += '<div class="comments-profile"><img src="/cob/uploadfile/member/'+value.memPhoto+'" ></div>';
+							htmls += '<div class="comments-profile"><img src="<c:url value="/uploadfile/member/'+value.memPhoto+'"/>" ></div>';
 							htmls += '<div class="comments-info">';
 							htmls += '<a><img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
 					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
-					        htmls += '<span class="date"> ' + commRegDate + ' </span>';
+					        htmls += '<span class="date"> ' + value.commRegDate + ' </span>';
 					        if(loginmemIdx != null){
 					        	htmls += '<a class="add-recomments" data-recomments="comments2" onclick="btn_Recomment('+value.commIdx+')">답글쓰기</a>';
 					        }
@@ -897,7 +897,7 @@ function removeAllChildNods(el) {
 						var htmls = "";
 						
 						htmls += '<div id="id-re' + list[i].recommIdx + '" class="recomments"' + list[i].recommIdx + '>';
-						htmls += '<img src="https://img.icons8.com/ios/50/000000/right3.png"/><div class="recomments-profile"><img src="/cob/uploadfile/member/'+list[i].memPhoto+'" ></div>';
+						htmls += '<img src="https://img.icons8.com/ios/50/000000/right3.png"/><div class="recomments-profile"><img src="<c:url value="/uploadfile/member/'+list[i].memPhoto+'"/>" ></div>';
 						htmls += '<div class="re-comments-info">';
 						htmls += '<a><img class="rank imgSelect" data-id="recomm' + list[i].recommIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + list[i].recommWriter;
 				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
