@@ -5,7 +5,7 @@
 <c:if test="${payResult eq 'success'}">
 	<script>
 	alert('결제되었습니다.');
-	//alert('결제일시: ${info.approved_at}\n주문번호: ${info.partner_order_id}\n상품명: ${info.item_name}\n상품수량: ${info.quantity}\n결제금액: ${info.amount.total}\n결제방법: ${info.payment_method_type});
+	alert('결제일시: '+${info.approved_at}+'\n주문번호: ${info.partner_order_id}\n상품명: ${info.item_name}\n상품수량: ${info.quantity}\n결제금액: ${info.amount.total}\n결제방법: ${info.payment_method_type});
 	</script>
 
 </c:if>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.bitcamp.cob.cafe.domain.Cafe;
 import com.bitcamp.cob.cafe.service.CafeInfoService;
+import com.bitcamp.cob.member.domain.LoginInfo;
 
 @Controller
 public class CafeInfoController {
@@ -35,8 +36,10 @@ public class CafeInfoController {
 	public void cafeRegForm(HttpSession session, Model model) {
 		int cafeIdx = 0;
 		// 카페 등록 여부
-		cafeIdx = cafeInfoService.checkCafe(session);
-		
+		LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
+		if(loginInfo != null) {
+			cafeIdx = cafeInfoService.checkCafe(loginInfo.getMemIdx());
+		}
 		model.addAttribute("checkCafe", cafeIdx);
 	}
 	

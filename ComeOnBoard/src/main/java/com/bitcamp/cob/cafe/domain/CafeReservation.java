@@ -15,6 +15,8 @@ public class CafeReservation {
 	private int reservTable;
 	private int fixedTable;
 	private String requestTable;
+	private int  etc;
+	
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
 	private Timestamp regDate;
 
@@ -99,6 +101,16 @@ public class CafeReservation {
 
 	public void setRegDate(Timestamp regDate) {
 		this.regDate = regDate;
+	}
+
+	
+	
+	public int getEtc() {
+		return etc;
+	}
+
+	public void setEtc(int etc) {
+		this.etc = etc;
 	}
 
 	@Override

@@ -97,8 +97,10 @@
 <select id="getCafeReview"
 		parameterType="com.bitcamp.cob.cafe.domain.CafeReviewPaging"
 		resultType="com.bitcamp.cob.cafe.domain.CafeReview">
-	select *, (select nickname from member1 m where m.memidx = c.memidx) as nickName 
-	from cafereview c 
+	select c.*,
+	(select nickname from member1 m where m.memidx = c.memidx) as nickName,
+	(select memPhoto from member1 m where m.memidx = c.memidx) as memPhoto 
+	from cafereview c
 	where cafeIdx = #{cafeIdx} 
 	order by revRegTimestamp desc
 	limit #{startNum}, #{endNum}
@@ -217,17 +219,18 @@
 <select id="getReservList"
 		parameterType="com.bitcamp.cob.cafe.domain.CafeReservation"
 		resultType="com.bitcamp.cob.cafe.domain.CafeReservation">
-	select cr.reservIdx, cr.reservDate, cr.reservTime, m.memName,
+	select cr.reservIdx, cr.reservDate, cr.reservTime, m.memName, 
  	<if test='requestTable == "four"'>
 		<!-- (select count(c.reservFourTable) from cafereservation c where c.reservIdx = cr.reservIdx group by reservTime) as reservTable, bgc.FourTable as fixedTable -->
-		(select count(cr2.reservFourTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.fourTable as fixedTable
+		cr.reservFourTable as etc, (select count(cr2.reservFourTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.fourTable as fixedTable
 	</if>	
 	<if test='requestTable == "grp"'>
 		<!-- (select count(c.reservGrpTable) from cafereservation c where c.reservIdx = cr.reservIdx group by reservTime) as reservTable, bgc.Table as fixedTable -->
-		(select count(cr2.reservGrpTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.grpTable as fixedTable
+		cr.reservGrpTable as etc, (select count(cr2.reservGrpTable) from cafereservation cr2 where cr2.reservTime = cr.reservTime and cr2.reservDate = cr.reservDate and cr2.cafeIdx = cr.cafeIdx) as reservTable, bgc.grpTable as fixedTable
 	</if>
 	from cafereservation cr, boardgamecafe bgc, member1 m
 	where cr.cafeIdx = bgc.cafeIdx and cr.memIdx = m.memIdx and cr.cafeIdx= #{cafeIdx} and cr.reservDate=#{reservDate}
+	having not etc is null
 	order by reservTime
 </select>
 

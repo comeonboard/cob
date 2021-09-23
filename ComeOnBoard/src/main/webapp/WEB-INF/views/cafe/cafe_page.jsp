@@ -199,6 +199,7 @@ function reservation_list(table){
 			if(list.length){
 			    $.each(list, function(idx, reserv) {
 			    	if(reserv.reservTable != 0){
+			    	console.log('reserv.reservTable : ' +reserv.reservTable);
 			        html += '<tr>'+'\n'+
 				            '<td>'+(idx+1)+'</td>'+'\n'+
 				            '<td>'+reserv.reservDate+'</td>'+'\n'+
@@ -345,13 +346,12 @@ function review(page){
 			var data = returnData.cafeReview;
 			var html = '';
 			var pagehtml = '';
-			
 			// 리뷰 출력
 			if(data.length){
 				$.each(data, function(idx, review) {	
 					html += '<div class="media" id="rev_'+review.revIdx+'">'+'\n'+
 							'<div class="media-left">'+'\n'+
-							'<img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" class="media-object mr-3" style="width:45px">'+'\n'+
+							'<img src="<c:url value="/uploadfile/member/'+review.memPhoto+'"/>" class="media-object mr-3" style="width:45px; height:45px;">'+'\n'+
 							'</div>'+'\n'+
 							'<div class="media-body">'+'\n'+
 							'<h4 class="media-heading">'+'\n'+review.nickName+'\n'+
@@ -601,7 +601,7 @@ function file(){
             <!-- 페이징 -->
             <div class="paging">
             </div>
-			<c:if test="${(empty loginInfo) && (loginInfo.memIdx != cafeInfo.memIdx) && (loginInfo.memAuth != 'ban')}">
+			<c:if test="${(!empty loginInfo) && (loginInfo.memIdx != cafeInfo.memIdx) && (loginInfo.memAuth != 'ban')}">
             <form method="post" id="rev_form">              
                 <div id="star-rev" class="star-rating-rev space-x-4 mx-auto">                   
                     <input type="radio" id="5-stars-rev" name="revRating" value="5"/>
