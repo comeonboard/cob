@@ -1,17 +1,18 @@
 package com.bitcamp.cob.game.domain;
 
-public class GamePay {
+public class GameOrder {
 
-	int cusIdx;
-	int memIdx;
-	int gameIdx;
-	String memName;
-	String gamePrice;
-	String shipAddress;
-	String phoneNum;
+	private int cusIdx;
+	private int memIdx;
+	private int gameIdx;
+	private String memName;
+	private int gamePrice;
+	private String shipAddress;
+	private String phoneNum;
+	private String merchant;
 	
-	public GamePay(int cusIdx, int memIdx, int gameIdx, String memName, String gamePrice, String shipAddress,
-			String phoneNum) {
+	public GameOrder(int cusIdx, int memIdx, int gameIdx, String memName, int gamePrice, String shipAddress,
+			String phoneNum, String merchant) {
 		this.cusIdx = cusIdx;
 		this.memIdx = memIdx;
 		this.gameIdx = gameIdx;
@@ -19,9 +20,10 @@ public class GamePay {
 		this.gamePrice = gamePrice;
 		this.shipAddress = shipAddress;
 		this.phoneNum = phoneNum;
+		this.merchant = merchant;
 	}
 	
-	public GamePay() {}
+	public GameOrder() {}
 
 	public int getCusIdx() {
 		return cusIdx;
@@ -55,11 +57,11 @@ public class GamePay {
 		this.memName = memName;
 	}
 
-	public String getGamePrice() {
+	public int getGamePrice() {
 		return gamePrice;
 	}
 
-	public void setGamePrice(String gamePrice) {
+	public void setGamePrice(int gamePrice) {
 		this.gamePrice = gamePrice;
 	}
 
@@ -78,12 +80,24 @@ public class GamePay {
 	public void setPhoneNum(String phoneNum) {
 		this.phoneNum = phoneNum;
 	}
+		
+
+	public String getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(String merchant) {
+		this.merchant = merchant;
+	}
 
 	@Override
 	public String toString() {
-		return "GamePay [cusIdx=" + cusIdx + ", memIdx=" + memIdx + ", gameIdx=" + gameIdx + ", memName=" + memName
-				+ ", gamePrice=" + gamePrice + ", shipAddress=" + shipAddress + ", phoneNum=" + phoneNum + "]";
+		return "GameOrder [cusIdx=" + cusIdx + ", memIdx=" + memIdx + ", gameIdx=" + gameIdx + ", memName=" + memName
+				+ ", gamePrice=" + gamePrice + ", shipAddress=" + shipAddress + ", phoneNum=" + phoneNum + ", merchant="
+				+ merchant + "]";
 	}
+
+
 	
 	
 	

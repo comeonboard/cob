@@ -836,7 +836,7 @@ $(document).ready(function(){
 				<pre class="rule_content_name3" id="game_play"></pre>
 				<pre class="rule_content_name4">
 					<input type="button" class="btn_edit" value="구입하기" id="btn_edit"
-					onclick="location.href='<c:url value ='/game/gamePay/'/>${gamepage.gameIdx}'">
+					onclick="location.href='<c:url value ='/game/order/'/>${gamepage.gameIdx}'">
 				</pre>
 			</div>
 		</div>
@@ -914,7 +914,7 @@ $(document).ready(function(){
 		</div>
 	</div>
 	<footer>
-		<h2>footer입니다 ${gamepage.gamePrice}</h2>
+		<h2 class="visible_hidden">footer입니다 ${gamepage.gamePrice}</h2> 
 	</footer>
 
 
