@@ -19,6 +19,7 @@ integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
 crossorigin="anonymous">
 </script>
 <link rel="stylesheet" href="/cob/css/postList.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<div id="container">
@@ -67,6 +68,7 @@ crossorigin="anonymous">
                             <li><a href="<c:url value='/post/searchList?postSort=지역&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ffaaaa" >지역</a></li>	
                             <li><a href="<c:url value='/post/searchList?postSort=기타&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#000000" >기타</a></li>
                             <li><a href="<c:url value='/post/searchList?postSort=공지&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ff0000" >공지</a></li>
+                            <li onclick="viewBlog()" style="color:#4fda00">블로그 리뷰</li>
                         </div>
                         <div>
                             <select id="cntPerPage" name="sel" onchange="selChange()" class="dataPerPage">
@@ -78,7 +80,6 @@ crossorigin="anonymous">
 									<c:if test="${paging.cntPerPage == 30}">selected</c:if>>30줄 보기</option>	
 							</select>
                         </div>
-                        
                         <script>
 							function selChange() {
 								var select = $('#cntPerPage option:selected').val();
@@ -93,7 +94,7 @@ crossorigin="anonymous">
                         </div>
                     </div>
                     <div>
-                        <table>
+                        <table id="list">
                             <thead style="height: 35px;">	
                                 <tr>
                                     <th scope="col" class="m_no">
@@ -116,7 +117,18 @@ crossorigin="anonymous">
                                     </th>						
                                 </tr>	
                             </thead>
-                            <tbody >
+                            <div id="kakaoMap">
+                            
+                            </div>
+                            <script>
+								function viewBlog(){
+									$("#kakaoMap").load("<c:url value='/post/api'/>");
+									$('#list').addClass('display-none');
+									$('.search_wrap').addClass('display-none');
+									$('.paging').addClass('display-none');
+							    }                           
+                            </script>
+                            <tbody>
 								<c:forEach items="${postList}" var="post">
 									<tr>
 										<td id="postSort"><a href="<c:url value='/post/postList/${post.postSort}'/>">${post.postSort}</a></td>
@@ -158,7 +170,7 @@ crossorigin="anonymous">
 	                </c:if>
                 </div>
                 <c:if test="${empty postSort && empty memIdx}">
-                	<div style="display: block; text-align: center;">		
+                	<div class="paging" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
 							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
@@ -178,7 +190,7 @@ crossorigin="anonymous">
 					</div>
                 </c:if>
                 <c:if test="${ !empty postSort }">
-                	<div style="display: block; text-align: center;">		
+                	<div class="paging" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
 							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
@@ -198,7 +210,7 @@ crossorigin="anonymous">
 					</div>
                 </c:if>
                 <c:if test="${!empty memIdx }">
-                	<div style="display: block; text-align: center;">		
+                	<div class="paging" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
 							<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
@@ -217,9 +229,6 @@ crossorigin="anonymous">
 						</c:if>
 					</div>
                 </c:if>
-                <div>
-                	<a href="<c:url value='/post/api'/>">보드게임 카페 찾기 & 네이버 블로그</a>
-   			 	</div>
             </div>
         </div>
     </div>

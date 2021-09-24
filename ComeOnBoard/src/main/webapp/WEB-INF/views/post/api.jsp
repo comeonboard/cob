@@ -9,7 +9,7 @@
 <title>Come on, Board : 카페 검색</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
 	$(document).ready(function(){
 		$('#naverSearch').click(function(){
@@ -24,11 +24,18 @@
 			async : false,
 			data : { keyword : searchkeyword },
 			success : function(data){
+				var htmls ='';
 				const obj = JSON.parse(data);
 				var list = obj.items;
 				$('#blogCrawling').empty();
 				$.each(list, function(key, value){
-					$('#blogCrawling').append('<a href="" onclick="goblog(\''+ value.link+'\')">'+value.title+'</a><br>');
+					
+					htmls += '<div><p onclick="goblog(\''+ value.link+'\')">'+value.title+'</p>';
+					htmls += '<p>'+value.description+'</p>';
+					htmls += '<p>'+value.bloggername+'</p>';
+					htmls += '<p>'+value.bloggerlink+'</p>';
+					htmls += '<p>'+value.postdate+'</p><br></div>';
+					$('#blogCrawling').append(htmls);
 				})
 			},
 			error : function(){
@@ -80,16 +87,15 @@
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 </style>
 <body>
-<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<h1>COB검색창</h1>
 	<div class="map_wrap">
-	    <div id="map" style="width:80%;height:100%;position:relative;overflow:hidden;"></div>
+	    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 	
 	    <div id="menu_wrap" class="bg_white">
 	        <div class="option">
 	            <div>
 	                <form onsubmit="searchPlaces(); return false;">
-	                    키워드 : <input type="text" value="보드게임" id="keyword" size="15"> 
+	                    키워드 : <input type="text" value="서울 보드게임" id="keyword" size="15"> 
 	                    <button type="submit">검색하기</button> 
 	                </form>
 	            </div>

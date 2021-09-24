@@ -13,12 +13,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Service
 public class NaverBlogService {
@@ -41,7 +36,6 @@ public class NaverBlogService {
         requestHeaders.put("X-Naver-Client-Id", clientID);
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
-        //System.out.println(responseBody);
         return responseBody;
 	}
 
