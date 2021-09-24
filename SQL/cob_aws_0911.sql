@@ -45,6 +45,22 @@ drop table project.owngame;
   CONSTRAINT `fk_memIdx_prefergame` FOREIGN KEY (`memIdx`) REFERENCES `member1` (`memIdx`)
 );
 
+-- 쪽지
+drop table project.msg;
+CREATE TABLE project.msg (
+  `msgIdx` int NOT NULL AUTO_INCREMENT,
+  `sendIdx` int NOT NULL,
+  `recIdx` int NOT NULL,
+  `msgContent` text NOT NULL,
+  `sendDate` timestamp NULL DEFAULT current_timestamp,
+  `readChk` tinyint DEFAULT NULL,
+  PRIMARY KEY (`msgIdx`),
+  KEY `memIdx_idx` (`sendIdx`),
+  KEY `msg_fk_recIdx_idx` (`recIdx`),
+  CONSTRAINT `msg_fk_recIdx` FOREIGN KEY (`recIdx`) REFERENCES `member1` (`memIdx`),
+  CONSTRAINT `msg_fk_sendIdx` FOREIGN KEY (`sendIdx`) REFERENCES `member1` (`memIdx`)
+);
+
 -- ------------------------------------------종원 ------------------------------------
 
 create table project.post(
@@ -227,6 +243,7 @@ CREATE TABLE `project`.`cafeimg` (
  loc varchar(20),
  genre varchar(20)
 );
+
 
 
 

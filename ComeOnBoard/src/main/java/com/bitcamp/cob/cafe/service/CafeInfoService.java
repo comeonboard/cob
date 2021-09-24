@@ -34,9 +34,8 @@ public class CafeInfoService {
 	}
 
 	// 카페 등록 여부
-	public int checkCafe(HttpSession session) {
-		LoginInfo loginInfo = (LoginInfo)session.getAttribute("loginInfo");
-		return template.getMapper(CafeDao.class).checkCafe(loginInfo.getMemIdx());
+	public int checkCafe(int memIdx) {
+		return template.getMapper(CafeDao.class).checkCafe(memIdx);
 	}
 
 }

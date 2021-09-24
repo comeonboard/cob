@@ -13,14 +13,12 @@ public class crawlingController {
 	@Autowired
 	private NaverBlogService service;
 	
-	@RequestMapping(value="craw/crawling_ajax", produces = "application/text; charset=UTF-8")
+	@RequestMapping(value="craw/crawling_ajax", produces = "text/html; charset=UTF-8")
 	@ResponseBody
 	public String selectBlog(Model model,
 			@RequestParam("keyword")String keyword){
 		
-		if(keyword != null) {
-			model.addAttribute("list", service.searchBlog(keyword));
-		}
+
 		return service.searchBlog(keyword);
 	}
 }
