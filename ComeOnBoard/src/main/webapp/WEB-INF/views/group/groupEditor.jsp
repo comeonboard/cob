@@ -42,25 +42,53 @@
 	function alert_edit() {
 		alert("수정되었습니다.");
 	}
+	
 	// 매개변수 != 값
 	// 매개변수는 내가 임의로 정해주는 말 그대로 (변하는 수)
 	// 함수 외부에서는 '값'을 전달해주는게 맞음
 	function sendAjax(midx, gidx) {
-		
 		$.ajax({
 			url: '<c:url value="/group/groupEditorAjax"/>',
 			type:'get',
 			data: { memIdx : midx, 
 					grpIdx : gidx },
 			success: function(data) {
-				alert('ajax 전송 성공');
 				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
 			},
 			error: function(data) {
-				alert('ajax 실패 '+data);
+				alert('데이터 전송이 실패 하였습니다');
 			}
 		}) 
-		
+	}
+	function sendAjaxToDelete(idx1, idx2) {
+		$.ajax({
+			url: '<c:url value="/group/groupEditorAjaxDelete"/>',
+			type:'get',
+			data: { memIdx : idx1, 
+					grpIdx : idx2 },
+			success: function(data) {
+				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
+			},
+			error: function(data) {
+				alert('데이터 전송이 실패 하였습니다');
+			}
+		}) 
+	}
+	function sendAjaxToDelete2(a, b) {
+		$.ajax({
+			url:'<c:url value="/group/groupEditorAjaxDelete2"/>',
+			type:'get',
+			data: {
+				memIdx : a,
+				grpIdx : b
+			},
+			success:function(data) {
+				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
+			},
+			error: function(data) {
+				alert('데이터 전송이 실패하였습니다.');
+			}
+		})
 	}
 	
 	
@@ -116,8 +144,8 @@
 							<div id="participant_list">
 								<!-- 닉네임 들어갈 자리 -->
 								${ajaxConfirmZeroList[status.index].nickName}
-								memIdx:${ajaxConfirmZeroList[status.index].memIdx}
-								<button class="btn btn-danger btn-sm" type="submit" id="decline">거절</button>
+								<button class="btn btn-danger btn-sm" type="submit" id="decline"
+									onclick="sendAjaxToDelete(${ajaxConfirmZeroList[status.index].memIdx}, ${ajaxConfirmZeroList[status.index].grpIdx})">거절</button>
 								<button class="btn btn-success btn-sm" type="submit" id="accept"
 									onclick="sendAjax(${ajaxConfirmZeroList[status.index].memIdx}, ${ajaxConfirmZeroList[status.index].grpIdx})">수락</button>
 								<!-- sendAjax(memIdx, grpIdx) -->
@@ -131,10 +159,8 @@
 		</div>
 		<div class="main_div">
 			<div id="div3" class="div">
-				<!-- 참가 인원 카운트 시작 -->
-				<!-- update gamegroup1 set grpRegMem = grpRegMem + 1 where grpIdx=1; -- 참가자가 모임에 참가했을 때 현재 정원 증가
-						update gamegroup1 set grpRegMem = grpRegMem - 1 where grpIdx=1; -- 참가자가 모임에서 빠졌을 때 현재 정원 감소 -->
-				<h4 id="count_participant">참여 인원 0/10</h4>
+				<!-- 참가 인원 카운트 -->
+				<h4 id="count_participant">참여 인원: ${countMem}명&nbsp;/&nbsp;${countMaxMem}명</h4>
 				<hr>
 				<c:forEach items="${ajaxConfirmOneList}" var="list" varStatus="status">
 					<ul>
@@ -142,7 +168,8 @@
 							<div id="participant_list_accepted">
 								<!-- 닉네임 들어갈 자리 -->
 								${ajaxConfirmOneList[status.index].nickName}
-								<button class="btn btn-danger btn-sm" type="submit" id="decline">추방</button>
+								<button class="btn btn-danger btn-sm" type="submit" id="decline"
+									onclick="sendAjaxToDelete2(${ajaxConfirmOneList[status.index].memIdx},${ajaxConfirmOneList[status.index].grpIdx})">추방</button>
 							</div>
 						</li>
 					</ul>

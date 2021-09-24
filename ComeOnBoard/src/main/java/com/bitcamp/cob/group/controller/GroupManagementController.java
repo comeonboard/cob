@@ -26,8 +26,6 @@ public class GroupManagementController {
 		//내 그룹 정보 가져오기
 		ArrayList<Group> result= service.selectMyGameGroup(memIdx);
 		
-		
-		
 		//model에 집어넣기
 		model.addAttribute("readMyGameGroup", result);
 		

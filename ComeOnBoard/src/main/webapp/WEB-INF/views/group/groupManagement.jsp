@@ -84,19 +84,17 @@ function makeRedirect(){
 			<div id="div2" class="div">
 				<!-- 반복 처리 해주자 -->
 				<div id="div2_1" class="secondary_div2">
-					참여한 모임(게임명)1 
+					참여한 모임 
 					<br>
-					일시:
-					<br>
-					<input type="button" value="삭제" class="button2" onclick="popUp2()">
+					<input type="button" value="탈퇴" class="button2" onclick="popUp2()">
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- 탈퇴버튼 -->
+	<!-- 삭제/탈퇴버튼 -->
 	<div id="btn_exit_popUp1">
-		<h1>정말 탈퇴하시겠습니까?</h1>
+		<h1>정말 삭제하시겠습니까?</h1>
 		<input type="button" value="예" id="btn_exit" class="btn_shape"
 			onclick="btn_exit1()"> <input type="button" value="아니오"
 			id="btn_close" class="btn_shape" onclick="btn_close1()">

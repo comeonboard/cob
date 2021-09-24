@@ -17,6 +17,7 @@ import com.bitcamp.cob.group.domain.NicknameMemidxGrpidx;
 import com.bitcamp.cob.group.domain.NicknameList;
 import com.bitcamp.cob.group.domain.RegGroup;
 import com.bitcamp.cob.group.service.EditorAttendService;
+import com.bitcamp.cob.group.service.EditorDeleteService;
 import com.bitcamp.cob.group.service.ManageGroupService;
 import com.bitcamp.cob.group.service.ReadGroupBoardService;
 
@@ -31,6 +32,9 @@ public class GroupEditorController {
 
 	@Autowired
 	private EditorAttendService attendService;
+	
+	@Autowired
+	private EditorDeleteService deleteService;
 
 	// 1. readGroup.jsp에서 모임 참가 신청을 할 때 정보 받음 a href
 	// 2. groupManagement.jsp에서 a href
@@ -44,7 +48,8 @@ public class GroupEditorController {
 		RegGroup result = service.selectEditGroup(); // 내가 참가한 모임(groupreg)
 		model.addAttribute("groupEditorReadResult", result);
 
-		return "/group/groupEditor";
+//		return "/group/groupEditor";
+		return "/group/groupManagement";
 	}
 
 	// groupManagement.jsp 에서 '게시물관리' 클릭시 저장된 게시글 정보를 select에서 화면에 보여주기
@@ -67,18 +72,60 @@ public class GroupEditorController {
 		// 2. grpConfirm = 1 인 groupreg1 리스트
 		ArrayList<NicknameMemidxGrpidx> result1 = service.selectGrpConfirm1(grpIdx);
 		model.addAttribute("ajaxConfirmOneList", result1);
-
+		
+		// 참가인원, 최대정원 count(grpRegIdx)
+		int result2 = service.countRegMem(grpIdx);
+		int result3 = service.countMaxMem(grpIdx);
+		model.addAttribute("countMem", result2);
+		model.addAttribute("countMaxMem", result3);
+		
 		return "/group/groupEditor";
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/group/groupEditorAjax", method = RequestMethod.GET)
-	public String getAjaxData(int memIdx, int grpIdx, Model model) {
+	public String getAjaxData(int memIdx, int grpIdx) {
 
 		// grpConfirm -> 1로 바꿔주는 메소드(참여 인정)
 		attendService.updateAttendants(memIdx, grpIdx);
 
 		return "/group/groupEditor";
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/group/groupEditorAjaxDelete", method=RequestMethod.GET)
+	public String getAjaxDataToDelete(int memIdx, int grpIdx) {
+		
+		// 참가 거절
+		deleteService.deleteAttendant(memIdx, grpIdx);
+		
+		return "/group/groupEditor";
+		
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/group/groupEditorAjaxDelete2", method=RequestMethod.GET)
+	public String getAjaxDataToDelete2(int memIdx, int grpIdx) {
+		
+		// 참여자 추방
+		deleteService.deleteAttenddant2(memIdx, grpIdx);
+		
+		return "/group/groupEditor";
+	}
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

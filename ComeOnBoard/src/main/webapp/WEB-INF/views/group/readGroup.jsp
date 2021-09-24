@@ -50,6 +50,7 @@
 				<div id="attend_div">
 					<!-- <a id="join_group" onclick="attend_gameGroup()"> -->
 					<a id="join_group" href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}">
+						<!-- groupEditor컨트롤러에서 return 값을 management를 보여주게끔 변경 -->
 						모임 참가 신청
 					</a>
 				</div>

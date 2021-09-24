@@ -45,6 +45,7 @@ function makeRedirect(){
 <body>
 	<!-- form action의 경로를 해당 컨트롤러의 매핑 주소로 한다 -->
 	<!-- 해당 컨트롤러에서 'return 페이지'를 해주던가 redirect를 해주어서 게시글 리스트를 보여주면 된다 -->
+	<%-- <form action="<c:url value="/cob/group/createGroup" />" method="post"> --%>
 	<form method="post">
 		<div class="Wrapper">
 			<div id="content">

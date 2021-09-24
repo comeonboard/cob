@@ -174,6 +174,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		from groupreg1
 		where grpRegIdx=#{grpRegIdx}
 	</select>
+	
+	
+	<!-- join해서 만든 sql, 내가 참가한 모임 list-->
+	<!-- <select id="selectParticipatedGroup"
+		resultType="com.bitcamp.cob.group.domain.RegGroup">
+		select *
+		from gamegroup1 as gg
+		full outer join groupreg1 as reg
+		on 
+	</select> -->
+ 
 
 	<!-- 내가 만든 모임 정보 select -->
 	<select id="selectMyGroup" parameterType="int"
@@ -194,12 +205,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where reg.grpIdx = #{grpIdx};
 	</select>
 	
-	<!-- 참여신청 수락/거절 -->
+	<!-- 참여신청 수락 -->
 	<update id="judgeRequest">
 		update groupreg1
 		set grpConfirm = 1
 		where memIdx=#{param1} and grpIdx=#{param2}
 	</update>
+	
+	
+	<!-- 참여대기자 거절 -->
+	<delete id="refuseApplyForParticipation">
+		delete from groupreg1
+		where memIdx = #{param1} and grpIdx = #{param2} and grpConfirm = 0
+	</delete>
+	
+	<!-- 참가한 사람 추방 -->
+	<delete id="exileAttendant">
+		delete from groupreg1
+		where memIdx = #{param1} and grpIdx = #{param2} and grpConfirm = 1
+	</delete>
+	
+	
+	
 
 	<!-- grpConfirm = 0인 groupreg1 리스트 -->
 	<select id="selectGrpConfirmZero"
@@ -211,8 +238,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on reg.memIdx = mem.memIdx
 		where reg.grpIdx = #{grpIdx} and reg.grpConfirm = 0
 	</select>
-	
-
 	<!-- grpConfirm = 1인 (참가 승인)groupreg1 리스트 -->
 	<select id="selectGrpConfirmOne"
 		parameterType="int"
@@ -223,6 +248,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		on reg.memIdx = mem.memIdx
 		where reg.grpIdx = #{grpIdx} and reg.grpConfirm = 1
 	</select>
+	<!-- 게임 만든 사람 grpConfirm = 1 로 update -->
+	
+	
+	
+	<!-- 모임 참가 인원 -->
+	<select id="selectRegMemCount"
+		parameterType="int"
+		resultType="int">
+		select count(grpRegIdx)
+		from groupreg1
+		where grpIdx = #{grpIdx} and grpConfirm = 1
+	</select>
+	<!-- 모임 최대 인원 -->
+	<select id="selectMaxMemCount"
+		parameterType="int"
+		resultType="int">
+		select grpMaxMem from gamegroup1 where grpIdx = #{grpIdx}
+	</select>
+	
+	
+
 
 </mapper>
 

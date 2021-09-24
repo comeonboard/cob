@@ -61,7 +61,7 @@ public interface GroupDao {
 	//모임에 참가하려는 사람의 닉네임 가져오기
 	public ArrayList<NicknameMemidxGrpidx> selectRegGroupNicknameMemidxGrpidx(int grpIdx);
 	
-	//모임 참가 수락/거절
+	//모임 참가 수락
 	public int judgeRequest(int memIdx, int grpIdx);
 	
 	//모임에 참가하려는 사람의 닉네임 가져오기 (grpConfirm = 0 -> 아직 미참)
@@ -69,6 +69,18 @@ public interface GroupDao {
 	
 	//모임에 참가한 사람의 닉네임 가져오기 (grpConfirm = 1 -> 참여완료)
 	public ArrayList<NicknameMemidxGrpidx> selectGrpConfirmOne(int grpIdx);
+
+	//참여대기자 거절
+	public int refuseApplyForParticipation(int memIdx, int grpIdx);
+	
+	//참가한 사람 추방
+	public int exileAttendant(int memIdx, int grpIdx);
+	
+	//모임 참가 인원
+	public int selectRegMemCount(int grpIdx);
+	//모임 최대 인원
+	public int selectMaxMemCount(int grpIdx);
+	
 	
 }
 
