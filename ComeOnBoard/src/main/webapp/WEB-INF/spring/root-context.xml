@@ -18,6 +18,23 @@
 			p:password="bit">
 			
 	</bean>
+<!-- 	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://mysql205.c9h1klfuh6kq.ap-northeast-2.rds.amazonaws.com:3306/project?serverTimezone=Asia/Seoul" />
+		<property name="username" value="bit" />
+		<property name="password" value="bit" />
+		<property name="connectionTimeout" value="20000"/>
+		<property name="minimumIdle" value="5"/>
+		<property name="maximumPoolSize" value="5"/>
+		<property name="validationTimeout" value="1200000"/>
+		<property name="autoCommit" value="true"/>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+	 -->
 	
 	<!-- JdbcTemplate 클래스 등록 -->
 	<bean id="jdbcTemplate"

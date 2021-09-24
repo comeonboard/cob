@@ -74,8 +74,8 @@ function getList(cafePage){
 			var html = ''
 			if(returnData.startNum <= returnData.totalCnt){
 				$.each(data, function(idx, cafe) {
-					//var path = '<c:url value="/uploadfile/cafe/"/>'+cafe.cafeIdx+'.'+cafe.cafeName+'/'+cafe.cafeThumbnail;
-					var path = '<c:url value="/uploadfile/cafe/"/>1.스타벅스/thumbnail.png';
+					//var path = '<c:url value="/uploadfile/cafe/"/>'+cafe.cafeIdx+'/'+cafe.cafeThumbnail;
+					var path = '<c:url value="/uploadfile/cafe/"/>1/thumbnail.png';
 					html += '<div class="card hvr-underline-from-center fade-in" onclick="location.href=\'<c:url value="/cafe/cafe_page/'+cafe.cafeIdx+'"/>\'">'+'\n'+
 					 	  //'<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
 					 	  '<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
@@ -133,8 +133,8 @@ function getList(cafePage){
      	<c:if test="${fn:length(list) > 0}">
     	<c:forEach items="${list}" var="list" >		
 			<div class="card hvr-underline-from-center fade-in" onclick="location.href='<c:url value="/cafe/cafe_page/${list.cafeIdx}"/>'">
-				<%-- <img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}.${list.cafeName}/${list.cafeThumbnail}" alt="Card image cap"> --%>
-				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1.스타벅스/thumbnail.png" alt="Card image cap">
+				<%-- <img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}/${list.cafeThumbnail}" alt="Card image cap"> --%>
+				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1/thumbnail.png" alt="Card image cap">
 				<div class="card-body">
 					<h5 class="card-title">${list.cafeName}</h5>
 					<p class="card-text" style="text-align: right;">1시간 : ${list.stdFeeComma}<br>10분 초과시 : ${list.tenPerFeeComma}</p>

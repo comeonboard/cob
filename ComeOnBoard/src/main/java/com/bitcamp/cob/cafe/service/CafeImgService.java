@@ -32,7 +32,7 @@ public class CafeImgService {
 
 	public int delImg(CafeImgInfo cafeImgInfo, HttpServletRequest request) {
 		
-		String path = cafeImgInfo.getCafeIdx()+"."+cafeImgInfo.getCafeName()+"/"+cafeImgInfo.getCafeImg();
+		String path = cafeImgInfo.getCafeIdx()+"/"+cafeImgInfo.getCafeImg();
 		
 		File file = new File(request.getSession().getServletContext().getRealPath(UPLOAD_URI+path));
 		System.out.println("delImg file 경로 : "+file);
@@ -114,7 +114,7 @@ public class CafeImgService {
 				for(int i=0; i<cafe.getCafeImgFile().size(); i++) {
 
 					// thumbnail.확장자
-					cafeImgs = cafe.getCafeName()+System.currentTimeMillis()+"."+chkFileType(cafe.getCafeImgFile().get(i));
+					cafeImgs = System.currentTimeMillis()+"."+chkFileType(cafe.getCafeImgFile().get(i));
 					imgFiles.add(cafeImgs);
 					
 					// 새로운 File 객체
@@ -175,11 +175,11 @@ public class CafeImgService {
 		return extension;
 	}
 	
-	// 파일 업로드시 카페idx와 카페명으로 폴더 생성
+	// 파일 업로드시 카페idx로 폴더 생성
 	private File mkDir(Cafe cafe, HttpServletRequest request) {
 		
 		// 새로운 저장 폴더 : File
-		File newDir = new File(request.getSession().getServletContext().getRealPath(UPLOAD_URI+"/"+cafe.getCafeIdx()+"."+cafe.getCafeName()));
+		File newDir = new File(request.getSession().getServletContext().getRealPath(UPLOAD_URI+"/"+cafe.getCafeIdx()));
 
 		// 폴더에 이미지가 있다면 전체 삭제
 		// 정보 수정시 일괄등록이 아닌 선택 삭제 후 등록이 가능하면 전체 삭제하지 않아도 됨
