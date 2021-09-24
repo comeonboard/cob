@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.bitcamp.cob.game.domain.Game;
 import com.bitcamp.cob.game.domain.GameMain;
 import com.bitcamp.cob.game.domain.GamePage;
+import com.bitcamp.cob.game.domain.GamePay;
 import com.bitcamp.cob.game.domain.GameReview;
 import com.bitcamp.cob.game.domain.PreferGame;
 import com.bitcamp.cob.game.domain.SearchType;
@@ -14,6 +15,7 @@ import com.bitcamp.cob.game.domain.SortType;
 import com.bitcamp.cob.member.domain.GameInfo;
 
 public interface GameDao {
+	
 	
 	// 게임등록
 	int insertGame(Game game);
@@ -56,6 +58,7 @@ public interface GameDao {
 	//선호게임 체크 
 	int preferChk(PreferGame pgf);
 	
-	
+	// 주문정보 입력
+	int insertPay (GamePay pay);
 	
 }

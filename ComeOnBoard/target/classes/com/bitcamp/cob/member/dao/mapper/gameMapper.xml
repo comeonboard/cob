@@ -428,4 +428,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from prefergame where gameidx = #{gameIdx} and memidx = #{memIdx}		
 	</select>
 	
+	<!-- 주문하기 -->
+	<insert id="insertPay"
+			parameterType="com.bitcamp.cob.game.domain.GamePay"
+	>
+		insert into customer(memidx,gameidx,memname,gamePrcie,shipAddress,phoneNum)
+		values(#{memIdx},#{gameIdx},#{memName},#{gamePrice},#{shipAddress},#{pahoneNum})	
+			
+	</insert>
+	
 </mapper>

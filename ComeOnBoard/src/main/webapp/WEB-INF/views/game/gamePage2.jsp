@@ -835,7 +835,8 @@ $(document).ready(function(){
 				<pre class="rule_content_name2">${gamepage.gameRule}</pre>
 				<pre class="rule_content_name3" id="game_play"></pre>
 				<pre class="rule_content_name4">
-					<button >구입하기</button>
+					<input type="button" class="btn_edit" value="구입하기" id="btn_edit"
+					onclick="location.href='<c:url value ='/game/gamePay/'/>${gamepage.gameIdx}'">
 				</pre>
 			</div>
 		</div>
