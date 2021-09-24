@@ -50,7 +50,7 @@ public class GameRegService {
 			//회원별 고유한 파일 등록
 			String newFileName;
 			
-				newFileName = regRequest.getGameName() + System.currentTimeMillis()
+				newFileName = System.currentTimeMillis()
 				+"." + chkFileType(regRequest.getGamePhoto());
 			
 			

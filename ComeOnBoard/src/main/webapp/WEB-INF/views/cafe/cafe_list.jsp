@@ -134,7 +134,7 @@ function getList(cafePage){
     	<c:forEach items="${list}" var="list" >		
 			<div class="card hvr-underline-from-center fade-in" onclick="location.href='<c:url value="/cafe/cafe_page/${list.cafeIdx}"/>'">
 				<%-- <img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}.${list.cafeName}/${list.cafeThumbnail}" alt="Card image cap"> --%>
-				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1.스타벅스/thumbnail.png" alt="Card image cap">
+				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1/thumbnail.png" alt="Card image cap">
 				<div class="card-body">
 					<h5 class="card-title">${list.cafeName}</h5>
 					<p class="card-text" style="text-align: right;">1시간 : ${list.stdFeeComma}<br>10분 초과시 : ${list.tenPerFeeComma}</p>

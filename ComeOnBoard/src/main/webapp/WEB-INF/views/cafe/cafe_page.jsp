@@ -20,7 +20,9 @@
 	<link rel="stylesheet" href="<c:url value="/css/datepicker.min.css"/>" type="text/css">
     <!-- Include korean language -->
     <script src="<c:url value="/js/datepicker.kr.js"/>"></script>
-
+	<!-- iamport.payment.js -->
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.8.js"></script>
+	
 	<link rel="stylesheet" href="<c:url value="/css/cafe_page.css"/>" type="text/css">
 	<link rel="stylesheet" href="/cob/css/default.css">
 	<link rel="icon" href="/cob/images/simple_logo.png">
@@ -108,6 +110,8 @@ function reservation_button(table){
 
     // 날짜값
     var date = $('#date').val();
+    let today = new Date();
+    let hours = today.getHours();
     
     if(!date.trim().length){
 		alert('날짜를 선택해주세요.');
@@ -139,13 +143,21 @@ function reservation_button(table){
 		        }
 				if(list.length){
 					for(var j=0; j<list.length; j++){
+						if(i <= hours) {
+							html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" disabled="disabled">'+i+'시</button></td>'+'\n';
+							continue loop;
+						}
 						if(i==list[j].reservTime && list[j].reservTable>=list[j].fixedTable) {
-							html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" value='+i+' onclick="reservation('+i+', \''+table+'\');" disabled="disabled">'+i+'시</button></td>'+'\n';
+							html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" disabled="disabled">'+i+'시</button></td>'+'\n';
 							continue loop;
 						}
 					}
 					html += '<td><button type="button" class="btn '+color+' rotate-hor-center" value='+i+' onclick="reservation('+i+', \''+table+'\');">'+i+'시</button></td>'+'\n';
 				} else {
+					if(i <= hours) {
+						html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" disabled="disabled">'+i+'시</button></td>'+'\n';
+						continue loop;
+					}
 					html += '<td><button type="button" class="btn '+color+' rotate-hor-center" value='+i+' onclick="reservation('+i+', \''+table+'\');">'+i+'시</button></td>'+'\n';
 				}
 			}
@@ -199,6 +211,7 @@ function reservation_list(table){
 			if(list.length){
 			    $.each(list, function(idx, reserv) {
 			    	if(reserv.reservTable != 0){
+			    	console.log('reserv.reservTable : ' +reserv.reservTable);
 			        html += '<tr>'+'\n'+
 				            '<td>'+(idx+1)+'</td>'+'\n'+
 				            '<td>'+reserv.reservDate+'</td>'+'\n'+
@@ -245,7 +258,8 @@ function reservation(time, table){
 	 
 	// 전달값 : 카페번호, 날짜, 시간, 인원, 멤버넘버
 	if(confirm('예약정보 : '+date+' - '+time+':00\n예약하시겠습니까?')){
-		// 결제
+		
+		// 카카오페이 결제
 		$.ajax({
 			url: '<c:url value="/cafe/cafe_payReserv"/>',
 			type: 'post',
@@ -258,16 +272,21 @@ function reservation(time, table){
 			},
 			//dataType: 'json',
 			success: function(data){
-				console.log('반환값: '+data);
-				var options = 'top=260, left=700, width=480, height=480, status=no, menubar=no, toolbar=no, resizable=no';
+				//console.log('반환값: '+data);
+				var popupWidth = 480;
+				var popupHeight = 480;
+				var popupX = (window.screen.width / 2) - (popupWidth / 2);
+				var popupY= (window.screen.height / 2) - (popupHeight / 2);
+				var options = 'top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no';
 				window.open(data, '카카오페이 결제', options);
-				set_reservation(date, time, table);
+				//set_reservation(date, time, table);
 			},
 			error: function(request,status,error){
 				console.log('reservation_pay_erorr');
 				//console.log("code = "+ request.status + " message = " + request.responseText + " error = " + error);
 			}
 		})
+		
 	} else {
 		alert('취소하였습니다.');
 	}
@@ -345,13 +364,12 @@ function review(page){
 			var data = returnData.cafeReview;
 			var html = '';
 			var pagehtml = '';
-			
 			// 리뷰 출력
 			if(data.length){
 				$.each(data, function(idx, review) {	
 					html += '<div class="media" id="rev_'+review.revIdx+'">'+'\n'+
 							'<div class="media-left">'+'\n'+
-							'<img src="https://www.w3schools.com/bootstrap4/img_avatar1.png" class="media-object mr-3" style="width:45px">'+'\n'+
+							'<img src="<c:url value="/uploadfile/member/'+review.memPhoto+'"/>" class="media-object mr-3" style="width:45px; height:45px;">'+'\n'+
 							'</div>'+'\n'+
 							'<div class="media-body">'+'\n'+
 							'<h4 class="media-heading">'+'\n'+review.nickName+'\n'+
@@ -481,7 +499,7 @@ function file(){
 					var cafeName = cafe.cafeName;
 					var cafeImg = cafe.cafeImg;
 						
-					var path = cafe.cafeIdx+'.'+cafe.cafeName+'/'+cafe.cafeImg;
+					var path = cafe.cafeIdx+'/'+cafe.cafeImg;
 					
 					html += '<li file='+cafe.cafeImg+'>'+'\n'+
 							'<img class="img-thumb" src="<c:url value="/uploadfile/cafe/"/>'+path+'"/>'+'\n'+
@@ -532,12 +550,12 @@ function file(){
                 <c:forEach var="cafeImg" items="${cafeImg}" varStatus="cnt">
                 <c:if test="${cnt.first}">
                 	<div class="carousel-item active">
-                		<img class="d-block w-100" src='<c:url value="/uploadfile/cafe/"/>${cafeInfo.cafeIdx}.${cafeInfo.cafeName}/<c:out value="${cafeImg}"/>' alt="${cnt.count}">
+                		<img class="d-block w-100" src='<c:url value="/uploadfile/cafe/"/>${cafeInfo.cafeIdx}/<c:out value="${cafeImg}"/>' alt="${cnt.count}">
                 	</div>
                 </c:if>
                 <c:if test="${!cnt.first}">
                 	<div class="carousel-item">
-                		<img class="d-block w-100" src='<c:url value="/uploadfile/cafe/"/>${cafeInfo.cafeIdx}.${cafeInfo.cafeName}/<c:out value="${cafeImg}"/>' alt="${cnt.count}">
+                		<img class="d-block w-100" src='<c:url value="/uploadfile/cafe/"/>${cafeInfo.cafeIdx}/<c:out value="${cafeImg}"/>' alt="${cnt.count}">
                 	</div>
                 </c:if>
                 </c:forEach>
@@ -601,7 +619,7 @@ function file(){
             <!-- 페이징 -->
             <div class="paging">
             </div>
-			<c:if test="${(empty loginInfo) && (loginInfo.memIdx != cafeInfo.memIdx) && (loginInfo.memAuth != 'ban')}">
+			<c:if test="${(!empty loginInfo) && (loginInfo.memIdx != cafeInfo.memIdx) && (loginInfo.memAuth != 'ban')}">
             <form method="post" id="rev_form">              
                 <div id="star-rev" class="star-rating-rev space-x-4 mx-auto">                   
                     <input type="radio" id="5-stars-rev" name="revRating" value="5"/>
