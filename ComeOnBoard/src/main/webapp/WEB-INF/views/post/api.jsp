@@ -11,22 +11,34 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script>
-	$(document).ready(function(){
-		$('#naverSearch').click(function(){
-			var searchkeyword = $('#searchkeyword').val();
-			naverSearch(searchkeyword);
+	/* $(document).ready(function(){
+		$("button[name='btn_naverSearch']").on('click', function(){
+			var a = $(this).text();
+			alert(a);
 		})
-	})
-	function naverSearch(searchkeyword){
+	}) */
+	function naverSearch(searchkeyword, start){
 	    $.ajax({
 			url : '<c:url value="/craw/crawling_ajax"/>',    			
 			type : "post",
 			async : false,
-			data : { keyword : searchkeyword },
+			data : { keyword : searchkeyword, 
+				start : start
+				},
 			success : function(data){
 				var htmls ='';
+				var pagehtmls = '';
 				const obj = JSON.parse(data);
+				var total = obj.total;
+				console.log(total); // 총 갯수
+				var maxpage = (total + 10 - 1) / 10; // 총 페이지
+				var startpage = ((start-1)/10)*10+1; // 시작 페이지
+				var lastpage = startpage + 10 - 1; // 마지막 페이지
+				if( lastpage > maxpage){
+					lastpage = maxpage;
+				}
 				var list = obj.items;
+				
 				$('#blogCrawling').empty();
 				$.each(list, function(key, value){
 					htmls += '<div class="blog"><span onclick="goblog(\''+ value.bloggerlink+'\')">'+value.bloggername+'</span><span>'+value.postdate+'</span>';
@@ -35,6 +47,14 @@
 					htmls += '<br></div>';
 				})
 				$('#blogCrawling').append(htmls);
+				for (var num=startpage; num<=lastpage; num++) {
+	                 if (num == start) {
+	                	 pagehtmls += '<b>' + num + ' </b>';
+	                 } else {
+	                	 pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+num+'\')" return false;" class="page-btn">' + num + ' </a>';
+	                 }
+	              }
+				$('#paging').html(pagehtmls);
 			},
 			error : function(){
 				alert("오류발생");
@@ -227,8 +247,8 @@ function getListItem(index, places) {
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
-                '   <a href="#" onclick="naverSearch(\''+ places.place_name +'\')"><h5>' + places.place_name + '</h5></a>';
-
+                '   <a href="#" onclick="naverSearch(\''+ places.place_name +'\', 1)"><h5>' + places.place_name + '</h5></a>';
+                //'   <button name="btn_naverSearch">' + places.place_name + '</button>';
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +
                     '   <span class="jibun gray">' +  places.address_name  + '</span>';
@@ -323,6 +343,16 @@ function removeAllChildNods(el) {
 </script>
 	<div id="blogCrawling">
 	
+	</div>
+	<div id="paging">
+		<b>1</b>
+		<b>2</b>
+		<b>3</b>
+		<b>4</b>
+		<b>5</b>
+		<b>6</b>
+		<b>${ keyword }</b>
+		<button class="btn_naverSearch">tt</button>
 	</div>
 </body>
 </html>
