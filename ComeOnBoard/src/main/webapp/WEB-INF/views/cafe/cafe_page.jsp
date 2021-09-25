@@ -109,10 +109,15 @@ function login_check(table){
 function reservation_button(table){
 
     // 날짜값
-    var date = $('#date').val();
+    let date = $('#date').val();
     let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth()+1;
+    month = month < 10 ? '0' + month.toString() : month.toString();
+    let day = today.getDate();
     let hours = today.getHours();
-    
+    let ymd = year+'/'+month+'/'+day;
+
     if(!date.trim().length){
 		alert('날짜를 선택해주세요.');
 		$('#date').focus();
@@ -143,7 +148,7 @@ function reservation_button(table){
 		        }
 				if(list.length){
 					for(var j=0; j<list.length; j++){
-						if(i <= hours) {
+						if(date == ymd && i <= hours) {
 							html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" disabled="disabled">'+i+'시</button></td>'+'\n';
 							continue loop;
 						}
@@ -154,7 +159,7 @@ function reservation_button(table){
 					}
 					html += '<td><button type="button" class="btn '+color+' rotate-hor-center" value='+i+' onclick="reservation('+i+', \''+table+'\');">'+i+'시</button></td>'+'\n';
 				} else {
-					if(i <= hours) {
+					if(date == ymd && i <= hours) {
 						html += '<td><button type="button" class="btn btn-secondary rotate-hor-center" disabled="disabled">'+i+'시</button></td>'+'\n';
 						continue loop;
 					}

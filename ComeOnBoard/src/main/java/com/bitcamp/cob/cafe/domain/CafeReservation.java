@@ -9,6 +9,7 @@ public class CafeReservation {
 	private int reservIdx;
 	private int cafeIdx;
 	private int memIdx;
+	private int stdFee;
 	private String memName;
 	private String reservDate;
 	private int reservTime;
@@ -45,6 +46,14 @@ public class CafeReservation {
 
 	public void setMemIdx(int memIdx) {
 		this.memIdx = memIdx;
+	}
+
+	public int getStdFee() {
+		return stdFee;
+	}
+
+	public void setStdFee(int stdFee) {
+		this.stdFee = stdFee;
 	}
 
 	public String getMemName() {
@@ -115,11 +124,10 @@ public class CafeReservation {
 
 	@Override
 	public String toString() {
-		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", memName="
-				+ memName + ", reservDate=" + reservDate + ", reservTime=" + reservTime + ", reservTable=" + reservTable
-				+ ", fixedTable=" + fixedTable + ", requestTable=" + requestTable + ", regDate=" + regDate + "]";
+		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", stdFee="
+				+ stdFee + ", memName=" + memName + ", reservDate=" + reservDate + ", reservTime=" + reservTime
+				+ ", reservTable=" + reservTable + ", fixedTable=" + fixedTable + ", requestTable=" + requestTable
+				+ ", etc=" + etc + ", regDate=" + regDate + "]";
 	}
 
-
-	
 }
