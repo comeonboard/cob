@@ -1,4 +1,4 @@
-package com.bitcamp.cob.member.controller;
+package com.bitcamp.cob.msg.controller;
 
 import java.util.List;
 
@@ -8,13 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bitcamp.cob.member.domain.Msg;
+import com.bitcamp.cob.msg.domain.Msg;
+import com.bitcamp.cob.msg.service.MsgService;
 
 @RestController
 public class MsgController {
 
 	@Autowired
-	// 서비스
+	MsgService service;
 	
 	@GetMapping("/msg/me")
 	public List<Msg> getMsg() {
@@ -23,12 +24,13 @@ public class MsgController {
 	}
 	
 	@PostMapping("/msg")
-	public int postMsg() {
-		int result = 0;
+	public int postMsg(Msg msg) {
+		
+		int result = service.postMsg(msg);
 		return result;
 	}
 	
-	@DeleteMapping("/msg")
+	@DeleteMapping("/msg/{idx}")
 	public int deleteMsg() {
 		int result = 0;
 		return result;

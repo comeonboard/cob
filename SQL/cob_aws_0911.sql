@@ -53,7 +53,7 @@ CREATE TABLE project.msg (
   `recIdx` int NOT NULL,
   `msgContent` text NOT NULL,
   `sendDate` timestamp NULL DEFAULT current_timestamp,
-  `readChk` tinyint DEFAULT NULL,
+  `readChk` tinyint DEFAULT 0,
   PRIMARY KEY (`msgIdx`),
   KEY `memIdx_idx` (`sendIdx`),
   KEY `msg_fk_recIdx_idx` (`recIdx`),

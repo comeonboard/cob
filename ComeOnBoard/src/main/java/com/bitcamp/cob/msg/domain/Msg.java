@@ -1,4 +1,4 @@
-package com.bitcamp.cob.member.domain;
+package com.bitcamp.cob.msg.domain;
 
 import java.sql.Timestamp;
 
