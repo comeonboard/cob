@@ -74,15 +74,6 @@ crossorigin="anonymous">
             }
         });
 
-        // 댓글 좋아요 싫어요 중 하나만 눌리도록 설정
-        $('.btn-like').click(function(){
-            $(this).toggleClass("done");
-            $(this).next().removeClass("done");
-        });
-        $('.btn-dislike').click(function(){
-            $(this).toggleClass("done");
-            $(this).prev().removeClass("done");
-        });
     });
  	// Kakao 공유 동작 function
     function shareKakao() {
@@ -220,7 +211,7 @@ crossorigin="anonymous">
                                 <img class="copy-url" src="/cob/images/copy--v1.png" alt="링크 주소복사 아이콘" title="주소복사">
                             </a>
                         </div>
-                        <div class="header2">
+                        <div class="header2" id="post${postDetail[1].postIdx }">
                             <a class="imgSelect" data-id="post${postDetail[1].postIdx}">
                             	<img src="<c:url value="/uploadfile/member/${postDetail[1].memPhoto}"/>"/>
                             </a>
@@ -228,7 +219,7 @@ crossorigin="anonymous">
                             <div class="nick-box post${postDetail[1].postIdx} display-none">
                                 <ul>
                                     <li><a href="<c:url value='/post/searchList1?memIdx=${postDetail[1].memIdx}'/>">작성글보기</a></li>
-                                    <li>회원정보보기</li>
+                                    <li onclick="btn_viewInfo(${postDetail[1].memIdx},${postDetail[1].postIdx},'post')">회원정보보기</li>
                                 </ul>
                             </div>
                             <div class="contents-header-info">
@@ -369,8 +360,9 @@ crossorigin="anonymous">
 			                htmls += '<ul><li><div id="comm' + value.commIdx + '" class="id">';
 							htmls += '<div class="comments-profile"><img src="<c:url value="/uploadfile/member/'+value.memPhoto+'"/>" ></div>';
 							htmls += '<div class="comments-info">';
-							htmls += '<a><img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
-					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
+							htmls += '<img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
+					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li>';
+					        htmls += '<li onclick="btn_viewInfo('+value.memIdx+', '+ value.commIdx +', \'comm\')">회원정보보기</li></ul></div>';
 					        htmls += '<span class="date"> ' + value.commRegDate + ' </span>';
 					        if(loginmemIdx != null){
 					        	htmls += '<a class="add-recomments" data-recomments="comments2" onclick="btn_Recomment('+value.commIdx+')">답글쓰기</a>';
@@ -401,6 +393,44 @@ crossorigin="anonymous">
 				}
 			})
 		}
+		// 작성자 정보 보기
+		function btn_viewInfo(memIdx,Idx, type){
+			console.log(type);	
+			$.ajax({
+					url : '<c:url value="/member/"/>'+memIdx,
+					type : "get",
+					data : { memIdx : '${loginInfo.memIdx}'},
+					async: false,
+					success : function(data){
+						var htmls = '';
+						if (data != null) {
+							htmls += '<div id="userInfo" style="position:absolute; left:120px;"><p>'+data.nickName+'</p>';
+							htmls += '<p>'+data.memGender+'</p>';
+							htmls += '<p>'+data.memBirth+'</p>';
+							htmls += '<p>'+data.preferAddr+'</p>';
+							var preferGameList = data['preferGame'];
+							for(var i=0; i < preferGameList.length; i++){
+								htmls += '<p>'+preferGameList[i].gameName+'</p>';
+								}
+							htmls += '<div>';
+							}
+						if($('#userInfo').length){
+							console.log('존재o');
+							$('#userInfo').remove();
+							$('#'+type+Idx).append(htmls);
+						}else{
+							console.log('존재x');
+							$('#'+type+Idx).append(htmls);
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});
+			}
 		// 베스트 댓글 조회
 		function showBestComm(){
 			var postIdx = $('#postIdx').val();
@@ -543,11 +573,12 @@ crossorigin="anonymous">
 						var recommRegDate = date.getFullYear() + ". " + date.getMonth() + ". " + date.getDate() + ". " + date.getHours() + ":" + date.getMinutes();
 						var htmls = "";
 						
-						htmls += '<div id="id-re' + list[i].recommIdx + '" class="recomments"' + list[i].recommIdx + '>';
+						htmls += '<div id="recomm' + list[i].recommIdx + '" class="recomments"' + list[i].recommIdx + '>';
 						htmls += '<img src="https://img.icons8.com/ios/50/000000/right3.png"/><div class="recomments-profile"><img src="<c:url value="/uploadfile/member/'+list[i].memPhoto+'"/>" ></div>';
 						htmls += '<div class="re-comments-info">';
 						htmls += '<a><img class="rank imgSelect" data-id="recomm' + list[i].recommIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + list[i].recommWriter;
-				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
+				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li>';
+				        htmls += '<li onclick="btn_viewInfo('+list[i].memIdx+', '+ list[i].recommIdx +', \'recomm\')">회원정보보기</li></ul></div></a>';
 				        htmls += '<span class="date"> ' + recommRegDate + '</span>';
 				        if(loginmemIdx == list[i].memIdx){
 				        	htmls += '<a href="javascript:void(0)" onclick="fn_editRecomment(' + list[i].recommIdx + ', \'' + list[i].recommWriter + '\', \'' + list[i].recommContent + '\')"> 수정</a>';
@@ -601,7 +632,7 @@ crossorigin="anonymous">
 			htmls += '<div class="recomments-text">';
 			htmls += '<br><textarea id="write-recomments" class="write-comments" cols="50" rows="4" style="width:100%; resize:none">' + recommContent + '</textarea></div></div>'
 			
-			$('#id-re' + recommIdx + '').append(htmls);
+			$('#re' + recommIdx + '').append(htmls);
 		}
 		// 대댓글 수정
 		function fn_updateRecomment(recommIdx, recommContent){

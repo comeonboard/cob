@@ -15,7 +15,8 @@ public class crawlingController {
 	@RequestMapping(value="craw/crawling_ajax", produces = "text/html; charset=UTF-8")
 	@ResponseBody
 	public String selectBlog(
-			@RequestParam("keyword")String keyword){
+			@RequestParam("keyword")String keyword
+			){
 		return service.searchBlog(keyword);
 	}
 }

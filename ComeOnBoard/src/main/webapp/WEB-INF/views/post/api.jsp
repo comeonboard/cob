@@ -29,14 +29,12 @@
 				var list = obj.items;
 				$('#blogCrawling').empty();
 				$.each(list, function(key, value){
-					
-					htmls += '<div><p onclick="goblog(\''+ value.link+'\')">'+value.title+'</p>';
+					htmls += '<div class="blog"><span onclick="goblog(\''+ value.bloggerlink+'\')">'+value.bloggername+'</span><span>'+value.postdate+'</span>';
+					htmls += '<p onclick="goblog(\''+ value.link+'\')">'+value.title+'</p>';
 					htmls += '<p>'+value.description+'</p>';
-					htmls += '<p>'+value.bloggername+'</p>';
-					htmls += '<p>'+value.bloggerlink+'</p>';
-					htmls += '<p>'+value.postdate+'</p><br></div>';
-					$('#blogCrawling').append(htmls);
+					htmls += '<br></div>';
 				})
+				$('#blogCrawling').append(htmls);
 			},
 			error : function(){
 				alert("오류발생");

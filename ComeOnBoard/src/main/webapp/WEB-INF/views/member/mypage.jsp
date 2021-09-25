@@ -1312,7 +1312,7 @@ function makeRedirect(){
                     <li>
                         <div class="mypage_menu">
                             <h2>내 글 관리</h2>
-                                <a id="my_post" href="#" class="area_select_menu"><div>내가 쓴 글</div></a>
+                                <a id="my_post" href="<c:url value='/post/searchList1?memIdx=${loginInfo.memIdx}'/>" class="area_select_menu"><div>내가 쓴 글</div></a>
                                 <a id="my_comment" href="#" class="area_select_menu"><div>내 댓글</div></a>
                         </div>
                     </li>
