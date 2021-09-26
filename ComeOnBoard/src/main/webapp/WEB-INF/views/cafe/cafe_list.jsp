@@ -35,7 +35,7 @@ $(document).ready(function(){
 			'searchType' : '${cafePaging.searchType}',
 			'sortType' : '${cafePaging.sortType}',
 			'keyword' : '${cafePaging.keyword}',
-			'page' : ${cafePaging.page}
+			'page' : ${cafePaging.page}+1
 		}
 		//console.log('스크롤 페이징 함수 : ' + cafePage.page);
 		
@@ -80,7 +80,7 @@ function getList(cafePage){
 					 	  //'<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
 					 	  '<img class="card-img-top" src="'+path+'" alt="Card image cap">'+'\n'+
 		                  '<div class="card-body">'+'\n'+
-	    	              '<h5 class="card-title">'+cafe.cafeName+'</h5>'+'\n'+
+	    	              '<h5 class="card-title">'+cafe.cafeName+'<br>★ '+parseFloat(Math.round(cafe.cafeRating * 100) / 100)+'</h5>'+'\n'+
 	        	          '<p class="card-text" style="text-align: right;">'+'\n'+
 	        	          '1시간 : '+cafe.stdFeeComma+'\n'+
 	                	  '<br>'+'\n'+
@@ -114,7 +114,7 @@ function getList(cafePage){
     <ul class="nav-button">
         <li><button type="button" id="btn_cafe_cafeidx_search" class="btn btn-outline-danger" value="cafeIdx" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeIdx"/>'">최신순</button></li>
         <li><button type="button" id="btn_cafe_rating_search" class="btn btn-outline-success" value="cafeRating" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeRating"/>'">평점순</button></li>
-        <li><button type="button" id="btn_cafe_address_search" class="btn btn-outline-info" value="cafeAddress" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=cafeAddress"/>'">지역순</button></li>
+        <li><button type="button" id="btn_cafe_stdFee_search" class="btn btn-outline-info" value="stdFee" onclick="location.href='<c:url value="/cafe/cafe_list?sortType=stdFee"/>'">가격순</button></li>
     </ul>            
         <form class="form-inline">
         	<button type="button" id="btn_cafe_reg" class="btn btn-primary mr-2" onclick="location.href='<c:url value="/cafe/cafe_regForm"/>'">카페 등록</button>
@@ -135,8 +135,8 @@ function getList(cafePage){
 			<div class="card hvr-underline-from-center fade-in" onclick="location.href='<c:url value="/cafe/cafe_page/${list.cafeIdx}"/>'">
 				<%-- <img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>${list.cafeIdx}/${list.cafeThumbnail}" alt="Card image cap"> --%>
 				<img class="card-img-top" src="<c:url value="/uploadfile/cafe/"/>1/thumbnail.png" alt="Card image cap">
-				<div class="card-body">
-					<h5 class="card-title">${list.cafeName}</h5>
+				<div class="card-body"">
+					<h5 class="card-title">${list.cafeName}<br>★ ${Math.round(list.cafeRating * 100) / 100}</h5>
 					<p class="card-text" style="text-align: right;">1시간 : ${list.stdFeeComma}<br>10분 초과시 : ${list.tenPerFeeComma}</p>
 				</div>
 				<div class="card-footer" style="text-align: center;">

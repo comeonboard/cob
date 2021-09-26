@@ -8,17 +8,23 @@ public class CafeReservation {
 
 	private int reservIdx;
 	private int cafeIdx;
+	private String cafeName;
 	private int memIdx;
-	private int stdFee;
 	private String memName;
 	private String reservDate;
 	private int reservTime;
 	private int reservTable;
+	private int reservFourTable;
+	private int reservgrpTable;
 	private int fixedTable;
 	private String requestTable;
 	private int  etc;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	// 결제 취소
+	private String stdFee;
+	private String tid;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Timestamp regDate;
 
 	public CafeReservation() {
@@ -48,11 +54,11 @@ public class CafeReservation {
 		this.memIdx = memIdx;
 	}
 
-	public int getStdFee() {
+	public String getStdFee() {
 		return stdFee;
 	}
 
-	public void setStdFee(int stdFee) {
+	public void setStdFee(String stdFee) {
 		this.stdFee = stdFee;
 	}
 
@@ -112,8 +118,7 @@ public class CafeReservation {
 		this.regDate = regDate;
 	}
 
-	
-	
+
 	public int getEtc() {
 		return etc;
 	}
@@ -121,13 +126,48 @@ public class CafeReservation {
 	public void setEtc(int etc) {
 		this.etc = etc;
 	}
+	
+	public String getTid() {
+		return tid;
+	}
+
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+	
+	public String getCafeName() {
+		return cafeName;
+	}
+
+	public void setCafeName(String cafeName) {
+		this.cafeName = cafeName;
+	}
+
+	public int getReservFourTable() {
+		return reservFourTable;
+	}
+
+	public void setReservFourTable(int reservFourTable) {
+		this.reservFourTable = reservFourTable;
+	}
+
+	public int getReservgrpTable() {
+		return reservgrpTable;
+	}
+
+	public void setReservgrpTable(int reservgrpTable) {
+		this.reservgrpTable = reservgrpTable;
+	}
 
 	@Override
 	public String toString() {
-		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", stdFee="
-				+ stdFee + ", memName=" + memName + ", reservDate=" + reservDate + ", reservTime=" + reservTime
-				+ ", reservTable=" + reservTable + ", fixedTable=" + fixedTable + ", requestTable=" + requestTable
-				+ ", etc=" + etc + ", regDate=" + regDate + "]";
+		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", cafeName=" + cafeName
+				+ ", memIdx=" + memIdx + ", memName=" + memName + ", reservDate=" + reservDate + ", reservTime="
+				+ reservTime + ", reservTable=" + reservTable + ", reservFourTable=" + reservFourTable
+				+ ", reservgrpTable=" + reservgrpTable + ", fixedTable=" + fixedTable + ", requestTable=" + requestTable
+				+ ", etc=" + etc + ", stdFee=" + stdFee + ", tid=" + tid + ", regDate=" + regDate + "]";
 	}
+
+	
 
 }

@@ -116,7 +116,7 @@ function reservation_button(table){
     month = month < 10 ? '0' + month.toString() : month.toString();
     let day = today.getDate();
     let hours = today.getHours();
-    let ymd = year+'/'+month+'/'+day;
+    let ymd = year+'-'+month+'-'+day;
 
     if(!date.trim().length){
 		alert('날짜를 선택해주세요.');
@@ -227,7 +227,7 @@ function reservation_list(table){
 				            } else {
 				            	html += '<td><span style="color: blue;">'+reserv.reservTable+'</span> / <span style="color: red;">'+reserv.fixedTable+'</span></td>'+'\n';
 				            }
-				    html += '<td><button class="btn '+color+' rotate-hor-center my-2 my-sm-0" onclick="del_reserv('+reserv.reservIdx+');">취소</button></td>'+'\n'+      
+				    html += '<td><button class="btn '+color+' rotate-hor-center my-2 my-sm-0" onclick="del_reserv('+reserv.reservIdx+','+reserv.stdFee+',\''+reserv.tid+'\');">취소</button></td>'+'\n'+      
 				            '</tr>';
 			    	}// else {
 			    	//	html += '<tr></tr><tr></tr><td colspan="6"><h3>'+date+' 예약이 없습니다.</h3></td>';
@@ -260,9 +260,9 @@ function reservation(time, table){
 		$('#date').focus();
 		return;
 	}
-	 
+	var person = 'four' == table ? 4 : 8;
 	// 전달값 : 카페번호, 날짜, 시간, 인원, 멤버넘버
-	if(confirm('예약정보 : '+date+' - '+time+':00\n예약하시겠습니까?')){
+	if(confirm('예약정보 : '+date+' - '+time+':00 - '+person+'인석\n예약하시겠습니까?\n※당일 취소는 불가하니 주의하세요.')){
 		
 		// 카카오페이 결제
 		$.ajax({
@@ -273,7 +273,8 @@ function reservation(time, table){
 				memIdx: loginmemidx,
 				reservDate: date,
 				reservTime: time,
-				requestTable: table
+				requestTable: table,
+				stdFee: ${cafeInfo.stdFee}
 			},
 			//dataType: 'json',
 			success: function(data){
@@ -284,7 +285,6 @@ function reservation(time, table){
 				var popupY= (window.screen.height / 2) - (popupHeight / 2);
 				var options = 'top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no';
 				window.open(data, '카카오페이 결제', options);
-				//set_reservation(date, time, table);
 			},
 			error: function(request,status,error){
 				console.log('reservation_pay_erorr');
@@ -297,7 +297,7 @@ function reservation(time, table){
 	}
  }	
 		
-	
+/* 결제시 등록으로 변경
 //예약값 DB 저장
 function set_reservation(date, time, table){
 	$.ajax({
@@ -323,17 +323,19 @@ function set_reservation(date, time, table){
 		}
 	})
 }
-
+ */
   
   
 // 예약 취소
-function del_reserv(idx){
+function del_reserv(idx, stdFee, tid){
 	if(confirm('취소하실 경우 복구할 수 없습니다.\n취소하시겠습니까?')){
 		$.ajax({
-			url: '<c:url value="/cafe/cafe_reserv"/>',
-			type: 'delete',
+			url: '<c:url value="/cafe/cafe_payCancel"/>',
+			type: 'post',
 			data: { 
-				reservIdx: idx
+				reservIdx: idx,
+				stdFee: stdFee,
+				tid: tid
 			},
 			success: function(result){
 				if(result = 1){

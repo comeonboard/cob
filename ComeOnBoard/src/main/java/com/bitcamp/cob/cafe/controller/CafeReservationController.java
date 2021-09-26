@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,19 +31,20 @@ public class CafeReservationController {
 		return resultList;
 	}
 	
-	// 예약
-	@RequestMapping(value = "/cafe/cafe_reserv", method = RequestMethod.POST)
-	@ResponseBody
-	public int regReserv(CafeReservation cafeReservation) {
-		// 전달값 - 카페번호, 날짜, 시간, 인원
-		//System.out.println("예약메소드 전달값 : "+ cafeReservation);
-		int result = 0;
-		result = cafeReservationService.regReserv(cafeReservation);
-		//System.out.println("예약메소드 반환값 : "+ result);
-		return result;
-	}
+	// 결제 컨트롤러로 이동
+//	// 예약
+//	@RequestMapping(value = "/cafe/cafe_reserv", method = RequestMethod.POST)
+//	@ResponseBody
+//	public int regReserv(CafeReservation cafeReservation) {
+//		// 전달값 - 카페번호, 날짜, 시간, 인원
+//		//System.out.println("예약메소드 전달값 : "+ cafeReservation);
+//		int result = 0;
+//		result = cafeReservationService.regReserv(cafeReservation);
+//		//System.out.println("예약메소드 반환값 : "+ result);
+//		return result;
+//	}
 	
-	// 예약 리스트
+	// 예약 리스트(카페)
 	@RequestMapping(value = "/cafe/cafe_reserv_list", method = RequestMethod.POST)
 	@ResponseBody
 	public List<CafeReservation> getReservList(CafeReservation cafeReservation) {
@@ -54,15 +56,28 @@ public class CafeReservationController {
 		return resultList;
 	}
 	
-	// 예약 취소
-	@RequestMapping(value = "/cafe/cafe_reserv", method = RequestMethod.DELETE)
-	@ResponseBody
-	public int delReserv(@RequestParam("reservIdx") int reservIdx) {
-		// 전달값 - 예약 번호
-		System.out.println("예약메소드 전달값 : "+ reservIdx);
-		int result = 0;
-		result = cafeReservationService.delReserv(reservIdx);
-		System.out.println("예약메소드 반환값 : "+ result);
-		return result;
+	// 예약 리스트 (회원)
+	@RequestMapping(value = "/cafe/cafe_reserv_myList", method = RequestMethod.GET)
+	public String getMyReservList(Model model) {
+		// 전달값 - 멤버idx
+		List<CafeReservation> resultList = null;
+		resultList = cafeReservationService.getMyReservList(10);
+		//System.out.println("예약메소드 반환값 : "+ resultList);
+		model.addAttribute("resultList", resultList);
+		return "cafe/cafe_reserv_myList";
 	}
+	
+	//	결제 컨트롤러 이동
+//	// 예약 취소
+//	@RequestMapping(value = "/cafe/cafe_reserv", method = RequestMethod.DELETE)
+//	@ResponseBody
+//	public int delReserv(@RequestParam("reservIdx") int reservIdx) {
+//		// 전달값 - 예약 번호
+//		System.out.println("예약메소드 전달값 : "+ reservIdx);
+//		int result = 0;
+//		result = cafeReservationService.delReserv(reservIdx);
+//		System.out.println("예약메소드 반환값 : "+ result);
+//		return result;
+//	}
+	
 }

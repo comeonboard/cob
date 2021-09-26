@@ -6,7 +6,7 @@
     monthsShort: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
     today: '오늘',
     clear: '초기화',
-    dateFormat: 'yyyy/mm/dd',
+    dateFormat: 'yyyy-mm-dd',
     timeFormat: 'hh:ii aa',
     firstDay: 0
 }; })(jQuery);

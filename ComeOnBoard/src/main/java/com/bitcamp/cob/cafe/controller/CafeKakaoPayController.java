@@ -26,14 +26,26 @@ public class CafeKakaoPayController {
 	}
 	
 	// 결제 승인
-	@RequestMapping(value = "/cafe/cafe_paySuccess/{idx}", method = RequestMethod.GET)
-	public String cafe_paySuccess(@PathVariable("idx") int idx, String pg_token, Model model) {
+	@RequestMapping(value = "/cafe/cafe_paySuccess", method = RequestMethod.GET)
+	public String cafe_paySuccess(int idx, String pg_token, Model model) {
 		System.out.println("cafe_paySuccess 전달값 : "+pg_token);
 		model.addAttribute("payResult", "success");
 		model.addAttribute("info", kakaopayService.payConfirm(pg_token, idx));
 		return "cafe/cafe_payResult";
 	}
 
+	// 취소
+	@RequestMapping(value = "/cafe/cafe_payCancel", method = RequestMethod.POST)
+	public String payCancel(CafeReservation cafeReservation, Model model) {
+		System.out.println("payCancel 전달값 : "+ cafeReservation);
+		int result = kakaopayService.payCancel(cafeReservation);
+		model.addAttribute("payResult", "fail");
+		if(result == 1) {
+			model.addAttribute("payResult", "cancel");
+		}
+		return "cafe/cafe_reserv_myList";
+	}
+	
 	// 실패
 	@RequestMapping(value = "/cafe/cafe_payFail")
 	public String payFail(Model model) {
@@ -41,11 +53,6 @@ public class CafeKakaoPayController {
 		return "cafe/cafe_payResult";
 	}
 	
-	// 취소
-	@RequestMapping(value = "/cafe/cafe_payCancel")
-	public String payCancel(Model model) {
-		model.addAttribute("payResult", "cancel");
-		return "cafe/cafe_payResult";
-	}
+
 
 }

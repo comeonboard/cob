@@ -55,11 +55,13 @@ public interface CafeDao {
 	// 카페 가결제 예약
 	int regReserv(CafeReservation cafeReservation);
 	// 카페 가결제 승인
-	int confirmReserv(int idx, String tid);
+	int confirmReserv(@Param("reservIdx") int idx, @Param("tid") String tid);
 	// 카페 예약 확인 리스트
 	List<CafeReservation> getReservList(CafeReservation cafeReservation);
 	// 예약 취소
 	int delReserv(int reservIdx);
+	// 내 예약정보
+	List<CafeReservation> getMyReservList(int memIdx);
 	
 	
 
