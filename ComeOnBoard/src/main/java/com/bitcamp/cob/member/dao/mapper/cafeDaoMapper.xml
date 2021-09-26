@@ -250,7 +250,7 @@
 <!-- 본인 예약 정보 -->
 <select id="getMyReservList"
 		resultType="com.bitcamp.cob.cafe.domain.CafeReservation">
-	select (select cafeName from boardgamecafe bgc where bgc.cafeIdx = cr.cafeIdx) as cafeName, cr.reservDate, cr.reservTime, cr.reservFourTable, cr.reservGrpTable, cr.stdFee, cr.regDate 
+	select (select cafeName from boardgamecafe bgc where bgc.cafeIdx = cr.cafeIdx) as cafeName, cr.tid, cr.reservIdx, cr.reservDate, cr.reservTime, cr.reservFourTable, cr.reservGrpTable, cr.stdFee, cr.regDate 
 	from cafereservation cr 
 	where confirm = 1 and reservDate >= (select curdate()) and memIdx = #{memIdx}
 	order by cr.regDate

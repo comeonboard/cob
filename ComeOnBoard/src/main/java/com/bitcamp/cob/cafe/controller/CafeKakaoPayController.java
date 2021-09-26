@@ -36,14 +36,11 @@ public class CafeKakaoPayController {
 
 	// 취소
 	@RequestMapping(value = "/cafe/cafe_payCancel", method = RequestMethod.POST)
-	public String payCancel(CafeReservation cafeReservation, Model model) {
+	@ResponseBody
+	public int payCancel(CafeReservation cafeReservation, Model model) {
 		System.out.println("payCancel 전달값 : "+ cafeReservation);
 		int result = kakaopayService.payCancel(cafeReservation);
-		model.addAttribute("payResult", "fail");
-		if(result == 1) {
-			model.addAttribute("payResult", "cancel");
-		}
-		return "cafe/cafe_reserv_myList";
+		return result;
 	}
 	
 	// 실패

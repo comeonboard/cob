@@ -18,59 +18,116 @@
 </head>
 <script>
 
-function pay_cancel(){
+$(document).ready(function(){
+	
+	my_reserv();
+	
+});
 
+//예약 리스트 생성
+function my_reserv(){
+	
+	var today = new Date();
+
+	var year = today.getFullYear();
+	var month = ('0' + (today.getMonth() + 1)).slice(-2);
+	var day = ('0' + today.getDate()).slice(-2);
+	var dateString = year + '-' + month  + '-' + day;
+
+	$.ajax({
+		url: '<c:url value="/cafe/cafe_reserv_myList"/>',
+		type: 'post',
+		dataType: 'json',
+		success: function(data){
+			var asd =  data;
+			var html = '';
+			if(asd.length){
+				html += '<div class="display_none" style="width:800px; text-align: center; line-height: 62px">';
+				html += '<table class="table">';
+				html += '<tr>';
+				html += '<th>No</th>';
+				html += '<th>결제시간</th>';
+				html += '<th>카페이름</th>';
+				html += '<th>예약날짜</th>';
+				html += '<th>예약시간</th>';
+				html += '<th>테이블</th>';
+				html += '<th>가격</th>';
+				html += '<th>예약취소</th>';
+				html += '</tr>';
+					$.each(asd, function(idx, list) {
+						html += '<tr>';
+						html += '<td>'+(idx+1)+'</td>';
+						html += '<td>'+list.regDate+'</td>';
+						html += '<td>'+list.cafeName+'</td>';
+						html += '<td>'+list.reservDate+'</td>';
+						html += '<td>'+list.reservTime+'시</td>';
+						if(list.reservFourTable == 1){
+							html += '<td>4인석</td>';
+						}
+						if(list.reservgrpTable == 1){
+							html += '<td>8인석</td>';
+						}
+						html += '<td>'+list.stdFee+'원</td>';
+						html += '<td>';
+						//if(list.reservDate > dateString){
+							html += '<button class="btn btn-outline-danger" onclick="pay_cancel('+list.reservIdx+', \''+list.stdFee+'\', \''+list.tid+'\')">예약취소</button>';
+						//}
+						html += '</td>';
+						html += '</tr>';
+					})
+					html += '</table>';
+					html += '</div>';
+			}
+			if(!data.length){
+				html += '<h2>예약이 없습니다.<h2>';
+			}
+			$('#area_my_reservation').empty();
+			$('#area_my_reservation').append(html);
+		},
+		error: function(request,status,error){
+			console.log('실패');
+		},
+		complete : function(){	
+		}
+	})
+}
+
+function pay_cancel(reservIdx, stdFee, tid){
+	console.log(reservIdx);
+	console.log(stdFee);
+	console.log(tid);
+	if(confirm('예약을 취소하실 경우 복구할 수 없습니다.\n취소하시겠습니까?')){
+		$.ajax({
+			url: '<c:url value="/cafe/cafe_payCancel"/>',
+			type: 'post',
+			data: { 
+				reservIdx: reservIdx,
+				stdFee: stdFee,
+				tid: tid
+			},
+			success: function(result){
+				if(result = 1){
+					my_reserv();
+					alert('예약이 취소되었습니다.');
+				} else {
+					my_reserv();
+					alert('오류가 발생하여 실패했습니다.\n잠시 후 다시 시도해주세요.');
+				}
+			},
+			error: function(request,status,error){
+				console.log(request);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	} else {
+		alert('취소되었습니다.');
+	}
 }
 
 </script>
 <body>
-<div id="area_my_reservation" class="display_none" style="width:800px; text-align: center; line-height: 62px">
-	<table class="table">
-		<tr>
-			<th>No</th>
-			<th>결제시간</th>
-			<th>카페이름</th>
-			<th>예약날짜</th>
-			<th>예약시간</th>
-			<th>테이블</th>
-			<th>가격</th>
-			<th>취소</th>
-		</tr>
-		<c:if test="${!empty resultList}">
-	    	<c:forEach items="${resultList}" var="list" varStatus="cnt">	
-		    	<tr>
-					<th>${cnt.index+1}</th>
-					<th>${list.regDate}</th>
-					<th>${list.cafeName}</th>
-					<th>${list.reservDate}</th>
-					<th>${list.reservTime}시</th>
-					<c:if test="${list.reservFourTable == 1}">
-	    				<th>4인석</th>
-	    			</c:if>
-	    			<c:if test="${list.reservgrpTable == 1}">
-	    				<th>8인석</th>
-	    			</c:if>
-					<th>${list.stdFee}원</th>
-					<th>
-					<c:set var="now" value="<%=new java.util.Date()%>" />
-					<c:set var="nowDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd" /></c:set> 
-					<c:if test="${list.reservDate > nowDate}">
-					<button type="button" class="btn btn-outline-danger">취소</button>
-					</c:if>
-					</th>
-				</tr>
-				<form>
-					<input type="hidden" name="" value="${list.reservIdx}">
-					<input type="hidden" name="" value="${list.stdFee}">
-					<input type="hidden" name="" value="${list.tid}">
-				</form>
-	    	</c:forEach>
-	    </c:if>
-	    <c:if test="${empty resultList}">
-	    	<h4>예약이 없습니다.</h4>
-	    </c:if>
-    </table>
-</div>
+<div id="area_my_reservation"></div>
 </body>
 
 </html>

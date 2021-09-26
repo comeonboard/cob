@@ -58,13 +58,20 @@ public class CafeReservationController {
 	
 	// 예약 리스트 (회원)
 	@RequestMapping(value = "/cafe/cafe_reserv_myList", method = RequestMethod.GET)
-	public String getMyReservList(Model model) {
+	public String getMyReserv() {
+		return "cafe/cafe_reserv_myList";
+	}
+	
+	// 예약 리스트 (회원)
+	@RequestMapping(value = "/cafe/cafe_reserv_myList", method = RequestMethod.POST)
+	@ResponseBody
+	public List<CafeReservation> getMyReservList(Model model) {
 		// 전달값 - 멤버idx
 		List<CafeReservation> resultList = null;
 		resultList = cafeReservationService.getMyReservList(10);
 		//System.out.println("예약메소드 반환값 : "+ resultList);
-		model.addAttribute("resultList", resultList);
-		return "cafe/cafe_reserv_myList";
+		//model.addAttribute("resultList", resultList);
+		return resultList;
 	}
 	
 	//	결제 컨트롤러 이동
