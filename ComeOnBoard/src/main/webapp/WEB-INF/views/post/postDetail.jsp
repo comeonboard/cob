@@ -30,6 +30,39 @@ crossorigin="anonymous">
 </script>
 <!-- kakao -->
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<style>
+	#userInfo{
+		text-align: center;
+	}
+	#userTable{
+		border-collapse:inherit;
+		border-top: none;
+	}
+	.col2{
+		border-bottom:none;
+	}
+	.col2:hover{
+		background: rgb(245, 246, 247);
+	}
+	.btn_close{
+		margin-top:-10px !important;
+		width: 90px;
+	    height: 40px;
+	    border: none;
+	    background-color: rgb(66, 133, 244);
+	    border-radius: 10%;
+	    color: white;
+    }
+    .col1{
+        color: rgb(66, 133, 244);
+	    width: 100px;
+	    height: 30px;
+	    line-height: 30px;
+	    background-color: white;
+	    border-radius: 10px;
+	    border: rgb(66, 133, 244) 1px solid;
+    }
+</style>
 <script >
     $(document).ready(function(){
 		commentCount();
@@ -218,7 +251,9 @@ crossorigin="anonymous">
                             <div class="nick-box post${postDetail[1].postIdx} display-none">
                                 <ul>
                                     <li><a href="<c:url value='/post/searchList1?memIdx=${postDetail[1].memIdx}'/>">작성글보기</a></li>
-                                    <li onclick="btn_viewInfo(${postDetail[1].memIdx},${postDetail[1].postIdx},'post')">회원정보보기</li>
+                                    <c:if test="${!empty loginInfo}">
+                                    	<li onclick="btn_viewInfo(${postDetail[1].memIdx},${postDetail[1].postIdx},'post')">회원정보보기</li>
+                                    </c:if>
                                 </ul>
                             </div>
                             <div class="contents-header-info">
@@ -361,7 +396,7 @@ crossorigin="anonymous">
 							htmls += '<div class="comments-info">';
 							htmls += '<img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
 					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li>';
-					        htmls += '<li onclick="btn_viewInfo('+value.memIdx+', '+ value.commIdx +', \'comm\')">회원정보보기</li></ul></div>';
+					        htmls += '<c:if test="${!empty loginInfo}"><li onclick="btn_viewInfo('+value.memIdx+', '+ value.commIdx +', \'comm\')">회원정보보기</li></c:if></ul></div>';
 					        htmls += '<span class="date"> ' + value.commRegDate + ' </span>';
 					        if(loginmemIdx != null){
 					        	htmls += '<a class="add-recomments" data-recomments="comments2" onclick="btn_Recomment('+value.commIdx+')">답글쓰기</a>';
@@ -403,14 +438,17 @@ crossorigin="anonymous">
 					success : function(data){
 						var htmls = '';
 						if (data != null) {
-							htmls += '<div id="userInfo" style="position:absolute; left:50;"><p>'+data.nickName+'</p>';
-							htmls += '<p>'+data.memGender+'</p>';
-							htmls += '<p>'+data.memBirth+'</p>';
-							htmls += '<p>'+data.preferAddr+'</p>';
+							htmls += '<div id="userInfo" style="background-color: rgb(245, 246, 247); font-size:16px; border-radius:30px; border:1px solid #aaa; padding:10px; position:absolute; left:180;">';
+							htmls += '<h4 style="text-align:center; margin-bottom:10px;">회원정보보기</h4>';
+							htmls += '<table id="userTable"><tbody><tr><td class="col1">닉네임</td><td id="user_nickName" class="col2">'+data.nickName+'</td><tr>';
+							htmls += '<tr><td class="col1">생   일</td><td id="user_memBirth" class="col2">'+data.memBirth+'</td><tr>';
+							htmls += '<tr><td class="col1">성   별</td><td id="user_memGender" class="col2">'+data.memGender+'</td><tr>';
 							var preferGameList = data['preferGame'];
 							for(var i=0; i < preferGameList.length; i++){
-								htmls += '<p>'+preferGameList[i].gameName+'</p>';
+								htmls += '<tr><td class="col1">선호게임</td><td id="user_gameName" class="col2">'+preferGameList[i].gameName+'</td><tr>';
 								}
+							htmls += '<tr><td class="col1">선호지역</td><td id="user_preferAddr" class="col2">'+data.preferAddr+'</td><tr></tbody></table>';
+							htmls += '<button class="btn_close" style="text-align:center; margin-top:10px;" onclick="btn_infoClose()">창닫기</button>';
 							htmls += '<div>';
 							}
 						if($('#userInfo').length){
@@ -430,6 +468,9 @@ crossorigin="anonymous">
 					}
 				});
 			}
+		function btn_infoClose(){
+			$('#userInfo').addClass('display-none');
+		}
 		// 베스트 댓글 조회
 		function showBestComm(){
 			var postIdx = $('#postIdx').val();
@@ -577,7 +618,7 @@ crossorigin="anonymous">
 						htmls += '<div class="re-comments-info">';
 						htmls += '<a><img class="rank imgSelect" data-id="recomm' + list[i].recommIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + list[i].recommWriter;
 				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li>';
-				        htmls += '<li onclick="btn_viewInfo('+list[i].memIdx+', '+ list[i].recommIdx +', \'recomm\')">회원정보보기</li></ul></div></a>';
+				        htmls += '<c:if test="${!empty loginInfo}"><li onclick="btn_viewInfo('+list[i].memIdx+', '+ list[i].recommIdx +', \'recomm\')">회원정보보기</li></c:if></ul></div></a>';
 				        htmls += '<span class="date"> ' + recommRegDate + '</span>';
 				        if(loginmemIdx == list[i].memIdx){
 				        	htmls += '<a href="javascript:void(0)" onclick="fn_editRecomment(' + list[i].recommIdx + ', \'' + list[i].recommWriter + '\', \'' + list[i].recommContent + '\')"> 수정</a>';
