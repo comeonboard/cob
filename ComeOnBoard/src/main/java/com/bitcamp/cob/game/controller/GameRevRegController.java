@@ -28,7 +28,7 @@ public class GameRevRegController {
 		List<GameReview> gameRevSelect = null;
 		
 		gameRevSelect = reviewService.gameRevSelect(gameIdx);
-		System.out.println("게임리뷰페이지 ::::" + gameRevSelect);
+		//System.out.println("게임리뷰페이지 ::::" + gameRevSelect);
 		return gameRevSelect;
 	}
 		
@@ -39,13 +39,13 @@ public class GameRevRegController {
 			GameReview gameRev,
 			@PathVariable("idx") int idx
 			) {
-		System.out.println("게임 리뷰 등록 " + gameRev);
+		//System.out.println("게임 리뷰 등록 " + gameRev);
 		
 		//gameRev.setGameIdx(idx);
 		
 		int result = reviewService.gameRevReg(gameRev);
 		
-		System.out.println("게임 리뷰 등록22 " + result);
+		//System.out.println("게임 리뷰 등록22 " + result);
 		
 		//String view = "game/gamePage2";
 		//String view = "redirect:gamePage2.do";

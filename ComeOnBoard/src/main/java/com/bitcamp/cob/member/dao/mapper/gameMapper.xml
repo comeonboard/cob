@@ -95,7 +95,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="revRating" property="revRating" />
 		<result column="nickname" property="nickname" />
 	</resultMap>
-
+	<!-- 오더 페이지 -->
+	<resultMap type="com.bitcamp.cob.game.domain.OrderList" 
+		id="orderListResult">
+		<id column="memIdx" property="memIdx"/>
+		<result column="gameName" property="gameName"/>
+		<result column="gamePrice" property="gamePrice"/>
+		<result column="shipAddress" property="shipAddress"/>
+		<result column="memName" property="memName"/>
+		<result column="gameIdx" property="gameIdx"/>			
+				
+	</resultMap>
+	
+	
 	<!-- 총 게시글 수 -->
 	<select id="countGameList" resultType="Integer"
 		parameterType="com.bitcamp.cob.game.domain.SearchType">
@@ -436,5 +448,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		values(#{memIdx},#{gameIdx},#{memName},#{gamePrice},#{shipAddress},#{phoneNum},#{merchant})	
 			
 	</insert>
+	
+	<select id="selectOrderList"
+			resultMap="orderListResult"
+	>
+	select gl.gameName, gl.gamePrice, gl.gamePhoto, ol.memName , ol.memIdx,ol.shipAddress,ol.gameIdx
+	from project.orderList ol, project.gamelist gl
+	where ol.memIdx = #{memIdx} and gl.gameIdx=ol.gameIdx;	
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 </mapper>

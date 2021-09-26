@@ -173,7 +173,7 @@
         margin: 0px auto;
 
     }
-    .btn_order_pay>input{
+    .btn_order_pay>button{
         
         background-color: #f7f7f7 ;
         width:100px !important ; 
@@ -185,7 +185,7 @@
         box-shadow: 1px 1px 3px 1px #dadce0;
     }
 
-    .btn_order_pay>input:hover{ 
+    .btn_order_pay>button:hover{ 
         background-color: rgb(251, 188, 006); 
         cursor: pointer;
     }
@@ -422,7 +422,7 @@
 				data :$("#order_form").serialize(),
 				
 				success: function(returnData){   
-						alert("성공")
+						alert("결제가 완료되었습니다.")
 						
 					},
 					error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
