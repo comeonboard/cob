@@ -17,14 +17,18 @@
 <head>
 <meta charset="UTF-8">
 <title>Come on, Board : 상세 게시글</title>
+<!-- metaheader -->
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
+<!-- css -->
 <link rel="stylesheet" href="/cob/css/postDetail.css">
 <link rel="stylesheet" href="/cob/css/postList.css">
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-1.12.4.js" 
 integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" 
 crossorigin="anonymous">
 </script>
+<!-- kakao -->
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 <script >
     $(document).ready(function(){
@@ -32,11 +36,6 @@ crossorigin="anonymous">
 		showBestComm();
 		let page = 1;
     	showCommList(1);
-    	
-/*     	$('#naverSearch').click(function(){
-    		var searchkeyword = $('#searchkeyword').val();
-    		naverSearch(searchkeyword);
-    	}) */
     	
     	shareKakao();	// 카카오 초기 호출
     	bringPostList();
@@ -632,7 +631,7 @@ crossorigin="anonymous">
 			htmls += '<div class="recomments-text">';
 			htmls += '<br><textarea id="write-recomments" class="write-comments" cols="50" rows="4" style="width:100%; resize:none">' + recommContent + '</textarea></div></div>'
 			
-			$('#re' + recommIdx + '').append(htmls);
+			$('#recomm' + recommIdx + '').append(htmls);
 		}
 		// 대댓글 수정
 		function fn_updateRecomment(recommIdx, recommContent){

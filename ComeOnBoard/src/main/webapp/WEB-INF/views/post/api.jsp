@@ -10,13 +10,25 @@
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
 <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<!-- 부트스트랩 css 사용 --> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!--  부트스트랩 js 사용 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<style>
+	a{
+		color: black;
+	}
+	a:hover{
+		color: black;
+		text-decoration: none;
+	}
+	h4:hover, .blogger:hover{
+		color: black;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+</style>
 <script>
-	/* $(document).ready(function(){
-		$("button[name='btn_naverSearch']").on('click', function(){
-			var a = $(this).text();
-			alert(a);
-		})
-	}) */
 	function naverSearch(searchkeyword, start){
 	    $.ajax({
 			url : '<c:url value="/craw/crawling_ajax"/>',    			
@@ -44,34 +56,35 @@
 				
 				$('#blogCrawling').empty();
 				$.each(list, function(key, value){
-					htmls += '<div class="blog"><span onclick="goblog(\''+ value.bloggerlink+'\')">'+value.bloggername+'</span><span>'+value.postdate+'</span>';
-					htmls += '<p onclick="goblog(\''+ value.link+'\')">'+value.title+'</p>';
-					htmls += '<p>'+value.description+'</p>';
-					htmls += '<br></div>';
+					htmls += '<div class="blog" style="margin-bottom:7px; border:1px solid #AAA; border-radius: 30px; padding:15px 15px 0px 15px;">';
+					htmls += '<span class="blogger" style="margin-right:10px;" onclick="goblog(\''+ value.bloggerlink+'\')">Write by - '+value.bloggername+'</span>';
+					htmls += '<span class="mb-1 text-muted">Post Date_'+value.postdate+'</span>';
+					htmls += '<h4 class="mb-0" onclick="goblog(\''+ value.link+'\')">'+value.title+'</h4>';
+					htmls += '<p class="card-text mb-auto">'+value.description+'</p>';
+					htmls += '</div>';
 				})
 				$('#blogCrawling').append(htmls);
-				
 				if(start > 1){
-					pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \'1\')" return false;" class="page-btn"> &lt;&lt; </a>';
+					pagehtmls += '<li class="page-item"><a class="page-link" aria-label="PPrevious" href="#" onclick="naverSearch(\''+searchkeyword+'\', \'1\')"><span aria-hidden="true">&lt;&lt;</span></a></li>';
 					if(startpage>2){
-						pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(startpage-1)+'\')" return false;" class="page-btn"> &lt; </a>';
+						pagehtmls += '<li class="page-item"><a class="page-link" aria-label="Previous" href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(startpage-1)+'\')"><span aria-hidden="true">&lt;</span></a></li>';
 					}
 				}
 				for (var num=startpage; num<=lastpage; num++) {
 	                 if (num == start) {
-	                	 pagehtmls += '<b>' + num + ' </b>';
+	                	 pagehtmls += '<li class="page-item active"><span class="page-link">' + num + ' </span></li>';
 	                 } else {
-	                	 pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+num+'\')" return false;" class="page-btn">' + num + ' </a>';
+	                	 pagehtmls += '<li class="page-item"><a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+num+'\')" >' + num + ' </a></li>';
 	                 }
 	              }
 				if(start < 100){
 					if(lastpage>=10){
-						pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(lastpage+1)+'\')" return false;" class="page-btn"> &gt; </a>';
+						pagehtmls += '<li class="page-item"><a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(lastpage+1)+'\')" aria-label="Next"><span aria-hidden="true">&gt;</span></a></li>';
 					}
-					pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+maxpage+'\')" return false;" class="page-btn"> &gt;&gt; </a>';
+					pagehtmls += '<li class="page-item"><a class="page-link" href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+maxpage+'\')" aria-label="NNext"><span aria-hidden="true">&gt;&gt;</span></a></li>';
 				}
 				console.log(Math.round((start-1)/10));
-				$('#paging').html(pagehtmls);
+				$('.pagination').html(pagehtmls);
 			},
 			error : function(){
 				alert("오류발생");
@@ -131,7 +144,7 @@
 	            <div>
 	                <form onsubmit="searchPlaces(); return false;">
 	                    키워드 : <input type="text" value="서울 보드게임" id="keyword" size="15"> 
-	                    <button type="submit">검색하기</button> 
+	                    <button type="submit">Search</button> 
 	                </form>
 	            </div>
 	        </div>
@@ -358,10 +371,10 @@ function removeAllChildNods(el) {
     }
 }
 </script>
-	<div id="blogCrawling">
+	<div id="blogCrawling" style="margin-top:10px;">
 	
 	</div>
-	<div id="paging">
-	</div>
+	<ul class="pagination justify-content-center">
+	</ul>
 </body>
 </html>
