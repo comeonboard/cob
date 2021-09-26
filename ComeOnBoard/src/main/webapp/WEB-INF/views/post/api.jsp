@@ -31,8 +31,11 @@
 				const obj = JSON.parse(data);
 				var total = obj.total;
 				console.log(total); // 총 갯수
-				var maxpage = (total + 10 - 1) / 10; // 총 페이지
-				var startpage = ((start-1)/10)*10+1; // 시작 페이지
+				var maxpage = Math.floor((total + 10 - 1) / 10); // 총 페이지
+				if(maxpage > 100 ){
+					maxpage = 100;
+				}
+				var startpage = (Math.floor((start-1)/10))*10+1; // 시작 페이지
 				var lastpage = startpage + 10 - 1; // 마지막 페이지
 				if( lastpage > maxpage){
 					lastpage = maxpage;
@@ -47,6 +50,13 @@
 					htmls += '<br></div>';
 				})
 				$('#blogCrawling').append(htmls);
+				
+				if(start > 1){
+					pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \'1\')" return false;" class="page-btn"> &lt;&lt; </a>';
+					if(startpage>2){
+						pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(startpage-1)+'\')" return false;" class="page-btn"> &lt; </a>';
+					}
+				}
 				for (var num=startpage; num<=lastpage; num++) {
 	                 if (num == start) {
 	                	 pagehtmls += '<b>' + num + ' </b>';
@@ -54,6 +64,13 @@
 	                	 pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+num+'\')" return false;" class="page-btn">' + num + ' </a>';
 	                 }
 	              }
+				if(start < 100){
+					if(lastpage>=10){
+						pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(lastpage+1)+'\')" return false;" class="page-btn"> &gt; </a>';
+					}
+					pagehtmls += '<a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+maxpage+'\')" return false;" class="page-btn"> &gt;&gt; </a>';
+				}
+				console.log(Math.round((start-1)/10));
 				$('#paging').html(pagehtmls);
 			},
 			error : function(){
@@ -345,14 +362,6 @@ function removeAllChildNods(el) {
 	
 	</div>
 	<div id="paging">
-		<b>1</b>
-		<b>2</b>
-		<b>3</b>
-		<b>4</b>
-		<b>5</b>
-		<b>6</b>
-		<b>${ keyword }</b>
-		<button class="btn_naverSearch">tt</button>
 	</div>
 </body>
 </html>

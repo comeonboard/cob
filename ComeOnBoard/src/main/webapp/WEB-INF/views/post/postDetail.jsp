@@ -404,7 +404,7 @@ crossorigin="anonymous">
 					success : function(data){
 						var htmls = '';
 						if (data != null) {
-							htmls += '<div id="userInfo" style="position:absolute;"><p>'+data.nickName+'</p>';
+							htmls += '<div id="userInfo" style="position:absolute; left:50;"><p>'+data.nickName+'</p>';
 							htmls += '<p>'+data.memGender+'</p>';
 							htmls += '<p>'+data.memBirth+'</p>';
 							htmls += '<p>'+data.preferAddr+'</p>';
