@@ -42,7 +42,6 @@
 				var pagehtmls = '';
 				const obj = JSON.parse(data);
 				var total = obj.total;
-				console.log(total); // 총 갯수
 				var maxpage = Math.floor((total + 10 - 1) / 10); // 총 페이지
 				if(maxpage > 100 ){
 					maxpage = 100;
@@ -83,7 +82,6 @@
 					}
 					pagehtmls += '<li class="page-item"><a class="page-link" href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+maxpage+'\')" aria-label="NNext"><span aria-hidden="true">&gt;&gt;</span></a></li>';
 				}
-				console.log(Math.round((start-1)/10));
 				$('.pagination').html(pagehtmls);
 			},
 			error : function(){

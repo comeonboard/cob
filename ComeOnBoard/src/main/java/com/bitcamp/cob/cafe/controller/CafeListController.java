@@ -70,7 +70,6 @@ public class CafeListController {
 		cafePaging.setCafe(list);
 		cafePaging.setTotalCnt(cafeListService.getCafeTotalCnt());
 		
-		model.addAttribute("cafePaging", cafePaging);
 		return cafePaging;
 	}
 	

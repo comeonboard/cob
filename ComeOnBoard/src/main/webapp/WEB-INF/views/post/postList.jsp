@@ -149,7 +149,7 @@ crossorigin="anonymous">
                 <div class="search_wrap">
                     <div class="search_bar">
                         <input id="keyword" name="keyword" type="text" placeholder="검색어 입력">
-                        <button onclick="btn_search()" class="search_btn">검색</button>
+                        <button onclick="btn_search()" class="search_btn"><img style="width:20px; height:20px;" id="search_img" src="/cob/images/search.png"></button>
                     </div>
                     <div class="search_categori">
                         <span>	
