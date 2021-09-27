@@ -119,7 +119,7 @@ crossorigin="anonymous">
             content : {
                 title : "${postDetail[1].postTitle}",        
                 description : "COB 게시글 공유하기!",
-                imageUrl : "https://img.icons8.com/wired/64/000000/kakaotalk.png",
+                imageUrl : "https://img.icons8.com/dotty/160/000000/dice.png",
                 link : {
                     mobileWebUrl : "포스트 링크 (모바일)",
                     webUrl : "http://localhost:8080/cob/post/postDetail?postIdx=${postDetail[1].postIdx}"

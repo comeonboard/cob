@@ -78,7 +78,7 @@ $(document).ready(function() {
 								<option value="질문">질문</option>
 								<option value="후기">후기</option>
 								<option value="게임TIP">게임TIP</option>
-								<option value="지역">지역</option>
+								<option value="자료">자료</option>
 								<option value="기타">기타</option>
 								<option value="공지">공지</option>
 							</select>

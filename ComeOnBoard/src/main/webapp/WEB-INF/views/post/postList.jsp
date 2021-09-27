@@ -65,7 +65,7 @@ crossorigin="anonymous">
                             <li><a href="<c:url value='/post/searchList?postSort=질문&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#007fff" >질문</a></li>
                             <li><a href="<c:url value='/post/searchList?postSort=후기&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#00bf5f" >후기</a></li>
                             <li><a href="<c:url value='/post/searchList?postSort=게임TIP&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#4f007c" >게임TIP</a></li>
-                            <li><a href="<c:url value='/post/searchList?postSort=지역&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ffaaaa" >지역</a></li>	
+                            <li><a href="<c:url value='/post/searchList?postSort=자료&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ffaaaa" >자료</a></li>	
                             <li><a href="<c:url value='/post/searchList?postSort=기타&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#000000" >기타</a></li>
                             <li><a href="<c:url value='/post/searchList?postSort=공지&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ff0000" >공지</a></li>
                             <li onclick="viewBlog()" style="color:#4fda00; cursor:pointer;">블로그 리뷰</li>

@@ -409,7 +409,7 @@
     /* control-bar start */
     .control-bar{ 
         position: fixed; 
-        bottom: 18%; right: 32%;
+        bottom: 18%; right: 30%;
         border: 1px solid #AAA; 
         border-radius: 5px;
         text-align: center;  
