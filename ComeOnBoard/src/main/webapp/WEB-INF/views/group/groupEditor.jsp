@@ -42,23 +42,53 @@
 	function alert_edit() {
 		alert("수정되었습니다.");
 	}
+	
 	// 매개변수 != 값
 	// 매개변수는 내가 임의로 정해주는 말 그대로 (변하는 수)
 	// 함수 외부에서는 '값'을 전달해주는게 맞음
 	function sendAjax(midx, gidx) {
-		
 		$.ajax({
 			url: '<c:url value="/group/groupEditorAjax"/>',
-			type:'post',
-			data: { memIdx : midx, grpIdx : gidx },
+			type:'get',
+			data: { memIdx : midx, 
+					grpIdx : gidx },
 			success: function(data) {
-				alert('ajax 전송 성공');
+				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
 			},
 			error: function(data) {
-				alert('ajax 실패 '+data);
+				alert('데이터 전송이 실패 하였습니다');
 			}
 		}) 
-		
+	}
+	function sendAjaxToDelete(idx1, idx2) {
+		$.ajax({
+			url: '<c:url value="/group/groupEditorAjaxDelete"/>',
+			type:'get',
+			data: { memIdx : idx1, 
+					grpIdx : idx2 },
+			success: function(data) {
+				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
+			},
+			error: function(data) {
+				alert('데이터 전송이 실패 하였습니다');
+			}
+		}) 
+	}
+	function sendAjaxToDelete2(a, b) {
+		$.ajax({
+			url:'<c:url value="/group/groupEditorAjaxDelete2"/>',
+			type:'get',
+			data: {
+				memIdx : a,
+				grpIdx : b
+			},
+			success:function(data) {
+				window.location.href = '<c:url value="groupEditorMyGroup?grpIdx=${groupEditorReadMyGroupResult.grpIdx}"/>';
+			},
+			error: function(data) {
+				alert('데이터 전송이 실패하였습니다.');
+			}
+		})
 	}
 	
 	
@@ -72,10 +102,12 @@
 <body>
 	<div id="wrap">
 		<div class="main_div">
-			<form action="/cob/group/updateGroupOnlyTitleAndContent" method="post">
+			<form action="/cob/group/updateGroupOnlyTitleAndContent"
+				method="post">
 				<div id="div1" class="div">
-				<input type="hidden" name="grpIdx" value="${groupEditorReadMyGroupResult.grpIdx}">
-				<input type="hidden" name="memIdx" value="${loginInfo.memIdx}">
+					<input type="hidden" name="grpIdx"
+						value="${groupEditorReadMyGroupResult.grpIdx}"> <input
+						type="hidden" name="memIdx" value="${loginInfo.memIdx}">
 					<!-- 제목 -->
 					<div class="form-group">
 						<label for="formGroupExampleInput">제목</label> <input type="text"
@@ -85,8 +117,8 @@
 					<!-- 내용 -->
 					<div class="form-group">
 						<label for="exampleFormControlTextarea1">내용</label>
-						<textarea class="form-control" id="exampleFormControlTextarea1" name="grpContent"
-							rows="3">${groupEditorReadMyGroupResult.grpContent}</textarea>
+						<textarea class="form-control" id="exampleFormControlTextarea1"
+							name="grpContent" rows="3"><c:out value="${groupEditorReadMyGroupResult.grpContent}"/></textarea>
 					</div>
 					<!-- 파일선택 -->
 					<!-- <div class="form-group">
@@ -100,42 +132,49 @@
 			</form>
 
 			<!-- <form> -->
-				<div id="div2" class="div" style="overflow:scroll">
-					<h4>모임 참가 희망자</h4>
-					<hr>
-					<!-- 참가 희망자 리스트 -->
-					<%-- <c:forEach items="groupEditorReadResult" var="list"> --%>
-					<c:forEach items="${editorNicknameMemidxGrpIdx}" var="list" varStatus="status">
-						<ul>
-							<li>
-								<div id="participant_list">
-									<!-- 닉네임 들어갈 자리 -->
-									${editorNicknameMemidxGrpIdx[status.index].nickName}
-									<%-- <input type="hidden" value="${editorNickname[status.index].memIdx}"> --%>
-									memIdx:${editorNicknameMemidxGrpIdx[status.index].memIdx}
-									<button class="btn btn-danger btn-sm" type="submit"
-										id="decline">거절</button>
-									<button class="btn btn-success btn-sm" type="submit"
-										id="accept" onclick="sendAjax(${editorNicknameMemidxGrpIdx[status.index].memIdx}, ${editorNicknameMemidxGrpIdx[status.index].grpIdx})">수락</button>
-										<!-- sendAjax(memIdx, grpIdx) -->
-								</div>
-							</li>
-						</ul>
-					</c:forEach>
-					<!-- 참가 희망자 리스트 끝! -->
-				</div>
+			<div id="div2" class="div" style="overflow: scroll">
+				<h4>모임 참가 희망자</h4>
+				<hr>
+				<!-- 참가 희망자 리스트 -->
+				<%-- <c:forEach items="groupEditorReadResult" var="list"> --%>
+				<c:forEach items="${ajaxConfirmZeroList}" var="list"
+					varStatus="status">
+					<ul>
+						<li>
+							<div id="participant_list">
+								<!-- 닉네임 들어갈 자리 -->
+								${ajaxConfirmZeroList[status.index].nickName}
+								<button class="btn btn-danger btn-sm" type="submit" id="decline"
+									onclick="sendAjaxToDelete(${ajaxConfirmZeroList[status.index].memIdx}, ${ajaxConfirmZeroList[status.index].grpIdx})">거절</button>
+								<button class="btn btn-success btn-sm" type="submit" id="accept"
+									onclick="sendAjax(${ajaxConfirmZeroList[status.index].memIdx}, ${ajaxConfirmZeroList[status.index].grpIdx})">수락</button>
+								<!-- sendAjax(memIdx, grpIdx) -->
+							</div>
+						</li>
+					</ul>
+				</c:forEach>
+				<!-- 참가 희망자 리스트 끝! -->
+			</div>
 			<!-- </form> -->
 		</div>
 		<div class="main_div">
 			<div id="div3" class="div">
-				<!-- 참가 인원 카운트 시작 -->
-				<h4 id="count_participant">참여 인원 0/10</h4>
+				<!-- 참가 인원 카운트 -->
+				<h4 id="count_participant">참여 인원(작성자포함): ${countMem}명&nbsp;/&nbsp;${countMaxMem}명</h4>
 				<hr>
-				<div id="participant_list_accepted" >
-					<!-- 닉네임 들어갈 자리 -->
-					<!-- 닉네임닉네임닉네임닉네임1 -->
-					<button class="btn btn-danger btn-sm" type="submit" id="decline">추방</button>
-				</div>
+				<c:forEach items="${ajaxConfirmOneList}" var="list" varStatus="status">
+					<ul>
+						<li>
+							<div id="participant_list_accepted">
+								<!-- 닉네임 들어갈 자리 -->
+								
+								${ajaxConfirmOneList[status.index].nickName}
+								<button class="btn btn-danger btn-sm" type="submit" id="decline"
+									onclick="sendAjaxToDelete2(${ajaxConfirmOneList[status.index].memIdx},${ajaxConfirmOneList[status.index].grpIdx})">추방</button>
+							</div>
+						</li>
+					</ul>
+				</c:forEach>
 			</div>
 		</div>
 	</div>

@@ -123,7 +123,7 @@
 						<img src="<c:url value='/images/management_group.png'/>"
 							width="200px" height="180px">
 					</button>
-					<%-- <a href="<c:url value="/group/groupManagement"/>">모임 관리</a> --%>
+					<%-- <input type="hidden" name="memIdx" value="${loginInfo.memIdx}"> --%>
 					<a>모임 관리</a>
 				</div>
 			</aside>

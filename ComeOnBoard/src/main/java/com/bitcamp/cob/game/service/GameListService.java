@@ -23,30 +23,30 @@ public class GameListService {
 	private final int gameCountPerPage = 10;
 	
 	public GameListView getGameList( SearchType searchType) {
-		System.out.println("여기로오니(GameListService)?");		
+		//System.out.println("여기로오니(GameListService)?");		
 		
 		GameListView listView = null;
 		int orderType = searchType.getOrderType();		
 		int sort = searchType.getSortType();
-		System.out.println("키워드 : " + searchType.getKeyword());
+		//System.out.println("키워드 : " + searchType.getKeyword());
 		///////////////////////////////////
 		// 전체 게시물의 갯수
 		int gameTotalCount = template.getMapper(GameDao.class).countGameList(searchType);
 		
-		System.out.println("totalCount : " + gameTotalCount );
+		//System.out.println("totalCount : " + gameTotalCount );
 		// 페이지에 표현할  객체들 List<GameMain>
 		List<GameMain> gameList = null;
 		//SearchType search = null;
 		// 시작행의 위치값  limit index
 		int firstRow = (searchType.getPage()-1)*gameCountPerPage;
-		System.out.println("totalCount : " + firstRow +  gameCountPerPage + searchType.getKeyword());
+		//System.out.println("totalCount : " + firstRow +  gameCountPerPage + searchType.getKeyword());
 		searchType.setFirstRow(firstRow);
 		searchType.setGameCountPerPage(gameCountPerPage);
 		searchType.setOrderType(orderType);
 		searchType.setSortType(sort);
-		System.out.println("searchType : " + searchType);
+		//System.out.println("searchType : " + searchType);
 		gameList = template.getMapper(GameDao.class).selectGamePaging(searchType);
-		System.out.println("gameList : " + gameList);
+		//System.out.println("gameList : " + gameList);
 		
 		listView = new GameListView(
 				gameList, 

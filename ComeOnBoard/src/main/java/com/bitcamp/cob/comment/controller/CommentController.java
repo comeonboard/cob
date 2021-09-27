@@ -58,7 +58,7 @@ public class CommentController {
 	@RequestMapping(value = "/comment/commentList", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> selectCommList(CommentPagingRequest request, Model model,
-			@RequestParam(value="page",defaultValue = "1", required = false)int page) {
+			@RequestParam(value="page", defaultValue = "1", required = false)int page) {
 		
 		Map<String, Object> result = new HashMap<String, Object>();
 		

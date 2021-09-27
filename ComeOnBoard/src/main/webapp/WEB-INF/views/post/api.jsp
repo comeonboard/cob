@@ -6,30 +6,83 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Come on, Board : 검색</title>
+<title>Come on, Board : 카페 검색</title>
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
-<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+<!-- 부트스트랩 css 사용 --> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!--  부트스트랩 js 사용 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<style>
+	a{
+		color: black;
+	}
+	a:hover{
+		color: black;
+		text-decoration: none;
+	}
+	h4:hover, .blogger:hover{
+		color: black;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+</style>
 <script>
-	$(document).ready(function(){
-		$('#naverSearch').click(function(){
-			var searchkeyword = $('#searchkeyword').val();
-			naverSearch(searchkeyword);
-		})
-	})
-	function naverSearch(searchkeyword){
+	function naverSearch(searchkeyword, start){
 	    $.ajax({
 			url : '<c:url value="/craw/crawling_ajax"/>',    			
 			type : "post",
 			async : false,
-			data : { keyword : searchkeyword },
+			data : { keyword : searchkeyword, 
+				start : start
+				},
 			success : function(data){
+				var htmls ='';
+				var pagehtmls = '';
 				const obj = JSON.parse(data);
+				var total = obj.total;
+				var maxpage = Math.floor((total + 10 - 1) / 10); // 총 페이지
+				if(maxpage > 100 ){
+					maxpage = 100;
+				}
+				var startpage = (Math.floor((start-1)/10))*10+1; // 시작 페이지
+				var lastpage = startpage + 10 - 1; // 마지막 페이지
+				if( lastpage > maxpage){
+					lastpage = maxpage;
+				}
 				var list = obj.items;
+				
 				$('#blogCrawling').empty();
 				$.each(list, function(key, value){
-					$('#blogCrawling').append('<a href="" onclick="goblog(\''+ value.link+'\')">'+value.title+'</a><br>');
+					htmls += '<div class="blog" style="margin-bottom:7px; border:1px solid #AAA; border-radius: 30px; padding:15px 15px 0px 15px;">';
+					htmls += '<span class="blogger" style="margin-right:10px;" onclick="goblog(\''+ value.bloggerlink+'\')">Write by - '+value.bloggername+'</span>';
+					htmls += '<span class="mb-1 text-muted">Post Date_'+value.postdate+'</span>';
+					htmls += '<h4 class="mb-0" onclick="goblog(\''+ value.link+'\')">'+value.title+'</h4>';
+					htmls += '<p class="card-text mb-auto">'+value.description+'</p>';
+					htmls += '</div>';
 				})
+				$('#blogCrawling').append(htmls);
+				if(start > 1){
+					pagehtmls += '<li class="page-item"><a class="page-link" aria-label="PPrevious" href="#" onclick="naverSearch(\''+searchkeyword+'\', \'1\')"><span aria-hidden="true">&lt;&lt;</span></a></li>';
+					if(startpage>2){
+						pagehtmls += '<li class="page-item"><a class="page-link" aria-label="Previous" href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(startpage-1)+'\')"><span aria-hidden="true">&lt;</span></a></li>';
+					}
+				}
+				for (var num=startpage; num<=lastpage; num++) {
+	                 if (num == start) {
+	                	 pagehtmls += '<li class="page-item active"><span class="page-link">' + num + ' </span></li>';
+	                 } else {
+	                	 pagehtmls += '<li class="page-item"><a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+num+'\')" >' + num + ' </a></li>';
+	                 }
+	              }
+				if(start < 100){
+					if(lastpage>=10){
+						pagehtmls += '<li class="page-item"><a href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+(lastpage+1)+'\')" aria-label="Next"><span aria-hidden="true">&gt;</span></a></li>';
+					}
+					pagehtmls += '<li class="page-item"><a class="page-link" href="#" onclick="naverSearch(\''+searchkeyword+'\', \''+maxpage+'\')" aria-label="NNext"><span aria-hidden="true">&gt;&gt;</span></a></li>';
+				}
+				$('.pagination').html(pagehtmls);
 			},
 			error : function(){
 				alert("오류발생");
@@ -80,17 +133,16 @@
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 </style>
 <body>
-<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<h1>COB검색창</h1>
 	<div class="map_wrap">
-	    <div id="map" style="width:80%;height:100%;position:relative;overflow:hidden;"></div>
+	    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 	
 	    <div id="menu_wrap" class="bg_white">
 	        <div class="option">
 	            <div>
 	                <form onsubmit="searchPlaces(); return false;">
-	                    키워드 : <input type="text" value="보드게임" id="keyword" size="15"> 
-	                    <button type="submit">검색하기</button> 
+	                    키워드 : <input type="text" value="서울 보드게임" id="keyword" size="15"> 
+	                    <button type="submit">Search</button> 
 	                </form>
 	            </div>
 	        </div>
@@ -223,8 +275,8 @@ function getListItem(index, places) {
     var el = document.createElement('li'),
     itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
-                '   <a href="#" onclick="naverSearch(\''+ places.place_name +'\')"><h5>' + places.place_name + '</h5></a>';
-
+                '   <a href="#" onclick="naverSearch(\''+ places.place_name +'\', 1)"><h5>' + places.place_name + '</h5></a>';
+                //'   <button name="btn_naverSearch">' + places.place_name + '</button>';
     if (places.road_address_name) {
         itemStr += '    <span>' + places.road_address_name + '</span>' +
                     '   <span class="jibun gray">' +  places.address_name  + '</span>';
@@ -317,8 +369,10 @@ function removeAllChildNods(el) {
     }
 }
 </script>
-	<div id="blogCrawling">
+	<div id="blogCrawling" style="margin-top:10px;">
 	
 	</div>
+	<ul class="pagination justify-content-center">
+	</ul>
 </body>
 </html>

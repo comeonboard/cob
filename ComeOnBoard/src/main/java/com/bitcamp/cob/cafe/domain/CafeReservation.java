@@ -8,14 +8,23 @@ public class CafeReservation {
 
 	private int reservIdx;
 	private int cafeIdx;
+	private String cafeName;
 	private int memIdx;
 	private String memName;
 	private String reservDate;
 	private int reservTime;
 	private int reservTable;
+	private int reservFourTable;
+	private int reservgrpTable;
 	private int fixedTable;
 	private String requestTable;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+	private int  etc;
+	
+	// 결제 취소
+	private String stdFee;
+	private String tid;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
 	private Timestamp regDate;
 
 	public CafeReservation() {
@@ -43,6 +52,14 @@ public class CafeReservation {
 
 	public void setMemIdx(int memIdx) {
 		this.memIdx = memIdx;
+	}
+
+	public String getStdFee() {
+		return stdFee;
+	}
+
+	public void setStdFee(String stdFee) {
+		this.stdFee = stdFee;
 	}
 
 	public String getMemName() {
@@ -101,13 +118,56 @@ public class CafeReservation {
 		this.regDate = regDate;
 	}
 
-	@Override
-	public String toString() {
-		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", memName="
-				+ memName + ", reservDate=" + reservDate + ", reservTime=" + reservTime + ", reservTable=" + reservTable
-				+ ", fixedTable=" + fixedTable + ", requestTable=" + requestTable + ", regDate=" + regDate + "]";
+
+	public int getEtc() {
+		return etc;
 	}
 
+	public void setEtc(int etc) {
+		this.etc = etc;
+	}
+	
+	public String getTid() {
+		return tid;
+	}
+
+	public void setTid(String tid) {
+		this.tid = tid;
+	}
+	
+	public String getCafeName() {
+		return cafeName;
+	}
+
+	public void setCafeName(String cafeName) {
+		this.cafeName = cafeName;
+	}
+
+	public int getReservFourTable() {
+		return reservFourTable;
+	}
+
+	public void setReservFourTable(int reservFourTable) {
+		this.reservFourTable = reservFourTable;
+	}
+
+	public int getReservgrpTable() {
+		return reservgrpTable;
+	}
+
+	public void setReservgrpTable(int reservgrpTable) {
+		this.reservgrpTable = reservgrpTable;
+	}
+
+	@Override
+	public String toString() {
+		return "CafeReservation [reservIdx=" + reservIdx + ", cafeIdx=" + cafeIdx + ", cafeName=" + cafeName
+				+ ", memIdx=" + memIdx + ", memName=" + memName + ", reservDate=" + reservDate + ", reservTime="
+				+ reservTime + ", reservTable=" + reservTable + ", reservFourTable=" + reservFourTable
+				+ ", reservgrpTable=" + reservgrpTable + ", fixedTable=" + fixedTable + ", requestTable=" + requestTable
+				+ ", etc=" + etc + ", stdFee=" + stdFee + ", tid=" + tid + ", regDate=" + regDate + "]";
+	}
 
 	
+
 }

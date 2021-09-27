@@ -13,12 +13,7 @@ import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.stereotype.Service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Service
 public class NaverBlogService {
@@ -26,7 +21,13 @@ public class NaverBlogService {
 	private static String clientID = "h1SFNmoCQdxK2IH7FKza";
 	private static String clientSecret = "T23TOCcUNW";
 	
-	public String searchBlog(String keyword){
+	public String searchBlog(String keyword, int cnt){
+		String start = "";
+		if(cnt==1) {
+			start = Integer.toString(cnt);
+		}else {
+			start = Integer.toString((cnt-1)*10+1);
+		}
 		
 		String text = null;
 		
@@ -35,7 +36,7 @@ public class NaverBlogService {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("검색어 인코딩 실패",e);
         }
-		String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text;    // json 결과
+		String apiURL = "https://openapi.naver.com/v1/search/blog?query=" + text + "&display=10&start="+start+"&sort=date";    // json 결과
 		
 		Map<String, String> requestHeaders = new HashMap<>();
         requestHeaders.put("X-Naver-Client-Id", clientID);

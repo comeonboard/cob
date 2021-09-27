@@ -1,6 +1,8 @@
 package com.bitcamp.cob.cafe.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class CafePayApproval {
 
@@ -135,16 +137,26 @@ public class CafePayApproval {
 		this.vat_amount = vat_amount;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
+	public String getCreated_at() {
+		//원하는 데이터 포맷 지정 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd a HH:mm:ss");
+		//지정한 포맷으로 변환
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+09-00"));
+		String strNowDate = simpleDateFormat.format(created_at); 
+		return strNowDate;
 	}
 
 	public void setCreated_at(Date created_at) {
 		this.created_at = created_at;
 	}
 
-	public Date getApproved_at() {
-		return approved_at;
+	public String getApproved_at() {
+		//원하는 데이터 포맷 지정 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd a HH:mm:ss");
+		//지정한 포맷으로 변환
+		simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+09-00"));
+		String strNowDate = simpleDateFormat.format(approved_at); 
+		return strNowDate;
 	}
 
 	public void setApproved_at(Date approved_at) {

@@ -76,6 +76,8 @@
 	border: 1px solid #aaa;
 	border-radius: 5px;
 	min-width: 500px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	margin: 25px 50px;
 	text-align: center;
 	font-size: 1.5em;
@@ -119,7 +121,7 @@
 	width: 400px;
 	height: 120px;
 	position: absolute;
-	top: 500px;
+	top: 450px;
 	left: 400px;
 	z-index: 1;
 }
@@ -134,8 +136,8 @@
 	width: 400px;
 	height: 120px;
 	position: absolute;
-	top: 500px;
-	left: 1000px;
+	top: 450px;
+	left: 900px;
 	z-index: 1;
 }
 

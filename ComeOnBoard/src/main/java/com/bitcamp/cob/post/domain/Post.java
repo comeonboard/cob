@@ -3,6 +3,8 @@ package com.bitcamp.cob.post.domain;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Post {
 
 	private int postIdx;
@@ -12,6 +14,7 @@ public class Post {
 	private String postTitle;
 	private String postContent;
 	private String postSort;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 	private Timestamp postRegDate;
 	private int postLike;
 	private int postDislike;

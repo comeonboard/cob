@@ -69,15 +69,20 @@
 						</select>
 						<!-- 게임 종류 -->
 						<select name="genre" id="genre" style="width: 100px; height: 30px">
-							<option value="카드">카드</option>
-							<option value="할리갈리">할리갈리</option>
+							<option value="전략">전략</option>
+							<option value="추상">추상</option>
+							<option value="컬렉터블">컬렉터블</option>
+							<option value="가족">가족</option>
+							<option value="어린이">어린이</option>
+							<option value="파티">파티</option>
+							<option value="테마">테마</option>
+							<option value="워게임">워게임</option>
 						</select>
 						<!-- 모임 현재인원, 최대 정원 -->
 						<div class="block_count">
 							<label for="max_count" id="label_count">모임 최대인원</label> <select
 								name="grpMaxMem" id="label_count"
 								style="width: 100px; height: 30px">
-								<option value="1">1</option>
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
@@ -99,69 +104,30 @@
 								<option value="20">20</option>
 							</select>
 						</div>
-						<hr>
 						<div> 
-						<label for="grpPostEndDate" class="dateBox1">모집 마감일 &nbsp;</label>
-						<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
-						
-						<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2">
-						<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
+							<label for="grpPostEndDate" class="dateBox1">모집 마감일 &nbsp;</label>
+							<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
+							<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2">
+							<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
 						</div>
-						<hr>
+						<hr style="margin-top: 30px; margin-bottom: 20px;">
 					</div>
 					<div class="articletitle">
-						<textarea class="textarea_input"
+						<textarea class="textarea_input" 
 							name="grpTitle">${updateBoard.grpTitle}</textarea>
 					</div>
 					<div class="write_contents">
-						<br> <label for="w3review">내용</label>
-						<textarea name="grpContent" rows="30" cols="100">${updateBoard.grpContent}</textarea>
+						<br> 
+						<label for="w3review">내용</label>
+						<textarea id="text_content" name="grpContent" rows="30" cols="100" wrap="hard"><c:out value="${updateBoard.grpContent}"/></textarea>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
-
-	<script>
-		/*  const buttons = document.querySelectorAll('button');
-		 const btnForm = document.querySelector(".btns-form");
-		 let showCode = true;
-
-		 grpContent.document.designMode = "On";
-
-		 btnForm.addEventListener("click", async (e) => {
-		     const cmd = e.target.closest('button').getAttribute('data-cmd');
-		     switch (cmd) {
-		         case 'insertImage':
-		         case 'createLink':
-		             const url = await prompt('Enter Link Here: ', "");
-		             grpContent.document.execCommand(cmd, false, url);
-
-		             const atags = grpContent.document.querySelectorAll("a");
-		             atags.forEach((atag) => {
-		                 atag.target = "_blank";
-		                 atag.addEventListener("mouseover", (e) => { grpContent.document.designMode = "Off"; });
-		                 atag.addEventListener("mouseout", (e) => { grpContent.document.designMode = "On"; });
-		             });
-		             break;
-		         case 'showCode':
-		             const grpContentBody = grpContent.document.querySelector("body");
-		             if (showCode) {
-		                 grpContentBody.textContent = grpContentBody.innerHTML;
-		                 showCode = false;
-		             }
-		             else {
-		                 grpContentBody.innerHTML = grpContentBody.textContent;
-		                 showCode = true;
-		             }
-		             break;
-		         default:
-		             grpContent.document.execCommand(cmd, false, null);
-		             break;
-		     }
-		 });
-		 */
-	</script>
 </body>
+
+
+
 
 </html>

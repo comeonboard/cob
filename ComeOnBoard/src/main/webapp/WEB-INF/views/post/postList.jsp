@@ -19,6 +19,7 @@ integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
 crossorigin="anonymous">
 </script>
 <link rel="stylesheet" href="/cob/css/postList.css">
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=e743b6daa20e101e0afb710dae9965b3&libraries=services,clusterer,drawing"></script>
 <body>
 	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<div id="container">
@@ -57,7 +58,7 @@ crossorigin="anonymous">
                             <a class="home" href="<c:url value='/post/postList' />">
                                 <img src="https://img.icons8.com/material-outlined/24/000000/home-page.png"/>
                             </a>
-                            <a class="a1" href="<c:url value='/post/postList' />">전체</a>
+                            <a href="<c:url value='/post/postList' />" style="margin-right:5px;">전체</a>
                         </div>
                         <div class="nav_right">
                             <li><a href="<c:url value='/post/searchList?postSort=잡담&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#003f7f" >잡담</a></li>
@@ -67,6 +68,7 @@ crossorigin="anonymous">
                             <li><a href="<c:url value='/post/searchList?postSort=지역&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ffaaaa" >지역</a></li>	
                             <li><a href="<c:url value='/post/searchList?postSort=기타&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#000000" >기타</a></li>
                             <li><a href="<c:url value='/post/searchList?postSort=공지&nowPage=1&cntPerPage=${paging.cntPerPage}'/>" style="color:#ff0000" >공지</a></li>
+                            <li onclick="viewBlog()" style="color:#4fda00; cursor:pointer;">블로그 리뷰</li>
                         </div>
                         <div>
                             <select id="cntPerPage" name="sel" onchange="selChange()" class="dataPerPage">
@@ -78,7 +80,6 @@ crossorigin="anonymous">
 									<c:if test="${paging.cntPerPage == 30}">selected</c:if>>30줄 보기</option>	
 							</select>
                         </div>
-                        
                         <script>
 							function selChange() {
 								var select = $('#cntPerPage option:selected').val();
@@ -93,7 +94,7 @@ crossorigin="anonymous">
                         </div>
                     </div>
                     <div>
-                        <table>
+                        <table id="list">
                             <thead style="height: 35px;">	
                                 <tr>
                                     <th scope="col" class="m_no">
@@ -116,15 +117,28 @@ crossorigin="anonymous">
                                     </th>						
                                 </tr>	
                             </thead>
-                            <tbody >
+                            <div id="kakaoMap">
+                            
+                            </div>
+                            <script>
+								function viewBlog(){
+									$("#kakaoMap").load("<c:url value='/post/api'/>");
+									$('#list').addClass('display-none');
+									$('.search_wrap').addClass('display-none');
+									$('.page_nation').addClass('display-none');
+									$('#cntPerPage').addClass('display-none');
+									$('.check_box').addClass('display-none');
+							    }                           
+                            </script>
+                            <tbody>
 								<c:forEach items="${postList}" var="post">
 									<tr>
 										<td id="postSort"><a href="<c:url value='/post/postList/${post.postSort}'/>">${post.postSort}</a></td>
-										<td><a id="title" onClick="addViews(${post.postIdx})" href="<c:url value='/post/postDetail?postIdx=${post.postIdx}'/>">${post.postTitle}</a></td>
+										<td><a style="float: left; margin-left:20px;" id="title" onClick="addViews(${post.postIdx})" href="<c:url value='/post/postDetail?postIdx=${post.postIdx}'/>">${post.postTitle}</a></td>
 										<td>${post.postWriter}</td>
 										<td><fmt:formatDate value="${post.postRegDate}" type="date" pattern="yyyy.MM.dd" /></td>
 										<td>${post.views}</td>
-										<td>${post.postLike}</td>
+										<td class="postLike">${post.postLike}</td>
 									</tr>
 								</c:forEach>
                             </tbody>
@@ -135,7 +149,7 @@ crossorigin="anonymous">
                 <div class="search_wrap">
                     <div class="search_bar">
                         <input id="keyword" name="keyword" type="text" placeholder="검색어 입력">
-                        <button onclick="btn_search()" class="search_btn">검색</button>
+                        <button onclick="btn_search()" class="search_btn"><img style="width:20px; height:20px;" id="search_img" src="/cob/images/search.png"></button>
                     </div>
                     <div class="search_categori">
                         <span>	
@@ -158,14 +172,14 @@ crossorigin="anonymous">
 	                </c:if>
                 </div>
                 <c:if test="${empty postSort && empty memIdx}">
-                	<div style="display: block; text-align: center;">		
+                	<div class="page_nation" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a class="arrow prev" href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
 								<c:when test="${p == paging.nowPage }">
-									<b>${p }</b>
+									<b class="active">${p }</b>
 								</c:when>
 								<c:when test="${p != paging.nowPage }">
 									<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
@@ -173,19 +187,19 @@ crossorigin="anonymous">
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a class="arrow next" href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
                 <c:if test="${ !empty postSort }">
-                	<div style="display: block; text-align: center;">		
+                	<div class="page_nation" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a class="arrow prev" href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
 								<c:when test="${p == paging.nowPage }">
-									<b>${p }</b>
+									<b class="active">${p }</b>
 								</c:when>
 								<c:when test="${p != paging.nowPage }">
 									<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
@@ -193,19 +207,19 @@ crossorigin="anonymous">
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a class="arrow next" href="<c:url value='/post/searchList?postSort=${ postSort }&searchType=${searchType.searchType}&keyword=${searchType.keyword}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
                 <c:if test="${!empty memIdx }">
-                	<div style="display: block; text-align: center;">		
+                	<div class="page_nation" style="text-align: center;">		
 						<c:if test="${paging.startPage != 1 }">
-							<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
+							<a class="arrow prev" href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.startPage-1}&cntPerPage=${paging.cntPerPage}'/>">&lt;</a>
 						</c:if>
 						<c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
 							<c:choose>
 								<c:when test="${p == paging.nowPage }">
-									<b>${p }</b>
+									<b class="active">${p }</b>
 								</c:when>
 								<c:when test="${p != paging.nowPage }">
 									<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${p }&cntPerPage=${paging.cntPerPage}'/>">${p }</a>
@@ -213,13 +227,10 @@ crossorigin="anonymous">
 							</c:choose>
 						</c:forEach>
 						<c:if test="${paging.endPage != paging.lastPage}">
-							<a href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
+							<a class="arrow next" href="<c:url value='/post/searchList1?memIdx=${memIdx}&nowPage=${paging.endPage+1}&cntPerPage=${paging.cntPerPage}'/>">&gt;</a>
 						</c:if>
 					</div>
                 </c:if>
-                <div>
-                	<a href="<c:url value='/post/api'/>">보드게임 카페 찾기 & 네이버 블로그</a>
-   			 	</div>
             </div>
         </div>
     </div>

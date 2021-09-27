@@ -22,7 +22,7 @@ public class GameRegController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String gameRegForm() {
 	
-		System.out.println("컨트롤러 get");	
+		//System.out.println("컨트롤러 get");	
 		return "game/gameRegForm3";
 	}
 	
@@ -32,8 +32,8 @@ public class GameRegController {
 			HttpServletRequest request,
 			Model model) {
 	
-		System.out.println("컨트롤러 post");
-		System.out.println(regRequest);
+		//System.out.println("컨트롤러 post");
+		//System.out.println(regRequest);
 
 		int result = regService.gameReg(regRequest, request);
 		String view = null;
@@ -43,8 +43,8 @@ public class GameRegController {
 		if (result == 1) {
 			view = "redirect:/game/gamelist";
 		}
-		System.out.println(view);
-		System.out.println(result);
+		//System.out.println(view);
+		//System.out.println(result);
 		return view;
 	}
 }
