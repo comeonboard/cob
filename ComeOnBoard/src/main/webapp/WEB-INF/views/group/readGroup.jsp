@@ -4,8 +4,10 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
+
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Text Editor</title>
@@ -50,7 +52,7 @@
 				<hr>
 				<div id="attend_div">
 					<!-- <a id="join_group" onclick="attend_gameGroup()"> -->
-					<a onclick="alert('신청되었습니다')" id="join_group" href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}">
+					<a onclick="loginTest()" id="join_group" href="/cob/group/groupEditor?grpIdx=${readCreateGroupPage.grpIdx}&memIdx=${loginInfo.memIdx}">
 						<!-- groupEditor컨트롤러에서 return 값을 management를 보여주게끔 변경? 참가 확정도 아닌데 보여주는게 괜찮을까? -->
 						<!-- 확인은 참가가 확정되었을 때 management페이지에서 보여주고, 일단은 groupList페이지로 보내자 -->
 						모임 참가 신청
@@ -75,9 +77,18 @@
 
 <script>
 
+/* 	function loginTest() {
+		if( '${loginInfo.memIdx}' == '') {
+			alert('로그인이 필요합니다');
+			location.href = '<c:url value="member/login"/>';
+		}
+	} */
+
+
 	$(document).ready(function () {
-		var memIdx = '${loginInfo.memIdx}';
-		var memIdxOnJsp = '${readCreateGroupPage.memIdx}';
+	
+		var memIdx = ${loginInfo.memIdx};
+		var memIdxOnJsp = ${readCreateGroupPage.memIdx};
 
 		// 모임 참가 신청버튼 보이기/숨기기(참가완료가 되어있다면)
 		if ((memIdx != "null") && (memIdx == memIdxOnJsp)) {
@@ -89,17 +100,14 @@
 			$("#join_group").hide();
 			$("#edit").hide();
 		}
-		
-		
-		/* 
-		// groupreg1에 memIdx있고 grpConfirm=0 이면 '모임 참가 신청' -> '참가 신청 중'
-		var memIdxOnGroupreg1 = '${showApplying}';
-		console.log(memIdxOnGroupreg1); 
-		*/
+		<c:if test="${!empty showApplying}">
+			$("#join_group").hide();
+		</c:if>
 		
 		
 	})
 
+		
 	
 	function confirm_delete_group_board() {
 		if (confirm("모임 게시글을 삭제하시겠습니까?") == true) {
@@ -111,31 +119,6 @@
 
 	}
 	
-	
-
-
-	
-/*   	function attend_gameGroup() {
- 			
- 	  	 var url = ${readCreateGroupPage.grpIdx} ;
-		 console.log(url);
-		 
-		  $.ajax({
-			 url: "<c:url value='/group/groupEditorMyGroup?grpIdx="+url+"'/>",
-			 type: "POST",
-			 data: { 
-			 "memIdx" : "${loginInfo.memIdx}",
-			 "nickName" : "${readCreateGroupPage.nickName}"
-			 },
-			 processData: true,
-			 contentType: "application/json",
-			 dataType: "json",
-			 success: function(data) {
-			 alert('데이터 전송에 성공하였습니다');
-			 }
-		 })   
-	
-	 }  */
 	 
 </script>
 

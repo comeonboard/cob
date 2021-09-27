@@ -253,13 +253,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	
 	<!-- grpConfirm=0 인 사람중에 로그인한 사람 memIdx 찾기 -->
-	<select id="ApplyingForParticipation"
-		resultType="int">
+<!--  	<select id="ApplyingForParticipation"
+		resultType="com.bitcamp.cob.group.domain.RegGroup">
 		select mem.memIdx, reg.grpConfirm 
 		from groupreg1 as reg
 		right join member1 as mem
 		on reg.memIdx = mem.memIdx
-		where reg.grpIdx = #{param1} and reg.grpConfirm = 0 and reg.memIdx = #{param2}
+		where reg.grpIdx = #{grpIdx} and reg.grpConfirm = 0
+	</select> -->
+	 <select id="ApplyingForParticipation"
+		resultType="com.bitcamp.cob.group.domain.RegGroup">
+		select * from groupreg1 where grpIdx = #{param1} and memIdx = #{param2};
 	</select>
 
 	<!-- 모임 참가 인원 -->

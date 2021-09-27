@@ -87,7 +87,7 @@ public interface GroupDao {
 	
 	
 	// 모임 참가 신청 중인 memIdx select
-//	public int ApplyingForParticipation(int grpIdx, int memIdx);
+	public ArrayList<RegGroup> ApplyingForParticipation(int grpIdx, int memIdx);
 	
 }
 

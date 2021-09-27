@@ -56,9 +56,9 @@ public class ManageGroupService {
 	}
 
 	// 모임 참가 신청중인 memIdx select
-//	public int showApplying(int grpIdx, int memIdx) {
-//		return template.getMapper(GroupDao.class).ApplyingForParticipation(grpIdx, memIdx);
-//	}
+	public ArrayList<RegGroup> showApplying(int grpIdx, int memIdx) {
+		return template.getMapper(GroupDao.class).ApplyingForParticipation(grpIdx, memIdx);
+	}
 	
 	
 	
