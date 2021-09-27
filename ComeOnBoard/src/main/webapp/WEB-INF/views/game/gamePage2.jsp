@@ -80,7 +80,7 @@
         margin-top: 18px;
         float: left;
         font-size: 18px;
-        width : 150px;
+        width : 190px;
         height : 110px;
     } 
     .ex_left>li{
@@ -103,7 +103,7 @@
         margin-top: 18px;
         float: left;
         font-size: 18px;
-        width : 190px;
+        width : 150px;
         height : 110px;
     }
     .ex_right>li{
@@ -536,8 +536,8 @@ $(document).ready(function(){
 			                 '<li class="list_date">'+review.revRegDate+'</li>'+'\n';
 			    if('${loginInfo.memIdx}' == reviewIdx){
 			    	html += '<li class="list_delete"><button onclick="rev_dele('+review.revIdx+');">삭제</button></li>'+'\n';
-			    	html += '<li class="list_delete"><button id="rev_edit" onclick="rev_edit('+review.revIdx+');">수정</button></li>'+'\n';			    	
-			    	console.log('똑같다고 실행됨');
+			    	/* html += '<li class="list_delete"><button id="rev_edit" onclick="rev_edit('+review.revIdx+');">수정</button></li>'+'\n';			    	
+			    	console.log('똑같다고 실행됨'); */
 			    }           
 			                 
 			        html +=  '<li class="rev_none">'+review.revIdx+'</li>'+'\n'+
@@ -578,36 +578,7 @@ $(function(){
 
 </script>
 <script>
-//리뷰수정
-/* function rev_edit(idx){
-	console.log(idx)
-	
-	if('${loginInfo.memIdx}' == '${review.memIdx}')
-	$.ajax({
-		type: 'post',   //get방식으로 명시
-		url : '<c:url value="/game/gamepage1/"/>${gamepage.gameIdx}',  //이동할 jsp 파일 주소
-		data : {
-			revIdx : idx,
-			memIdx : ${loginInfo.memIdx}
-		},
-		success: function(){   
-				
-			alert("삭제됬습니다.")	
-			location.reload();
-					
-	
-		},
-		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
-			//alert('실패');
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	
-		},
-			 complete : function(){	
-				 
-			 }
-	})
-};
- */
+// 리뷰삭제
 function rev_dele(idx){
 	console.log(idx)
 	
@@ -615,10 +586,10 @@ function rev_dele(idx){
 		type: 'post',   //get방식으로 명시
 		url : '<c:url value="/game/gamepage1/"/>${gamepage.gameIdx}',  //이동할 jsp 파일 주소
 		data : {
-			revIdx : idx,
+			revIdx : idx,	
 			memIdx : ${loginInfo.memIdx}
 		},
-		dataType:'json',   //문자형식으로 받기
+		/* dataType:'json',   //문자형식으로 받기 */
 		success: function(){   
 				
 			alert("삭제됬습니다.")	
@@ -629,7 +600,7 @@ function rev_dele(idx){
 		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
 			//alert('실패');
 			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	
+			
 		},
 			 complete : function(){	
 				 
@@ -639,38 +610,6 @@ function rev_dele(idx){
 
 
 
-/* 
-//리뷰 수정
-function rev_edit(idx,ratingmcontent){
-	console.log(idx)
-	
-	$.ajax({
-		type: 'post',   
-		url : '<c:url value="/game/gamepage2/"/>${gamepage.gameIdx}',  
-		data : {
-			revIdx : idx,
-			revRating : rating,
-			revContent : content
-		},
-		//dataType:'json',   //문자형식으로 받기
-		success: function(){   
-				
-			alert("삭제됬습니다.")	
-			location.reload();
-					
-	
-		},
-		error:function(request,status,error){   //데이터 주고받기가 실패했을 경우 실행할 결과
-			//alert('실패');
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-	
-		},
-			 complete : function(){	
-				 
-			 }
-	});
-};
- */
 
 
 </script>
@@ -683,6 +622,7 @@ $(document).ready(function(){
 		
 		if ('${loginInfo.memIdx}' == '' ){
 			alert('로그인 해주세요');
+			location.href="/cob/member/login";
 			return false;	
 			
 		}else if($('#revContent').val() == ''){			
@@ -700,6 +640,7 @@ $(document).ready(function(){
 	});
 
 }); 
+
 
 </script>
 <script>
@@ -733,10 +674,10 @@ $(document).ready(function(){
 		},
 		error : function(request,status,error){
 			alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
-			console.log(request);
+			/* console.log(request);
 			console.log(status);
 			console.log(error);		
-			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error); */
 						
 			
 		},
@@ -791,12 +732,12 @@ $(document).ready(function(){
 			<div class="ex_list">
 				<ul class="ex_left">
 					<li>장르 : ${gamepage.gameSort}</li>
-					<li>플레이타임 : ${gamepage.gameTime}</li>
+					<li>사용연령 : ${gamepage.gameLmtAge}</li>
 
 				</ul>
 				<ul class="ex_center">
 					<li>게임인원 : ${gamepage.gamePerson}</li>
-					<li>사용연령 : ${gamepage.gameLmtAge}</li>										
+					<li>플레이타임 : ${gamepage.gameTime}</li>										
 				</ul>
 				<ul class="ex_right">
 					<li>출시일 : ${gamepage.gamePubDate}</li>					
@@ -827,7 +768,7 @@ $(document).ready(function(){
 				<label for="tab-1">Intro</label> 
 				<label for="tab-2">Rule</label> 
 				<label for="tab-3">play</label> 
-				<label for="tab-4">etc</label>
+				<label for="tab-4">Buy</label>
 			</div>
 
 			<div class="rule_content">
@@ -835,12 +776,33 @@ $(document).ready(function(){
 				<pre class="rule_content_name2">${gamepage.gameRule}</pre>
 				<pre class="rule_content_name3" id="game_play"></pre>
 				<pre class="rule_content_name4">
-					<input type="button" class="btn_edit" value="구입하기" id="btn_edit"
-					onclick="location.href='<c:url value ='/game/order/'/>${gamepage.gameIdx}'">
+					<input type="button" class="btn_edit" value="구입하기" id="btn_buy"
+					>
 				</pre>
 			</div>
 		</div>
-
+		<script>
+		 $(document).ready(function(){
+			
+			$('#btn_buy').on('click',function(){
+				
+				if ('${loginInfo.memIdx}' == '' ){
+					alert('로그인 해주세요');
+					return false;		
+				} else{
+					/* onclick="location.href='<c:url value ='/game/order/'/>${gamepage.gameIdx}'";  */
+					location.href='<c:url value ='/game/order/'/>${gamepage.gameIdx}'; 
+					
+				}
+						
+				
+				
+			});
+			
+		}); 
+		
+		
+		</script>
 
 		<div class="review_item">
 			<h1>review</h1>
@@ -887,7 +849,7 @@ $(document).ready(function(){
 
 			</div>
 
-			<div class="paging">
+			<!-- <div class="paging">
 				<ul>
 					<li><a href="#">이전</a></li>
 					<li><a href="#">1</a></li>
@@ -897,7 +859,7 @@ $(document).ready(function(){
 					<li><a href="#">5</a></li>
 					<li><a href="#">다음</a></li>
 				</ul>
-			</div>
+			</div> -->
 			<div class="moving">
 				<ul>
 					<%-- <li><a

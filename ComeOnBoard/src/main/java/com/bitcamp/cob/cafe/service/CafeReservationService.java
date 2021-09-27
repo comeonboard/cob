@@ -20,19 +20,26 @@ public class CafeReservationService {
 		return template.getMapper(CafeDao.class).getReservButton(cafeReservation);
 	}
 
-	// 예약
-	public int regReserv(CafeReservation cafeReservation) {
-		return template.getMapper(CafeDao.class).regReserv(cafeReservation);
-	}
+	// 결제 서비스로 이동
+//	// 결제준비시 가예약
+//	public int regReserv(CafeReservation cafeReservation) {
+//		return template.getMapper(CafeDao.class).regReserv(cafeReservation);
+//	}
 
-	// 예약 확인 리스트
+	// 예약 확인 리스트 (카페)
 	public List<CafeReservation> getReservList(CafeReservation cafeReservation) {
 		return template.getMapper(CafeDao.class).getReservList(cafeReservation);
 	}
 	
-	// 예약 취소
-	public int delReserv(int reservIdx) {
-		return template.getMapper(CafeDao.class).delReserv(reservIdx);
+	// 예약 확인 리스트 (회원)
+	public List<CafeReservation> getMyReservList(int memIdx) {
+		return template.getMapper(CafeDao.class).getMyReservList(memIdx);
 	}
+	
+	// 결제 서비스로 이동	
+//	// 예약 취소
+//	public int delReserv(int reservIdx) {
+//		return template.getMapper(CafeDao.class).delReserv(reservIdx);
+//	}
 
 }

@@ -40,7 +40,7 @@ public class GamePageController {
 		model.addAttribute("gamepage",list);
 		session.setAttribute("gamepage", list);
 		
-		System.out.println("여기가문제?" + list);		
+		//System.out.println("여기가문제?" + list);		
 		return view;
 	}
 	

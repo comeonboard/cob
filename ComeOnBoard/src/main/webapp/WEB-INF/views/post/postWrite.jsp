@@ -19,7 +19,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 <link href="/js/summernote-ko-KR.js">
-
 <title>Come on, Board : 게시글 등록</title>
 <script>
 	$(document).ready(function() {
@@ -71,8 +70,6 @@
 				</div>
 				<div class="write_contents">
 					<form id="postForm" method="post">
-						<input type="hidden" name="memIdx" style="width: 20%;" placeholder="멤버 idx" value="${loginInfo.memIdx }" /><br> 
-						<input type="hidden" name="postWriter" style="width: 20%;" placeholder="작성자" readonly value="${loginInfo.nickName }" /><br>	<!-- 세션값 바꾸기 -->
 						<div class="articlecate">
 							<select name="postSort" placeholder="카테고리" style="width: 100px; height: 30px">
 								<option value="잡담">잡담</option>
@@ -86,6 +83,8 @@
 						</div>
 						<input type="text" name="postTitle" class="postTitle" placeholder="제목" /> <br>
 						<textarea id="summernote" name="postContent"></textarea>
+						<input type="hidden" name="memIdx" style="width: 20%;" placeholder="멤버 idx" value="${loginInfo.memIdx }" /><br> 
+						<input type="hidden" name="postWriter" style="width: 20%;" placeholder="작성자" readonly value="${loginInfo.nickName }" /><br>
 						<!-- <input id="subBtn" type="button" value="글 작성" style="float: right;" onclick="goWrite(this.form)"/> -->
 					</form>
 				</div>

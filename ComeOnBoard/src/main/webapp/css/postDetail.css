@@ -6,7 +6,7 @@
         padding-top: 20px;
     }
     .Wrapper>.WritingWrap{
-        width: 815px;
+        width: 860px;
     }
     .Wrapper>.WritingWrap>.contents{
         border: 1px solid #CCC;
@@ -225,6 +225,7 @@
     .comments-profile{
         float: left; 
         margin-right:3px; 
+        margin-bottom: 10px;
         width: 60px; 
         height: 60px;
         overflow:hidden;
@@ -294,6 +295,9 @@
     /* re-reconmments start */
     .recomments{
         overflow: hidden;
+        padding-top:10px;
+        margin-left:-20px;
+        margin-bottom:5px;
     }
     .recomments>img{
         float: left;

@@ -1,15 +1,15 @@
 package com.bitcamp.cob.post.domain;
 
-public class request {
+public class Request {
 	
 	private String searchType;
 	private String keyword;
 	private String nowPage;
 	private String cntPerPage;
 	
-	public request() {}
+	public Request() {}
 	
-	public request(String searchType, String keyword, String nowPage, String cntPerPage) {
+	public Request(String searchType, String keyword, String nowPage, String cntPerPage) {
 		this.searchType = searchType;
 		this.keyword = keyword;
 		this.nowPage = nowPage;

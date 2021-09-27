@@ -3,6 +3,8 @@ package com.bitcamp.cob.recomment.domain;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Recomment {
 
 	private int recommIdx;
@@ -11,6 +13,7 @@ public class Recomment {
 	private int memIdx;
 	private String recommWriter;
 	private String recommContent;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 	private Timestamp recommRegDate;
 	private int recommLike;
 	private int recommDislike;
@@ -91,8 +94,8 @@ public class Recomment {
 	}
 
 	public Timestamp getRecommRegDate() {
-		return new Timestamp(recommRegDate.getTime()-(1000*60*60*9));
-		//return recommRegDate;
+		//return new Timestamp(recommRegDate.getTime()-(1000*60*60*9));
+		return recommRegDate;
 	}
 
 	public void setRecommRegDate(Timestamp recommRegDate) {

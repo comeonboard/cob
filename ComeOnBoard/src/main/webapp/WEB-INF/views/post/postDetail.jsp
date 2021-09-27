@@ -17,26 +17,58 @@
 <head>
 <meta charset="UTF-8">
 <title>Come on, Board : 상세 게시글</title>
+<!-- metaheader -->
 <%@ include file="/WEB-INF/views/frame/metaheader.jsp" %>
 </head>
+<!-- css -->
 <link rel="stylesheet" href="/cob/css/postDetail.css">
 <link rel="stylesheet" href="/cob/css/postList.css">
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-1.12.4.js" 
 integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" 
 crossorigin="anonymous">
 </script>
+<!-- kakao -->
 <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+<style>
+	#userInfo{
+		text-align: center;
+	}
+	#userTable{
+		border-collapse:inherit;
+		border-top: none;
+	}
+	.col2{
+		border-bottom:none;
+	}
+	.col2:hover{
+		background: rgb(245, 246, 247);
+	}
+	.btn_close{
+		margin-top:-10px !important;
+		width: 90px;
+	    height: 40px;
+	    border: none;
+	    background-color: rgb(66, 133, 244);
+	    border-radius: 10%;
+	    color: white;
+    }
+    .col1{
+        color: rgb(66, 133, 244);
+	    width: 100px;
+	    height: 30px;
+	    line-height: 30px;
+	    background-color: white;
+	    border-radius: 10px;
+	    border: rgb(66, 133, 244) 1px solid;
+    }
+</style>
 <script >
     $(document).ready(function(){
 		commentCount();
 		showBestComm();
 		let page = 1;
     	showCommList(1);
-    	
-/*     	$('#naverSearch').click(function(){
-    		var searchkeyword = $('#searchkeyword').val();
-    		naverSearch(searchkeyword);
-    	}) */
     	
     	shareKakao();	// 카카오 초기 호출
     	bringPostList();
@@ -74,33 +106,7 @@ crossorigin="anonymous">
             }
         });
 
-        // 댓글 좋아요 싫어요 중 하나만 눌리도록 설정
-        $('.btn-like').click(function(){
-            $(this).toggleClass("done");
-            $(this).next().removeClass("done");
-        });
-        $('.btn-dislike').click(function(){
-            $(this).toggleClass("done");
-            $(this).prev().removeClass("done");
-        });
     });
-    /* function naverSearch(searchkeyword){
-    	$.ajax({
-			url : '<c:url value="/craw/crawling_ajax"/>',    			
-			type : "post",
-			async : false,
-			data : { keyword : searchkeyword },
-			success : function(data){
-				const obj = JSON.parse(data);
-				console.log(obj.items[0].link);
-				console.log(obj.items[0].title);
-			},
-			error : function(){
-				alert("오류발생");
-			}
-		});
-    } */
-    
  	// Kakao 공유 동작 function
     function shareKakao() {
         Kakao.init('e743b6daa20e101e0afb710dae9965b3');        
@@ -208,289 +214,10 @@ crossorigin="anonymous">
         document.location = shareURL;
       }
 	function bringPostList(){
-		$("#test").load("<c:url value='/post/postList'/> #content");
+		$("#postList").load("<c:url value='/post/postList'/> #content");
     }
 </script>
-<!-- <style>
-.map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
-.map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-.map_wrap {position:relative;width:100%;height:500px;}
-#menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
-.bg_white {background:#fff;}
-#menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
-#menu_wrap .option{text-align: center;}
-#menu_wrap .option p {margin:10px 0;}  
-#menu_wrap .option button {margin-left:5px;}
-#placesList li {list-style: none;}
-#placesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
-#placesList .item span {display: block;margin-top:4px;}
-#placesList .item h5, #placesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-#placesList .item .info{padding:10px 0 10px 55px;}
-#placesList .info .gray {color:#8a8a8a;}
-#placesList .info .jibun {padding-left:26px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
-#placesList .info .tel {color:#009900;}
-#placesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
-#placesList .item .marker_1 {background-position: 0 -10px;}
-#placesList .item .marker_2 {background-position: 0 -56px;}
-#placesList .item .marker_3 {background-position: 0 -102px}
-#placesList .item .marker_4 {background-position: 0 -148px;}
-#placesList .item .marker_5 {background-position: 0 -194px;}
-#placesList .item .marker_6 {background-position: 0 -240px;}
-#placesList .item .marker_7 {background-position: 0 -286px;}
-#placesList .item .marker_8 {background-position: 0 -332px;}
-#placesList .item .marker_9 {background-position: 0 -378px;}
-#placesList .item .marker_10 {background-position: 0 -423px;}
-#placesList .item .marker_11 {background-position: 0 -470px;}
-#placesList .item .marker_12 {background-position: 0 -516px;}
-#placesList .item .marker_13 {background-position: 0 -562px;}
-#placesList .item .marker_14 {background-position: 0 -608px;}
-#placesList .item .marker_15 {background-position: 0 -654px;}
-#pagination {margin:10px auto;text-align: center;}
-#pagination a {display:inline-block;margin-right:10px;}
-#pagination .on {font-weight: bold; cursor: default;color:#777;}
-</style> -->
-<body>
-	<%@ include file="/WEB-INF/views/frame/header.jsp" %>
-	<!-- <div class="map_wrap">
-	    <div id="map" style="width:80%;height:100%;position:relative;overflow:hidden;"></div>
-	
-	    <div id="menu_wrap" class="bg_white">
-	        <div class="option">
-	            <div>
-	                <form onsubmit="searchPlaces(); return false;">
-	                    키워드 : <input type="text" value="보드게임" id="keyword" size="15"> 
-	                    <button type="submit">검색하기</button> 
-	                </form>
-	            </div>
-	        </div>
-	        <hr>
-	        <ul id="placesList"></ul>
-	        <div id="pagination"></div>
-	    </div>
-	</div> -->
-<!-- <script>
-//마커를 담을 배열입니다
-var markers = [];
-
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
-
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-// 장소 검색 객체를 생성합니다
-var ps = new kakao.maps.services.Places();  
-
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
-// 키워드로 장소를 검색합니다
-searchPlaces();
-
-// 키워드 검색을 요청하는 함수입니다
-function searchPlaces() {
-
-    var keyword = document.getElementById('keyword').value;
-
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
-        return false;
-    }
-
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch( keyword, placesSearchCB); 
-}
-
-// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-function placesSearchCB(data, status, pagination) {
-    if (status === kakao.maps.services.Status.OK) {
-
-        // 정상적으로 검색이 완료됐으면
-        // 검색 목록과 마커를 표출합니다
-        displayPlaces(data);
-
-        // 페이지 번호를 표출합니다
-        displayPagination(pagination);
-
-    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
-        alert('검색 결과가 존재하지 않습니다.');
-        return;
-
-    } else if (status === kakao.maps.services.Status.ERROR) {
-
-        alert('검색 결과 중 오류가 발생했습니다.');
-        return;
-
-    }
-}
-
-// 검색 결과 목록과 마커를 표출하는 함수입니다
-function displayPlaces(places) {
-
-    var listEl = document.getElementById('placesList'), 
-    menuEl = document.getElementById('menu_wrap'),
-    fragment = document.createDocumentFragment(), 
-    bounds = new kakao.maps.LatLngBounds(), 
-    listStr = '';
-    
-    // 검색 결과 목록에 추가된 항목들을 제거합니다
-    removeAllChildNods(listEl);
-
-    // 지도에 표시되고 있는 마커를 제거합니다
-    removeMarker();
-    
-    for ( var i=0; i<places.length; i++ ) {
-
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
-
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function(marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-                displayInfowindow(marker, title);
-            });
-
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
-
-            itemEl.onmouseover =  function () {
-                displayInfowindow(marker, title);
-            };
-
-            itemEl.onmouseout =  function () {
-                infowindow.close();
-            };
-        })(marker, places[i].place_name);
-
-        fragment.appendChild(itemEl);
-    }
-
-    // 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
-    listEl.appendChild(fragment);
-    menuEl.scrollTop = 0;
-
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
-}
-
-// 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places) {
-
-    var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<div class="info">' +
-                '   <a href="#" onclick="naverSearch(\''+ places.place_name +'\')"><h5>' + places.place_name + '</h5></a>';
-
-    if (places.road_address_name) {
-        itemStr += '    <span>' + places.road_address_name + '</span>' +
-                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-    } else {
-        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-    }
-                 
-      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-                '</div>';           
-
-    el.innerHTML = itemStr;
-    el.className = 'item';
-
-    return el;
-}
-
-// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx, title) {
-    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-        imgOptions =  {
-            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-            marker = new kakao.maps.Marker({
-            position: position, // 마커의 위치
-            image: markerImage 
-        });
-
-    marker.setMap(map); // 지도 위에 마커를 표출합니다
-    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-    return marker;
-}
-
-// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-function removeMarker() {
-    for ( var i = 0; i < markers.length; i++ ) {
-        markers[i].setMap(null);
-    }   
-    markers = [];
-}
-
-// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-function displayPagination(pagination) {
-    var paginationEl = document.getElementById('pagination'),
-        fragment = document.createDocumentFragment(),
-        i; 
-
-    // 기존에 추가된 페이지번호를 삭제합니다
-    while (paginationEl.hasChildNodes()) {
-        paginationEl.removeChild (paginationEl.lastChild);
-    }
-
-    for (i=1; i<=pagination.last; i++) {
-        var el = document.createElement('a');
-        el.href = "#";
-        el.innerHTML = i;
-
-        if (i===pagination.current) {
-            el.className = 'on';
-        } else {
-            el.onclick = (function(i) {
-                return function() {
-                    pagination.gotoPage(i);
-                }
-            })(i);
-        }
-
-        fragment.appendChild(el);
-    }
-    paginationEl.appendChild(fragment);
-}
-
-// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-// 인포윈도우에 장소명을 표시합니다
-function displayInfowindow(marker, title) {
-    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-    infowindow.setContent(content);
-    infowindow.open(map, marker);
-}
-
- // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-function removeAllChildNods(el) {   
-    while (el.hasChildNodes()) {
-        el.removeChild (el.lastChild);
-    }
-}
-</script> -->
-
-<!-- 	<div id="searchKeyword">
-		<input id="searchkeyword" type="text">
-		<button id="naverSearch">검색</button>
-	</div> -->
+<%@ include file="/WEB-INF/views/frame/header.jsp" %>
 	<div class="Wrapper">
         <div class="WritingWrap">
             <div class="contents">
@@ -516,15 +243,17 @@ function removeAllChildNods(el) {
                                 <img class="copy-url" src="/cob/images/copy--v1.png" alt="링크 주소복사 아이콘" title="주소복사">
                             </a>
                         </div>
-                        <div class="header2">
+                        <div class="header2" id="post${postDetail[1].postIdx }">
                             <a class="imgSelect" data-id="post${postDetail[1].postIdx}">
-                            	<img src="/cob/uploadfile/member/${postDetail[1].memPhoto}"/>
+                            	<img src="<c:url value="/uploadfile/member/${postDetail[1].memPhoto}"/>"/>
                             </a>
                             <h3>${postDetail[1].postWriter}</h3>
                             <div class="nick-box post${postDetail[1].postIdx} display-none">
                                 <ul>
                                     <li><a href="<c:url value='/post/searchList1?memIdx=${postDetail[1].memIdx}'/>">작성글보기</a></li>
-                                    <li>회원정보보기</li>
+                                    <c:if test="${!empty loginInfo}">
+                                    	<li onclick="btn_viewInfo(${postDetail[1].memIdx},${postDetail[1].postIdx},'post')">회원정보보기</li>
+                                    </c:if>
                                 </ul>
                             </div>
                             <div class="contents-header-info">
@@ -599,7 +328,7 @@ function removeAllChildNods(el) {
                 <div class="comments-paging">
                 </div>
             </div>
-            <div id="test">
+            <div id="postList">
 			</div>
         </div>
         <div class="control-bar">
@@ -639,57 +368,9 @@ function removeAllChildNods(el) {
         		});
     		}
     	});
-		/* // 댓글 리스트 조회
-		function showCommList(pageNum){
-			var postIdx = $('#postIdx').val();
-			console.log(pageNum);
-			$.ajax({
-				url : '<c:url value="/comment/commentList1"/>',
-				type : "post",
-				data : {postIdx : postIdx,
-						page : pageNum
-				},
-				dataType:"json",
-				async: false,
-				success : function(data){
-					var htmls = "";
-					var page = data.page;
-					var startpage = data.startpage;
-					var endpage = data.endpage;
-					var list = data.List;
-					
-					$.each(list, function(key,value){
-						console.log("data : " + list);
-						console.log(list);
-		                console.log(page + "," + startpage + "," + endpage);
-		                console.log("start : " + startpage);
-		                console.log("end : " + endpage);
-		                htmls += '<div class="commentArea" style="boarder-bottom:1px solid darkgray; margin-bottom: 15px;">';
-		                htmls += '<div class="commentInfo'+value.commIdx+'">'+'댓글번호 : '+value.commIdx+' / 작성자 : '+value.mem_id;
-		                htmls += '<a onclick="commentUpdate('+value.commIdx+',\''+value.commContent+'\');"> 수정 </a>';
-						htmls += '<a onclick="commentDelete('+value.commIdx+');"> 삭제 </a> </div>';
-		                htmls += '<div class="commentContent'+value.commIdx+'"> <p> 내용 : '+value.commContent +'</p>';
-		                htmls += '</div></div>';
-
-					})
-					for (var num=startpage; num<=endpage; num++) {
-		                 if (num == page) {
-		                      htmls += '<a href="#" onclick="showCommList(' + num + '); return false;" class="page-btn">' + num + '</a>';
-		                 } else {
-		                      htmls += '<a href="#" onclick="showCommList(' + num + '); return false;" class="page-btn">' + num + '</a>';
-		                 }
-		              }
-					$('.comments').html(htmls);
-				},
-				error : function(){
-					alert("오류 발생!");
-				}
-			});
-		} */
 		// 댓글 리스트 조회
  		function showCommList(pageNum){
 			var postIdx = $('#postIdx').val();
-			//console.log(pageNum);
 			$.ajax({
 				url : '<c:url value="/comment/commentList"/>',
 				type : "post",
@@ -710,21 +391,13 @@ function removeAllChildNods(el) {
 						htmls = "등록된 댓글이 없습니다.";
 					}else{
 						$.each(list, function(key,value){
-							var date = new Date(value.commRegDate);
-							var month = date.getMonth() + 1;
-							var commRegDate = date.getFullYear() + ". " + month + ". " + date.getDate() + ". " + date.getHours() + ":" + date.getMinutes();
-						
-							//console.log("data : " + list);
-							//console.log(list);
-			                //console.log(page + "," + startpage + "," + endpage);
-			                //console.log("start : " + startpage);
-			                //console.log("end : " + endpage);
 			                htmls += '<ul><li><div id="comm' + value.commIdx + '" class="id">';
-							htmls += '<div class="comments-profile"><img src="/cob/uploadfile/member/'+value.memPhoto+'" ></div>';
+							htmls += '<div class="comments-profile"><img src="<c:url value="/uploadfile/member/'+value.memPhoto+'"/>" ></div>';
 							htmls += '<div class="comments-info">';
-							htmls += '<a><img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
-					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
-					        htmls += '<span class="date"> ' + commRegDate + ' </span>';
+							htmls += '<img class="rank imgSelect" data-id="comm' + value.commIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + value.commWriter;
+					        htmls += '<div class="nick-box comm' + value.commIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+value.memIdx+'"/>">작성글보기</a></li>';
+					        htmls += '<c:if test="${!empty loginInfo}"><li onclick="btn_viewInfo('+value.memIdx+', '+ value.commIdx +', \'comm\')">회원정보보기</li></c:if></ul></div>';
+					        htmls += '<span class="date"> ' + value.commRegDate + ' </span>';
 					        if(loginmemIdx != null){
 					        	htmls += '<a class="add-recomments" data-recomments="comments2" onclick="btn_Recomment('+value.commIdx+')">답글쓰기</a>';
 					        }
@@ -753,6 +426,50 @@ function removeAllChildNods(el) {
 					alert("오류 발생!");
 				}
 			})
+		}
+		// 작성자 정보 보기
+		function btn_viewInfo(memIdx,Idx, type){
+			console.log(type);	
+			$.ajax({
+					url : '<c:url value="/member/"/>'+memIdx,
+					type : "get",
+					data : { memIdx : '${loginInfo.memIdx}'},
+					async: false,
+					success : function(data){
+						var htmls = '';
+						if (data != null) {
+							htmls += '<div id="userInfo" style="background-color: rgb(245, 246, 247); font-size:16px; border-radius:30px; border:1px solid #aaa; padding:10px; position:absolute; left:180;">';
+							htmls += '<h4 style="text-align:center; margin-bottom:10px;">회원정보보기</h4>';
+							htmls += '<table id="userTable"><tbody><tr><td class="col1">닉네임</td><td id="user_nickName" class="col2">'+data.nickName+'</td><tr>';
+							htmls += '<tr><td class="col1">생   일</td><td id="user_memBirth" class="col2">'+data.memBirth+'</td><tr>';
+							htmls += '<tr><td class="col1">성   별</td><td id="user_memGender" class="col2">'+data.memGender+'</td><tr>';
+							var preferGameList = data['preferGame'];
+							for(var i=0; i < preferGameList.length; i++){
+								htmls += '<tr><td class="col1">선호게임</td><td id="user_gameName" class="col2">'+preferGameList[i].gameName+'</td><tr>';
+								}
+							htmls += '<tr><td class="col1">선호지역</td><td id="user_preferAddr" class="col2">'+data.preferAddr+'</td><tr></tbody></table>';
+							htmls += '<button class="btn_close" style="text-align:center; margin-top:10px;" onclick="btn_infoClose()">창닫기</button>';
+							htmls += '<div>';
+							}
+						if($('#userInfo').length){
+							console.log('존재o');
+							$('#userInfo').remove();
+							$('#'+type+Idx).append(htmls);
+						}else{
+							console.log('존재x');
+							$('#'+type+Idx).append(htmls);
+						}
+					},
+					error : function(request, status, error) {
+						alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
+						console.log(request);
+						console.log(status);
+						console.log(error);
+					}
+				});
+			}
+		function btn_infoClose(){
+			$('#userInfo').addClass('display-none');
 		}
 		// 베스트 댓글 조회
 		function showBestComm(){
@@ -896,11 +613,12 @@ function removeAllChildNods(el) {
 						var recommRegDate = date.getFullYear() + ". " + date.getMonth() + ". " + date.getDate() + ". " + date.getHours() + ":" + date.getMinutes();
 						var htmls = "";
 						
-						htmls += '<div id="id-re' + list[i].recommIdx + '" class="recomments"' + list[i].recommIdx + '>';
-						htmls += '<img src="https://img.icons8.com/ios/50/000000/right3.png"/><div class="recomments-profile"><img src="/cob/uploadfile/member/'+list[i].memPhoto+'" ></div>';
+						htmls += '<div id="recomm' + list[i].recommIdx + '" class="recomments"' + list[i].recommIdx + '>';
+						htmls += '<img src="https://img.icons8.com/ios/50/000000/right3.png"/><div class="recomments-profile"><img src="<c:url value="/uploadfile/member/'+list[i].memPhoto+'"/>" ></div>';
 						htmls += '<div class="re-comments-info">';
 						htmls += '<a><img class="rank imgSelect" data-id="recomm' + list[i].recommIdx + '" src="https://img.icons8.com/ios/50/fa314a/diamond.png" >' + list[i].recommWriter;
-				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li><li>회원정보보기</li></ul></div></a>';
+				        htmls += '<div class="nick-box recomm' + list[i].recommIdx + ' display-none"><ul><li><a href="<c:url value="/post/searchList1?memIdx='+list[i].memIdx+'"/>">작성글보기</a></li>';
+				        htmls += '<c:if test="${!empty loginInfo}"><li onclick="btn_viewInfo('+list[i].memIdx+', '+ list[i].recommIdx +', \'recomm\')">회원정보보기</li></c:if></ul></div></a>';
 				        htmls += '<span class="date"> ' + recommRegDate + '</span>';
 				        if(loginmemIdx == list[i].memIdx){
 				        	htmls += '<a href="javascript:void(0)" onclick="fn_editRecomment(' + list[i].recommIdx + ', \'' + list[i].recommWriter + '\', \'' + list[i].recommContent + '\')"> 수정</a>';
@@ -954,7 +672,7 @@ function removeAllChildNods(el) {
 			htmls += '<div class="recomments-text">';
 			htmls += '<br><textarea id="write-recomments" class="write-comments" cols="50" rows="4" style="width:100%; resize:none">' + recommContent + '</textarea></div></div>'
 			
-			$('#id-re' + recommIdx + '').append(htmls);
+			$('#recomm' + recommIdx + '').append(htmls);
 		}
 		// 대댓글 수정
 		function fn_updateRecomment(recommIdx, recommContent){

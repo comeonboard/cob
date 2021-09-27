@@ -9,6 +9,7 @@ public class CafeReview {
 	private int revIdx;
 	private int cafeIdx;
 	private int memIdx;
+	private String memPhoto;
 	private String nickName;
 	private String revContent;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -72,12 +73,23 @@ public class CafeReview {
 	public void setNickName(String nickName) {
 		this.nickName = nickName;
 	}
+	
+	
+	public String getMemPhoto() {
+		return memPhoto;
+	}
+
+	public void setMemPhoto(String memPhoto) {
+		this.memPhoto = memPhoto;
+	}
 
 	@Override
 	public String toString() {
-		return "CafeReview [revIdx=" + revIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", nickName=" + nickName
-				+ ", revContent=" + revContent + ", revRegTimestamp=" + revRegTimestamp + ", revRating=" + revRating
-				+ "]";
+		return "CafeReview [revIdx=" + revIdx + ", cafeIdx=" + cafeIdx + ", memIdx=" + memIdx + ", memPhoto=" + memPhoto
+				+ ", nickName=" + nickName + ", revContent=" + revContent + ", revRegTimestamp=" + revRegTimestamp
+				+ ", revRating=" + revRating + "]";
 	}
+
+	
 
 }

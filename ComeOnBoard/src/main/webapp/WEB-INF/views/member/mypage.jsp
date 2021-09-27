@@ -490,7 +490,9 @@ function makeRedirect(){
 	 		});
 	 		
 	 	});
-			 
+		$('#btn_send_msg').click(function(){
+			location.href = '/cob/member/msgpage';
+		});
 		$('.btn_close').click(function(){
 
 			$(this).parent().addClass('display_none');
@@ -649,7 +651,7 @@ function makeRedirect(){
         width: 100px;
     }
 
-    .content_menu a:hover{
+    .area_select_menu_big:hover{
         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
         background-size: 400% 400%;
         color: white;
@@ -771,6 +773,9 @@ function makeRedirect(){
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+    	background-color: white;
+    	color: black;
+    	font-size: 16px;
     }
 
     .area_select_menu:hover,
@@ -1305,6 +1310,12 @@ function makeRedirect(){
                     </li>
                     <li>
                         <div class="mypage_menu">
+                            <h2>구입한 게임 목록</h2>
+                            	 <a id="my_post" href="<c:url value='/game/gameorderlist/${loginInfo.memIdx}'/>" class="area_select_menu_big"><div>결제 정보 보기</div></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
                             <h2>모임 관리</h2>
                             <a id="make_group" href="#" class="area_select_menu_big"><div>내 모임 관리</div></a>
                         </div>
@@ -1312,51 +1323,15 @@ function makeRedirect(){
                     <li>
                         <div class="mypage_menu">
                             <h2>내 글 관리</h2>
-                                <a id="my_post" href="#" class="area_select_menu"><div>내가 쓴 글</div></a>
-                                <a id="my_comment" href="#" class="area_select_menu"><div>내 댓글</div></a>
+                            	 <a id="my_post" href="<c:url value='/post/searchList1?memIdx=${loginInfo.memIdx}'/>" class="area_select_menu_big"><div>내가 쓴 글</div></a>
                         </div>
                     </li>
+
                     <li>
                         <div class="mypage_menu">
                             <h2>예약 관리</h2>
-                            <table id="reserve_cafe">
-                                <tr>
-                                    <th id="cafeName">카페명</th>
-                                    <th id="cafeLoc">지역</th>
-                                    <th id="cafeStartTime">예약일</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                            </table>
+                           		<button type="button" class="area_select_menu_big" onclick="myReservation()">내 예약 관리</button> 
+                    
                         </div>
                    	</li>
 
@@ -1367,9 +1342,6 @@ function makeRedirect(){
 
     </div>
 
-    <footer>
-
-    </footer>
 </body>
 <script> 
 	function readURL(input) {
@@ -1452,6 +1424,18 @@ function makeRedirect(){
 		
 		return friendList;
 	}
-</script>
+	
 
+</script>
+<script>
+function myReservation(){
+	var reserv_url = '<c:url value="/cafe/cafe_reserv_myList"/>';
+		var popupWidth = 1000;
+		var popupHeight = 600;
+		var popupX = (window.screen.width /2) - (popupWidth /2);
+		var popupY= (window.screen.height /2) - (popupHeight /2);
+		var options = 'top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no';
+		window.open(reserv_url, '내 예약정보', options);	
+}
+</script>
 </html>

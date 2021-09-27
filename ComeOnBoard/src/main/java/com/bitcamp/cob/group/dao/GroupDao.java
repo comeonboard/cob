@@ -53,16 +53,47 @@ public interface GroupDao {
 	public ArrayList<Group> selectMyGroup(int memIdx);
 	
 	//참가한 모임 select
-	public RegGroup selectJoinGroup();
+	public ArrayList<Group> selectJoinGroup(int memIdx);
 	
 	//모임 참가 (groupreg에 insert)
 	public int insertJoinGroup(int memIdx, int grpIdx);
 
-	//모임에 참가한 사람의 닉네임 가져오기
+	//모임에 참가하려는 사람의 닉네임 가져오기
 	public ArrayList<NicknameMemidxGrpidx> selectRegGroupNicknameMemidxGrpidx(int grpIdx);
 	
-	//모임 참가 수락/거절
+	//모임 참가 수락
 	public int judgeRequest(int memIdx, int grpIdx);
 	
+	//모임에 참가하려는 사람의 닉네임 가져오기 (grpConfirm = 0 -> 아직 미참)
+	public ArrayList<NicknameMemidxGrpidx> selectGrpConfirmZero(int grpIdx);
+	
+	//모임에 참가한 사람의 닉네임 가져오기 (grpConfirm = 1 -> 참여완료)
+	public ArrayList<NicknameMemidxGrpidx> selectGrpConfirmOne(int grpIdx);
+
+	//참여대기자 거절
+	public int refuseApplyForParticipation(int memIdx, int grpIdx);
+	
+	//참가한 사람 추방
+	public int exileAttendant(int memIdx, int grpIdx);
+	
+	//모임 참가 인원
+	public int selectRegMemCount(int grpIdx);
+	//모임 최대 인원
+	public int selectMaxMemCount(int grpIdx);
+
+
+	// 참여한 모임 탈퇴
+	public int deleteJoinedGroup(int grpIdx, int memIdx);
+	
+	
+	// 모임 참가 신청 중인 memIdx select
+	public ArrayList<RegGroup> ApplyingForParticipation(int grpIdx, int memIdx);
 	
 }
+
+
+
+
+
+
+

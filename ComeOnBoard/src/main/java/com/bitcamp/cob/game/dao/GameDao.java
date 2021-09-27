@@ -9,6 +9,7 @@ import com.bitcamp.cob.game.domain.GameMain;
 import com.bitcamp.cob.game.domain.GamePage;
 import com.bitcamp.cob.game.domain.GameOrder;
 import com.bitcamp.cob.game.domain.GameReview;
+import com.bitcamp.cob.game.domain.OrderList;
 import com.bitcamp.cob.game.domain.PreferGame;
 import com.bitcamp.cob.game.domain.SearchType;
 import com.bitcamp.cob.game.domain.SortType;
@@ -59,6 +60,8 @@ public interface GameDao {
 	int preferChk(PreferGame pgf);
 	
 	// 주문정보 입력
-	int insertOrder (GameOrder order);
+	int insertOrder(GameOrder order);
+	// 주문목록
+	List<OrderList>selectOrderList(int idx);
 	
 }

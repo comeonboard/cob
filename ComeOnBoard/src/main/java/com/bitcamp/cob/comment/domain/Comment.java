@@ -3,6 +3,9 @@ package com.bitcamp.cob.comment.domain;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
 public class Comment {
 
 	private int commIdx;
@@ -10,6 +13,7 @@ public class Comment {
 	private int postIdx;
 	private String commWriter;
 	private String commContent;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone="Asia/Seoul")
 	private Timestamp commRegDate;
 	private int commLike;
 	private int commDislike;
@@ -73,8 +77,8 @@ public class Comment {
 	}
 
 	public Timestamp getCommRegDate() {
-		return new Timestamp(commRegDate.getTime()-(1000*60*60*9));
-		//return commRegDate;
+		//return new Timestamp(commRegDate.getTime());
+		return commRegDate;
 	}
 
 	public void setCommRegDate(Timestamp commRegDate) {

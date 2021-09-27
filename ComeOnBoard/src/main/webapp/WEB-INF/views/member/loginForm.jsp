@@ -261,7 +261,7 @@
 	                </div>	
 	    	        <input type="button" id="btn_login" value="로그인">
 	                <img src="<c:url value='/images/kakao_login.png'/>" style="width: 460px;" onclick=kakaoLogin()>
-	                <input type="button" value="카카오 연결 끊기" onclick=kakaoCut()>
+	                <!-- <input type="button" value="카카오 연결 끊기" onclick=kakaoCut()> -->
 	            </fieldset>
 	        </form>
 			<form id="form_kakao_login" method="post" action="<c:url value='/member/kakaoLogin'/>">

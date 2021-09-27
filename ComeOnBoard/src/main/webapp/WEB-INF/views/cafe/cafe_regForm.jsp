@@ -3,14 +3,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-<c:if test="${empty loginInfo || loginInfo.memAuth ne 'cafe'}">
+<c:if test="${empty loginInfo}">
+	<script>
+		alert('로그인하지 않았습니다.');
+		history.back();
+	</script>
+</c:if> 
+
+<c:if test="${loginInfo.memAuth ne 'cafe'}">
 	<script>
 		alert('카페 등록 권한이 없습니다.');
 		history.back();
 	</script>
 </c:if> 
 
-<c:if test="${checkCafe == 1}">
+<c:if test="${checkCafe >= 1}">
 	<script>
 		alert('이미 등록하셨습니다.');
 		history.back();
