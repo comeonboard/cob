@@ -12,7 +12,6 @@ function makeRedirect(){
 </script>
 <script>
 	alert('로그인 후 사용이 가능합니다.');
-
 	makeRedirect();
 </script>
 
@@ -56,7 +55,6 @@ function makeRedirect(){
 		//게임 정보로 이동하기
 		$('.btn_game').off('click').on('click', function(){
 			var gameIdx = $(this).attr('data-game');
-
 			location.href = '<c:url value="/game/gamepage/"/>'+gameIdx;
 		});
 		
@@ -77,7 +75,6 @@ function makeRedirect(){
 				console.log(error);
 			}
 		}); */
-
 		// 친구 리스트 불러오기 
 		var friendList = getFriendList();
 		
@@ -86,7 +83,6 @@ function makeRedirect(){
 			if(confirm('정말 삭제하시겠습니까?')){
 				var frIdx = $(this).attr('data-friend');
 				var deleteUrl = '<c:url value="/friends/"/>'+frIdx;
-
 				$.ajax({
 					url : deleteUrl,
 					type : 'delete',
@@ -127,7 +123,6 @@ function makeRedirect(){
 			$('#btn_memPhoto_default').on('click', function(){
 				var loginInfo = '${loginInfo}';
 				$.ajax({
-
 					url : '<c:url value="/member/deleteMemPhoto"/>',
 					type : 'post',
 					data : loginInfo,
@@ -237,7 +232,6 @@ function makeRedirect(){
 					$('#msg_pw').removeClass('color_grey');
 				}
 			});
-
 			
 			// 비밀번호 일치 초기화
 			$('#memRePw').focusin(function(){
@@ -373,8 +367,6 @@ function makeRedirect(){
 					}
 				});
 				
-
-
 			$('#update_my_info').removeClass('display_none');
 		
 			// 우편번호 찾기 
@@ -403,11 +395,9 @@ function makeRedirect(){
 			    	   	var preferAddrArray = (addr).split(' ');
 			    
 			    	    $('#preferAddr').val(preferAddrArray[0]+' '+preferAddrArray[1]);
-
 			    	    
 			        }
 			    }).open();
-
 				return false;
 			});
 			
@@ -465,7 +455,6 @@ function makeRedirect(){
 					}
 			});
 			return false;
-
 		});
 		
 		// 멤버의 권한을 카페로 변경
@@ -490,16 +479,16 @@ function makeRedirect(){
 	 		});
 	 		
 	 	});
-			 
+		$('#btn_send_msg').click(function(){
+			location.href = '/cob/member/msgpage';
+		});
 		$('.btn_close').click(function(){
-
 			$(this).parent().addClass('display_none');
 		});
 	});
 </script>
 </head>
 <style>
-
     @keyframes gradient {
         0% {
         background-position: 0% 50%;
@@ -511,7 +500,6 @@ function makeRedirect(){
         background-position: 0% 50%;
         }
     }
-
     .MultiBar a {
         color: white;
     }
@@ -537,7 +525,6 @@ function makeRedirect(){
         max-width: 1280px;
         padding: 12px 0px 5px;
     } 
-
     .area_gnb {
         font-size: 12px;
         width: 500px;
@@ -545,12 +532,10 @@ function makeRedirect(){
         float: right;
         color: white;
     }
-
     .area_gnb>li {
         float: right;
         width: 75px;
     }
-
     .container {
         display: inline-block;
         height: 93px;
@@ -558,15 +543,12 @@ function makeRedirect(){
         max-width: 1280px;
         position: relative;
     }
-
     .logo {
         position: absolute;
         left: 50%;
         width: 180px;
         margin-left: -90px;
     }
-
-
     .main_naviwrap {
         display: block;
         margin: 0 auto;
@@ -587,32 +569,27 @@ function makeRedirect(){
         float: right;
         overflow: hidden;
     }
-
     .main_nav>ul>li {
         color: white;
         width: 85px;
         float: left;
     }
-
     .content {
         display: block;
         margin: 0 auto;
         width: 100%;
         max-width: 1280px;
     }
-
     footer {
         width: 100%;
         height: 100px;
         background-color: grey;
     }
-
     .content_wrap {
         width: 100%;
         height: 100%;
         overflow:hidden;
     }
-
     #menu_wrap {
         margin-top: 50px;
     }
@@ -622,14 +599,12 @@ function makeRedirect(){
         height: 650px;
         overflow: hidden;
     }
-
     .content_menu>ul>li {
         display: block;
         float: left;
         width: 50%;
         height: 320px;
     }
-
     .content_menu a {
         position: relative;
         width: 420px;
@@ -642,31 +617,26 @@ function makeRedirect(){
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
         
     }
-
     .content_menu img{
         margin-top: 80px;
         margin-bottom: 30px;
         width: 100px;
     }
-
-    .content_menu a:hover{
+    .area_select_menu_big:hover{
         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
         background-size: 400% 400%;
         color: white;
         animation: gradient 2s ease infinite;
     }
-
     .menu_wrap {
         margin: 0 auto;
         height: 100%;
         width: 1000px;
         padding: 50px;
     }
-
     .menu_wrap ul {
         height: 1360px;
     }
-
     .menu_wrap li {
         width: 500px;
         height: 350px;
@@ -684,12 +654,10 @@ function makeRedirect(){
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
         padding: 20px;        
     }
-
     .mypage_menu h2 {
         font-size: 20px;
         margin-bottom: 30px;
     }
-
     #profile_frame {
         margin-left: 20px;
         width: 120px;
@@ -699,13 +667,11 @@ function makeRedirect(){
         display: block;
         float: left;
     }
-
     .photo {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-
     .member_profile {
         float:right;
         display: block;
@@ -713,19 +679,16 @@ function makeRedirect(){
         height: 120px;
         text-align: left;
     }
-
     .member_profile td {
         width: 120px;
         height: 25px;
     }
-
     .area_update_profile {
         float: right;
         margin-top: 10px;
         margin-right: 15px;
       
     }
-
     button {
         width: 90px;
         height: 40px;
@@ -734,20 +697,16 @@ function makeRedirect(){
         border-radius: 10%;
         color: white;
     }
-
     .message_table {
         margin-left: 10px;
     }
-
     .message_table td {
         text-align: left;
         width: 100px;
     }
-
     .message_text {
         width: 300px !important;
     } 
-
     .area_select_menu,
     .select {
         margin: 0 20px;
@@ -771,8 +730,10 @@ function makeRedirect(){
         border: 1px solid #ddd;
         border-radius: 10px;
         box-shadow: 0px 8px 20px -12px rgb(0 0 0 / 50%);
+    	background-color: white;
+    	color: black;
+    	font-size: 16px;
     }
-
     .area_select_menu:hover,
     .select:hover {
         background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -784,11 +745,9 @@ function makeRedirect(){
     #reserve_cafe {
         text-align: left;
     }
-
     #cafeName {
         width: 170px;
     }
-
     #cafeLoc {
         width: 70px;
     }
@@ -796,12 +755,10 @@ function makeRedirect(){
     #cafeStartTime {
         width: 100px;
     }
-
     #reserve_cafe button {
         width: 80px;
         height: 30px;
     }
-
     #friends {
         text-align: left;
     }
@@ -811,12 +768,10 @@ function makeRedirect(){
         font-weight: 500;
         font-size: 18px;
     }
-
     .friend_photo {
         width : 100%;
         height: 100%;
     }
-
     .friend_profile_frame {
         width: 45px;
         height: 45px;
@@ -825,12 +780,10 @@ function makeRedirect(){
         display: block;
         float: left;      
     }
-
     #friends button{
         width: 90px;
         height: 40px;
     }
-
     .extra_view {
         margin-top: 3px;
         margin-right: 10px;
@@ -838,7 +791,6 @@ function makeRedirect(){
         background-color: rgb(251,188,5);
         color: black;
     }
-
     #area_friend_info {
         position: absolute;
         width: 400px;
@@ -853,11 +805,9 @@ function makeRedirect(){
         width: 300px;
 		margin: 15px auto;
     }
-
     .area_friend button {
         margin-top: 10px;
     }
-
     .col1 {
         color: rgb(66, 133, 244);
         width: 100px;
@@ -867,12 +817,10 @@ function makeRedirect(){
         border-radius: 5px;
         border:rgb(66, 133, 244) 1px solid;
     }
-
     .col2 {
         width: 160px;
         height: 30px;
     }
-
     #friend_info_profile_frame {
         margin: 15px auto;
         width: 100px;
@@ -881,7 +829,6 @@ function makeRedirect(){
         overflow:hidden;
         display: block;      
     }
-
     #update_my_info {
         width: 800px;
         height: auto;
@@ -892,7 +839,6 @@ function makeRedirect(){
         padding-top: 50px;
         padding-bottom: 50px;
     }
-
     .display_none {
         display: none;
     }
@@ -900,12 +846,10 @@ function makeRedirect(){
     #update_profile:hover {
         cursor: pointer;
     }
-
     .block {
         height: auto;
         display: block;
     }
-
     .input_num {
         border: 1px solid #bbb;
         padding: 7px 1px 10px 11px;
@@ -916,7 +860,6 @@ function makeRedirect(){
         background-color: #fff;
         font-size: 16px;
     }
-
     select {
         width: 460px;
         height: 48px;
@@ -926,7 +869,6 @@ function makeRedirect(){
         color: #777;
         border: 1px solid #bbb;
     }
-
     .input_phoneNum,
     .input_address {
         border: 1px solid #bbb;
@@ -937,7 +879,6 @@ function makeRedirect(){
         background-color: #fff;
         font-size: 16px;
     }
-
     .input_phoneNum+button,
     .input_address+button {
         float: right;
@@ -953,11 +894,9 @@ function makeRedirect(){
     #phoneNum_input {
         height: 120px;
     }
-
     #input_profile {
         display: none;
     }
-
     #profile_button {
         display: block;
         margin: 0 auto;
@@ -971,15 +910,12 @@ function makeRedirect(){
         text-align: center;
         line-height: 48px
        };
-
     #profile_button:hover {
         cursor: pointer;
     }
-
     #address_area {
         height: 200px;
     }
-
     .form_update_profile {
         margin: 0 auto;
         text-align: left;
@@ -988,20 +924,17 @@ function makeRedirect(){
         width: 400px;
         height: auto;
     }
-
     .form_create_id h2 {
         text-align: center;
         margin-bottom: 20px;
         color: #777;
     }
-
     .input_area {
         margin: 0 auto;
         width: 460px;
         height: 70px;
         margin-bottom: 10px;
     }
-
     .input_row {
         border: 1px solid #bbb;
         padding: 7px 35px 10px 11px;
@@ -1011,7 +944,6 @@ function makeRedirect(){
         background-color: #fff;
         font-size: 16px;
     }
-
     .input_row:focus,
     .input_num:focus,
     .input_phoneNum:focus {
@@ -1073,7 +1005,6 @@ function makeRedirect(){
         z-index: 50;
         padding-top: 50px;
         padding-bottom: 50px;
-
     }
     
     #area_update_password input {
@@ -1305,6 +1236,12 @@ function makeRedirect(){
                     </li>
                     <li>
                         <div class="mypage_menu">
+                            <h2>구입한 게임 목록</h2>
+                            	 <a id="my_post" href="<c:url value='/game/gameorderlist/${loginInfo.memIdx}'/>" class="area_select_menu_big"><div>결제 정보 보기</div></a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="mypage_menu">
                             <h2>모임 관리</h2>
                             <a id="make_group" href="#" class="area_select_menu_big"><div>내 모임 관리</div></a>
                         </div>
@@ -1312,51 +1249,15 @@ function makeRedirect(){
                     <li>
                         <div class="mypage_menu">
                             <h2>내 글 관리</h2>
-                                <a id="my_post" href="#" class="area_select_menu"><div>내가 쓴 글</div></a>
-                                <a id="my_comment" href="#" class="area_select_menu"><div>내 댓글</div></a>
+                            	 <a id="my_post" href="<c:url value='/post/searchList1?memIdx=${loginInfo.memIdx}'/>" class="area_select_menu_big"><div>내가 쓴 글</div></a>
                         </div>
                     </li>
+
                     <li>
                         <div class="mypage_menu">
                             <h2>예약 관리</h2>
-                            <table id="reserve_cafe">
-                                <tr>
-                                    <th id="cafeName">카페명</th>
-                                    <th id="cafeLoc">지역</th>
-                                    <th id="cafeStartTime">예약일</th>
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                                <tr>
-                                    <td id="cafeName">컴온보드카페</td>
-                                    <td id="cafeLoc">마포구</td>
-                                    <td id="cafeStartTime">21.09.01</td>
-                                    <td><button class="confirm_res">예약 취소</button></td>
-                                </tr>
-                            </table>
+                           		<button type="button" class="area_select_menu_big" onclick="myReservation()">내 예약 관리</button> 
+                    
                         </div>
                    	</li>
 
@@ -1367,9 +1268,6 @@ function makeRedirect(){
 
     </div>
 
-    <footer>
-
-    </footer>
 </body>
 <script> 
 	function readURL(input) {
@@ -1415,7 +1313,6 @@ function makeRedirect(){
 					});	
 				
 				
-
 			},
 			error : function(request, status, error) {
 				alert('서버 통신에 문제가 발생했습니다. 다시 실행해주세요.');
@@ -1452,6 +1349,17 @@ function makeRedirect(){
 		
 		return friendList;
 	}
+	
 </script>
-
+<script>
+function myReservation(){
+	var reserv_url = '<c:url value="/cafe/cafe_reserv_myList"/>';
+		var popupWidth = 1000;
+		var popupHeight = 600;
+		var popupX = (window.screen.width /2) - (popupWidth /2);
+		var popupY= (window.screen.height /2) - (popupHeight /2);
+		var options = 'top='+popupY+', left='+popupX+', width='+popupWidth+', height='+popupHeight+', status=no, menubar=no, toolbar=no, resizable=no';
+		window.open(reserv_url, '내 예약정보', options);	
+}
+</script>
 </html>

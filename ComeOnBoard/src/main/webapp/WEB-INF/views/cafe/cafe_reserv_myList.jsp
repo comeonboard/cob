@@ -37,6 +37,7 @@ function my_reserv(){
 	$.ajax({
 		url: '<c:url value="/cafe/cafe_reserv_myList"/>',
 		type: 'post',
+		data: {memIdx: ${loginInfo.memIdx}},
 		dataType: 'json',
 		success: function(data){
 			var asd =  data;

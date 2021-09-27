@@ -57,7 +57,7 @@ public class CafeReviewController {
 	public String writeCafeReview(CafeReview cafeReview, @PathVariable("id") int idx) {
 	
 		cafeReview.setCafeIdx(idx);
-		//System.out.println(cafeReview);
+		System.out.println("작성 메소드 실행 : "+cafeReview);
 		
 		int result = cafeReviewService.writeCafeReview(cafeReview);
 
@@ -69,7 +69,7 @@ public class CafeReviewController {
 	@RequestMapping(value= "/cafe/cafe_page/{id}", method = RequestMethod.PUT)
 	public String updateCafeReview(CafeReview cafeReview, @PathVariable("id") int idx) {
 	
-		//System.out.println("수정 메소드 실행 : "+cafeReview);
+		System.out.println("수정 메소드 실행 : "+cafeReview);
 		
 		int result = cafeReviewService.updateCafeReview(cafeReview);
 		//System.out.println("수정 결과 : " + result);

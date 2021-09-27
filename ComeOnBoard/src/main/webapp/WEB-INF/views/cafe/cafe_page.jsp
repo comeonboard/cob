@@ -465,7 +465,7 @@ function rev_del(idx){
 
 // 리뷰 수정시 빈값 체크
 function rev_mod_submit(idx){
-
+	console.log('실행 : ' +idx);
 	var revmodtext = $('#rev_mod_textarea_'+idx+'').val();
 
 	// 점수 입력 확인
@@ -710,7 +710,7 @@ function file(){
         <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">카페 이미 수정</h5>
+            <h5 class="modal-title" id="exampleModalLabel">카페 이미지 수정</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>

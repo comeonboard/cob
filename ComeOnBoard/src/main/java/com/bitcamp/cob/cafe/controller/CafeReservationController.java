@@ -65,10 +65,10 @@ public class CafeReservationController {
 	// 예약 리스트 (회원)
 	@RequestMapping(value = "/cafe/cafe_reserv_myList", method = RequestMethod.POST)
 	@ResponseBody
-	public List<CafeReservation> getMyReservList(Model model) {
+	public List<CafeReservation> getMyReservList(@RequestParam("memIdx")int memIdx, Model model) {   
 		// 전달값 - 멤버idx
 		List<CafeReservation> resultList = null;
-		resultList = cafeReservationService.getMyReservList(10);
+		resultList = cafeReservationService.getMyReservList(memIdx);
 		//System.out.println("예약메소드 반환값 : "+ resultList);
 		//model.addAttribute("resultList", resultList);
 		return resultList;
