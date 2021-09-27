@@ -102,6 +102,7 @@ public class Group {
 	}
 
 	public String getGrpContent() {
+//		return grpContent.replace("\r\n", "<br>");
 		return grpContent;
 	}
 

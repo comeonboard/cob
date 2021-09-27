@@ -43,13 +43,13 @@ public class GroupEditorController {
 	@RequestMapping(value = "/group/groupEditor", method = RequestMethod.GET)
 	public String getGroupEditor(int memIdx, int grpIdx, Model model) {
 
-		service.insertEditGroup(memIdx, grpIdx);
+		service.insertEditGroup(memIdx, grpIdx); // 모임 참가 DB 정보 저장
 
-		RegGroup result = service.selectEditGroup(); // 내가 참가한 모임(groupreg)
-		model.addAttribute("groupEditorReadResult", result);
+//		RegGroup result = service.selectEditGroup(); // 내가 참가한 모임(groupreg)
+//		model.addAttribute("groupEditorReadResult", result);
 
-//		return "/group/groupEditor";
-		return "/group/groupManagement";
+		return "redirect:/group/groupList";
+//		return "redirect:/group/readGroup";	//오류
 	}
 
 	// groupManagement.jsp 에서 '게시물관리' 클릭시 저장된 게시글 정보를 select에서 화면에 보여주기
@@ -76,7 +76,7 @@ public class GroupEditorController {
 		// 참가인원, 최대정원 count(grpRegIdx)
 		int result2 = service.countRegMem(grpIdx);
 		int result3 = service.countMaxMem(grpIdx);
-		model.addAttribute("countMem", result2);
+		model.addAttribute("countMem", result2+1);
 		model.addAttribute("countMaxMem", result3);
 		
 		return "/group/groupEditor";

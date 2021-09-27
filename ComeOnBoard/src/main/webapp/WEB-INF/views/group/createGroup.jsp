@@ -102,7 +102,6 @@ function makeRedirect(){
 							<label for="max_count" id="label_count">모임 최대인원</label> <select
 								name="grpMaxMem" id="label_count"
 								style="width: 100px; height: 30px">
-								
 								<option value="2">2</option>
 								<option value="3">3</option>
 								<option value="4">4</option>
@@ -124,13 +123,12 @@ function makeRedirect(){
 								<option value="20">20</option>
 							</select>
 						</div>
-						<!-- <hr> -->
+						
 						<div id="date">
 							<label for="grpPostEndDate" class="dateBox1">모집 마감일&nbsp;</label>
-							<input type="date" id="grpPostEndDate" name="grpPostEndDate"
-								class="dateBox1"> <input type="datetime-local"
-								id="grpDate" name="grpDate" class="dateBox2"> <label
-								for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
+							<input type="date" id="grpPostEndDate" name="grpPostEndDate" class="dateBox1"> 
+							<input type="datetime-local" id="grpDate" name="grpDate" class="dateBox2"> 
+							<label for="grpDate" class="dateBox2">모임 진행일 &nbsp;</label>
 						</div>
 						<hr style="margin-top: 30px; margin-bottom: 20px;">
 					</div>
@@ -139,17 +137,16 @@ function makeRedirect(){
 							name="grpTitle"></textarea>
 					</div>
 					<div class="write_contents">
-
-						<br> <label for="w3review">내용</label>
-
-						<textarea name="grpContent" rows="30" cols="100"></textarea>
+						<br> 
+						<label for="w3review">내용</label>
+						<textarea id="text_content" name="grpContent" rows="30" cols="100" wrap="hard"></textarea>
 					</div>
 				</div>
 			</div>
 		</div>
 	</form>
-
-
 </body>
+
+
 
 </html>

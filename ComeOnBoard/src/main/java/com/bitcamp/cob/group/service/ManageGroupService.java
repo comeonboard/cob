@@ -25,8 +25,8 @@ public class ManageGroupService {
 	}
 	
 	// 참가한 그룹 가져오기
-	public RegGroup selectEditGroup() {
-		return template.getMapper(GroupDao.class).selectJoinGroup();	
+	public ArrayList<Group> selectEditGroup(int memIdx) {
+		return template.getMapper(GroupDao.class).selectJoinGroup(memIdx);	
 	}
 	
 	public ArrayList<Group> selectMyGameGroup(int memIdx) {
@@ -54,6 +54,11 @@ public class ManageGroupService {
 	public int countMaxMem(int grpIdx) {
 		return template.getMapper(GroupDao.class).selectMaxMemCount(grpIdx);
 	}
+
+	// 모임 참가 신청중인 memIdx select
+//	public int showApplying(int grpIdx, int memIdx) {
+//		return template.getMapper(GroupDao.class).ApplyingForParticipation(grpIdx, memIdx);
+//	}
 	
 	
 	

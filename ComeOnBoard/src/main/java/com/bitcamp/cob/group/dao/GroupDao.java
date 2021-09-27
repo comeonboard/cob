@@ -53,7 +53,7 @@ public interface GroupDao {
 	public ArrayList<Group> selectMyGroup(int memIdx);
 	
 	//참가한 모임 select
-	public RegGroup selectJoinGroup();
+	public ArrayList<Group> selectJoinGroup(int memIdx);
 	
 	//모임 참가 (groupreg에 insert)
 	public int insertJoinGroup(int memIdx, int grpIdx);
@@ -80,7 +80,14 @@ public interface GroupDao {
 	public int selectRegMemCount(int grpIdx);
 	//모임 최대 인원
 	public int selectMaxMemCount(int grpIdx);
+
+
+	// 참여한 모임 탈퇴
+	public int deleteJoinedGroup(int grpIdx, int memIdx);
 	
+	
+	// 모임 참가 신청 중인 memIdx select
+//	public int ApplyingForParticipation(int grpIdx, int memIdx);
 	
 }
 

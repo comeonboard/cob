@@ -118,7 +118,7 @@
 					<div class="form-group">
 						<label for="exampleFormControlTextarea1">내용</label>
 						<textarea class="form-control" id="exampleFormControlTextarea1"
-							name="grpContent" rows="3">${groupEditorReadMyGroupResult.grpContent}</textarea>
+							name="grpContent" rows="3"><c:out value="${groupEditorReadMyGroupResult.grpContent}"/></textarea>
 					</div>
 					<!-- 파일선택 -->
 					<!-- <div class="form-group">
@@ -160,13 +160,14 @@
 		<div class="main_div">
 			<div id="div3" class="div">
 				<!-- 참가 인원 카운트 -->
-				<h4 id="count_participant">참여 인원: ${countMem}명&nbsp;/&nbsp;${countMaxMem}명</h4>
+				<h4 id="count_participant">참여 인원(작성자포함): ${countMem}명&nbsp;/&nbsp;${countMaxMem}명</h4>
 				<hr>
 				<c:forEach items="${ajaxConfirmOneList}" var="list" varStatus="status">
 					<ul>
 						<li>
 							<div id="participant_list_accepted">
 								<!-- 닉네임 들어갈 자리 -->
+								
 								${ajaxConfirmOneList[status.index].nickName}
 								<button class="btn btn-danger btn-sm" type="submit" id="decline"
 									onclick="sendAjaxToDelete2(${ajaxConfirmOneList[status.index].memIdx},${ajaxConfirmOneList[status.index].grpIdx})">추방</button>
