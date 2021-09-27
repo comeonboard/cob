@@ -171,6 +171,19 @@ delete from gamereview where revIdx = 16 and memidx=1;
 update gamereview set revRating =1 , revContent ="업데이트 테스트~" where revidx = 28;
 select @ROWNUM:=@ROWNUM+1 AS ROWNUM,A.* FROM gamelist A, (SELECT @ROWNUM:=0) R order by gameIdx desc;
 
+drop table project.orderlist;
+CREATE TABLE `project`.`orderlist`(
+`cusIdx` int not null auto_increment primary key,
+`memIdx` int not null,
+`gameIdx` int not null,
+`memName` varchar(20) not null,
+`gamePrice` int not null,
+`shipAddess` varchar(80) NOT NULL,
+`phoneNum` varchar(20) NOT NULL,
+`orderDate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT `fk_memIdx_customer` FOREIGN KEY (`memIdx`) REFERENCES `project`.`member1` (`memIdx`),
+  CONSTRAINT `fk_gameIdx_customer` FOREIGN KEY (`gameIdx`) REFERENCES `project`.`gamelist` (`gameIdx`)
+);
 -- ------------------------------------------재훈 ------------------------------------
 
 CREATE TABLE `project`.`boardgamecafe` (

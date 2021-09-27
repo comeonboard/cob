@@ -53,6 +53,9 @@
 #address{
 	clear:both;
 }
+#orderDate{
+	clear:both;
+}
 .game_item>ul>li>h3>a:hover{
     color: rgb(66, 133, 244);
 }
@@ -94,8 +97,9 @@ a{
             
             <ul>
                 <li><h3>게임명 : <a href="<c:url value ='/game/gamepage/'/>${orderlist.gameIdx}" >${orderlist.gameName} / </a></h3></li>
-                <li><h3>가격 : ${orderlist.gamePrice} / </h3></li>
+                <li><h3>결제금액 : ${orderlist.gamePrice}원 / </h3></li>
                 <li><h3>구매자 : ${orderlist.memName}</h3></li>
+                <li id="orderDate"><h3>구매날짜 : ${orderlist.orderDate}</h3></li>
                 <li id="address"><h3>주소 : ${orderlist.shipAddress}</h3></li>
             </ul>
             

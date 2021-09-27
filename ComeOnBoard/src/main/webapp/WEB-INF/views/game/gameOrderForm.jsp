@@ -357,7 +357,7 @@
 						<li class="order_address">주소</li>
 						
 						<li class="order_address_text">
-						<input type="text" id="order_address" name="shipAddress" placeholder="주소" readonly>
+						<input type="text" id="order_address" placeholder="주소" readonly>
 						<input type="button" id="btn_address" onclick="btn_execDaumPostcode()" value="우편번호 찾기">
 						<input type="text" id="order_postcode" placeholder="우편번호" readonly>
 						<input type="text" id="order_extraAddress" placeholder="참고항목" readonly>
@@ -368,6 +368,7 @@
 					<textarea class="hidden" name="gameIdx" id="gameIdx" >${gamepage.gameIdx}</textarea>
 					<textarea class="hidden" name="memIdx" id="memIdx" >${loginInfo.memIdx}</textarea>
 					<input type="text" class="hidden" name="merchant" id="merchant">
+					<input type="text" class="hidden" name="shipAddress" id="shipAddress">
 				</div>
 				
 				<div class="btn_order_pay">
@@ -386,6 +387,8 @@
 	var IMP = window.IMP; 
 	IMP.init("imp57300102"); 
 	function requestPay() {			
+		var shipAddress = $('#order_address').val() + $('#order_extraAddress').val() +$('#order_detailAddress').val();
+		console.log(shipAddress)
 			if($('#memName').val() == '' ){			
 				alert ('이름을 입력해주세요');
 				return false;
@@ -400,6 +403,7 @@
 				return false;
 			}
 			$('#merchant').attr('value',merchantid);
+			$('#shipAddress').attr('value',shipAddress);
 			console.log($("#order_form").serialize());
 		// IMP.request_pay(param, callback) 결제창 호출
 		IMP.request_pay({ // param
@@ -411,7 +415,7 @@
 			buyer_email : "",
 			buyer_name : $('#memName').val(),
 			buyer_tel : $('#phoneNum').val(),
-			buyer_addr : $('#order_address').val(),
+			buyer_addr : $('#shipAddress').val(),
 			buyer_postcode : $('#order_postcode').val()
 		}, function(rsp) { // callback
 			if (rsp.success) {
@@ -435,7 +439,7 @@
 				
 				
 				});	
-				alert("결제가 완료되었습니다.")
+        		alert("결제가 완료되었습니다.")
 				location.href="<c:url value='/game/gamepage/${gamepage.gameIdx}'/>"
   			} else {
 				alert("결제에 실패하였습니다. \n에러 내용: " + rsp.error_msg);

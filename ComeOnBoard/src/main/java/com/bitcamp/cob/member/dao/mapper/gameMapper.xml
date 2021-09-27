@@ -104,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<result column="shipAddress" property="shipAddress"/>
 		<result column="memName" property="memName"/>
 		<result column="gameIdx" property="gameIdx"/>			
-				
+		<result column="orderDate" property="orderDate"/>	
 	</resultMap>
 	
 	
@@ -452,9 +452,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectOrderList"
 			resultMap="orderListResult"
 	>
-	select gl.gameName, gl.gamePrice, gl.gamePhoto, ol.memName , ol.memIdx,ol.shipAddress,ol.gameIdx
+	select gl.gameName, gl.gamePrice, gl.gamePhoto, ol.memName , ol.memIdx,ol.shipAddress,ol.gameIdx,ol.orderDate
 	from project.orderList ol, project.gamelist gl
-	where ol.memIdx = #{memIdx} and gl.gameIdx=ol.gameIdx;	
+	where ol.memIdx = #{memIdx} and gl.gameIdx=ol.gameIdx
+	order by cusidx desc;	
 	</select>
 	
 	
