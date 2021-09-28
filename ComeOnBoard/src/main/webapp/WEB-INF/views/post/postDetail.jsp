@@ -574,8 +574,8 @@ crossorigin="anonymous">
 		// 대댓글 등록 폼
 		function btn_Recomment(commIdx){
 			htmls = '';
-			htmls += '<div class="editRecomments comments2"><label class="write">댓글 쓰기</label><a class="remove-comments" onClick="showCommList()">닫기</a>';
-	        htmls += '<div class="recomments-text"><textarea id="recomments'+commIdx+'" class="write-comments" cols="50" rows="4" placeholder="댓글을 입력해주세요."></textarea>';
+			htmls += '<div class="editRecomments comments2"><label class="write">답글 쓰기</label><a class="remove-comments" onClick="showCommList()">닫기</a>';
+	        htmls += '<div class="recomments-text"><textarea id="recomments'+commIdx+'" class="write-comments" cols="50" rows="4" placeholder="답글을 입력해주세요."></textarea>';
 	        htmls += '<input type="submit" onclick="btn_regRecomment('+commIdx+')" value="등록"></div></div>';
 	        $('#comm' + commIdx + '').append(htmls);
 	        
@@ -592,11 +592,11 @@ crossorigin="anonymous">
 				},
 				async: false,
 				success : function(){
-					alert('대댓글을 등록했습니다.');
+					alert('답글을 등록했습니다.');
 					showCommList();
 				},
 				error : function(){
-					alert('대댓글 등록 중 오류발생');
+					alert('답글 등록 중 오류발생');
 				}
 			});
 		}
@@ -666,7 +666,7 @@ crossorigin="anonymous">
 			var htmls = "";
 			
 			htmls += '<div class="editRecomments comments1">';
-			htmls += '<label class="write">댓글 쓰기</label>';
+			htmls += '<label class="write">답글 쓰기</label>';
 			htmls += '<a href="javascript:void(0)" onclick="fn_updateRecomment(' + recommIdx + ', \'' + recommContent + '\')" style="padding-right:5px"> 저장</a>';
 			htmls += '<a href="javascript:void(0)" onClick="showCommList()">취소<a>';
 			htmls += '<div class="recomments-text">';
@@ -679,7 +679,7 @@ crossorigin="anonymous">
 			var editContent = $('#write-recomments').val();
 			
 			if($('#write-comments').val() == ''){
-				alert('댓글 내용을 입력해주세요');
+				alert('답글 내용을 입력해주세요');
 				return false;
 			}
 			
@@ -690,7 +690,7 @@ crossorigin="anonymous">
 						recommContent : editContent},
 				async: false,
 				success : function(){
-					alert('해당 댓글을 수정했습니다.');
+					alert('해당 답글을 수정했습니다.');
 					showCommList();
 				},
 				error : function(){
